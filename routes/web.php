@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Models\Cate;
 use Illuminate\Support\Facades\Route;
@@ -43,9 +46,16 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
-
-
 });
-
-
-
+Route::group(['prefix' => 'blog'], function () {
+    Route::get('/index', [BlogController::class, 'index']);
+    Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
+});
+Route::group(['prefix' => 'page'], function () {
+    Route::get('/login', [PageController::class, 'login']);
+    Route::get('/tracking', [PageController::class, 'tracking']);
+    Route::get('/elementss', [PageController::class, 'elementss']);
+});
+Route::group(['prefix' => 'contact'], function () {
+    Route::get('/index', [ContactController::class, 'index']);
+});
