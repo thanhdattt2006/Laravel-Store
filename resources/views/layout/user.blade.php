@@ -93,8 +93,8 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container">
-                <form class="d-flex justify-content-between">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                <form class="d-flex justify-content-between" method="get" action="{{ url('/shop/shopCategory/search-by-keyword') }}">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" name="keyword" value="{{ isset($keyword) ? $keyword : '' }}">
                     <button type="submit" class="btn"></button>
                     <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
                 </form>
@@ -202,8 +202,8 @@
     <script src="{{asset('user')}}/js/gmaps.min.js"></script>
     <script src="{{asset('user')}}/js/main.js"></script>
     <script>
-			const ASSET_URL = "{{asset('user')}}"
-	</script>
+        const ASSET_URL = "{{asset('user')}}"
+    </script>
 </body>
 
 </html>

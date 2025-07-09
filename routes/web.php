@@ -51,16 +51,13 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show'])->name('product.details');
+    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
 });
-Route::group(['prefix' => 'page'], function () {
-    Route::get('/login', [PageController::class, 'login']);
-    Route::get('/tracking', [PageController::class, 'tracking']);
-    Route::get('/elementss', [PageController::class, 'elementss']);
-});
+
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/index', [ContactController::class, 'index']);
 });

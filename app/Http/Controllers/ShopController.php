@@ -6,13 +6,12 @@ use App\Models\Cate;
 use App\Models\Colors;
 use App\Models\Photo;
 use App\Models\Product;
-
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     public function shopCategory()
     {
-
         $data = [
             'cates' => Cate::get(),
             'names' => Cate::pluck('name'),
@@ -117,5 +116,15 @@ class ShopController extends Controller
         ];
 
         return view('shop.productDetails')->with($data);
+    }
+    // tim` kiem
+    public function searchByKeyword(Request $request)
+    {
+        $keyword = $request->get('keyword');
+        $data = [
+            'products' => Product::where('name', 'like', '%' . $keyword . '%')->get(),
+            'keyword' => $keyword
+        ];
+        return view('shop/shopCategory')->with($data);
     }
 }
