@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>photo
 <!-- End Banner Area -->
 <!--================Single Product Area =================-->
 <div class="product_image_area">
@@ -24,11 +24,15 @@
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
-                    @foreach($photos as $photo)
                     <div class="single-prd-item">
-                        <img class="img-fluid" src="{{ asset('user/nike-img/' . $photo) }}" alt="{{ $product->name }}">
+                        <img class="img-fluid" src="{{ asset('user/nike-img/' . $product->photo) }}" alt="{{ $product->name }}">
                     </div>
-                    @endforeach
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="{{ asset('user/nike-img/' . $product->photo) }}" alt="{{ $product->name }}">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="{{ asset('user/nike-img/' . $product->photo) }}" alt="{{ $product->name }}">
+                    </div>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
@@ -49,7 +53,7 @@
                             class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                         <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--; return false;">
 
-                            <i class="lnr lnr-chevron-down reduced items-count" type="button"></i></button>
+                            class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                     </div>
                     <div class="card_area d-flex align-items-center">
                         <a class="primary-btn" href="#">Add to Cart</a>
