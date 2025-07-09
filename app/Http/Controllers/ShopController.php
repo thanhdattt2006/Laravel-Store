@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cate;
+use App\Models\Colors;
+use App\Models\Product;
 
 class ShopController extends Controller
 {
