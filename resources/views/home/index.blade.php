@@ -193,7 +193,7 @@
 								<h6>{{$product->name}}</h6>
 								<div class="price">
 									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product -> price + 500000}}</h6>
+									<h6 class="l-through">{{$product -> price }}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -506,10 +506,6 @@
 				</div>
 			</div>
 		</div>
-		<script>
-			const ASSET_URL = "{{asset('user')}}"
-		</script>
-
 	</section>
 	<!-- End related-product Area -->
 	@endsection

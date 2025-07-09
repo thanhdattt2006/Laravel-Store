@@ -53,7 +53,7 @@
                             class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                         <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--; return false;">
 
-                            class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                            <i class="lnr lnr-chevron-down reduced items-count" type="button"></i></button>
                     </div>
                     <div class="card_area d-flex align-items-center">
                         <a class="primary-btn" href="#">Add to Cart</a>

@@ -9,7 +9,7 @@
             <div class="col-first">
                 <h1>Confirmation</h1>
                 <nav class="d-flex align-items-center">
-                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
                     <a href="category.html">Confirmation</a>
                 </nav>
             </div>
