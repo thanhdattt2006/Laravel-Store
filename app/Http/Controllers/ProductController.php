@@ -12,5 +12,6 @@ class ProductController extends Controller
         ];
         return view('product/index')->with($data);
     }
+    
 }
 ?>

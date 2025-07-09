@@ -50,6 +50,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
+    Route::get('/productDetails/{id}', [ShopController::class, 'show'])->name('product.details');
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
