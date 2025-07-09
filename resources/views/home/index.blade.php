@@ -195,7 +195,7 @@
 								</a>
 								<div class="price">
 									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product -> price}}</h6>
+									<h6 class="l-through">{{$product -> price + 500000}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -205,6 +205,10 @@
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
+									</a>
+									<a href="" class="social-info">
+										<span class="lnr lnr-sync"></span>
+										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{url('/shop/productDetails')}}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -393,10 +397,6 @@
 				</div>
 			</div>
 		</div>
-		<script>
-			const ASSET_URL = "{{asset('user')}}"
-		</script>
-
 	</section>
 	<!-- End related-product Area -->
-	@endsection
+	@endsection	

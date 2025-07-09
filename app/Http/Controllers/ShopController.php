@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cate;
-use App\Models\Colors;
-use App\Models\Product;
 
 class ShopController extends Controller
 {
@@ -53,5 +51,19 @@ class ShopController extends Controller
             'names' => Cate::pluck('name')
         ];
         return view('shop/confirmation')->with($data);
+    }
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        // Tách chuỗi thành mảng ảnh
+        $photos = explode(',', $product->photo);
+
+        $data = [
+            'product' => $product,
+            'names' => Cate::pluck('name'),
+            'photos' => $photos
+        ];
+
+        return view('shop.productDetails')->with($data);
     }
 }

@@ -24,21 +24,17 @@
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
+                    @foreach($photos as $photo)
                     <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
+                        <img class="img-fluid" src="{{ asset('user/nike-img/' . $photo) }}" alt="{{ $product->name }}">
                     </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
-                    </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>Faded SkyBlu Denim Jeans</h3>
-                    <h2>$149.99</h2>
+                    <h3>{{ $product->name }}</h3>
+                    <h2>${{ $product->price }}</h2>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Category</span> : Household</a></li>
                         <li><a href="#"><span>Availibility</span> : In Stock</a></li>
@@ -53,7 +49,7 @@
                             class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                         <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--; return false;">
 
-                            class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                            <i class="lnr lnr-chevron-down reduced items-count" type="button"></i></button>
                     </div>
                     <div class="card_area d-flex align-items-center">
                         <a class="primary-btn" href="#">Add to Cart</a>

@@ -56,7 +56,7 @@
                                     aria-expanded="false">Shop</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{url('shop/shopCategory')}}">Shop Category</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/productDetails')}}">Product Details</a></li>
+                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productDetails')}}">Product Details</a></li> -->
                                     <li class="nav-item"><a class="nav-link" href="{{url('shop/productCheckout')}}">Product Checkout</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{url('shop/shoppingCart')}}">Shopping Cart</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{url('shop/confirmation')}}">Confirmation</a></li>
@@ -74,9 +74,9 @@
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                     aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/login')}}">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/tracking')}}">Tracking</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/elementss')}}">Elements</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{{url('contact/index')}}">Contact</a></li>
@@ -102,7 +102,6 @@
         </div>
     </header>
     <!-- End Header Area -->
-
 
     @yield('content')
     <!-- start footer Area -->
@@ -202,6 +201,9 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="{{asset('user')}}/js/gmaps.min.js"></script>
     <script src="{{asset('user')}}/js/main.js"></script>
+    <script>
+			const ASSET_URL = "{{asset('user')}}"
+	</script>
 </body>
 
 </html>
