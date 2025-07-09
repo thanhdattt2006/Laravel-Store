@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cate;
+use App\Models\Colors;
+use App\Models\Product;
 
 class ShopController extends Controller
 {
@@ -10,7 +12,11 @@ class ShopController extends Controller
     {
 
         $data = [
-            'names' => Cate::pluck('name')
+            'cates' => Cate::get(),
+            'names' => Cate::pluck('name'),
+            'products' => Product::get(),
+            'photo' => Product::pluck('name') ,
+            'colors' => Colors::pluck('name'),
         ];
         return view('shop/shopCategory')->with($data);
     }

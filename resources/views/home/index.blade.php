@@ -22,7 +22,7 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/img/banner/banner-img.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -41,7 +41,7 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/img/banner/banner-img.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -106,44 +106,44 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-8 col-md-12">
 					<div class="row">
-						<div class="col-lg-8 col-md-8">
+						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/img/category/c1.jpg" alt="">
-								<a href="{{asset('user')}}/img/category/c1.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" alt="">
+								<a href="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" class="img-pop-up" target="_blank">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Sports</h6>
 									</div>
 								</a>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-4">
+						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/img/category/c2.jpg" alt="">
-								<a href="{{asset('user')}}/img/category/c2.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
+								<a href="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" class="img-pop-up" target="_blank">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Sports</h6>
 									</div>
 								</a>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-4">
+						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/img/category/c3.jpg" alt="">
-								<a href="{{asset('user')}}/img/category/c3.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
+								<a href="{{asset('user')}}/nike-img/football10-den-5.png" class="img-pop-up" target="_blank">
 									<div class="deal-details">
-										<h6 class="deal-title">Product for Couple</h6>
+										<h6 class="deal-title">Product for Football</h6>
 									</div>
 								</a>
 							</div>
 						</div>
-						<div class="col-lg-8 col-md-8">
+						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/img/category/c4.jpg" alt="">
-								<a href="{{asset('user')}}/img/category/c4.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
+								<a href="{{asset('user')}}/nike-img/gym8-trang-5.png" class="img-pop-up" target="_blank">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Sports</h6>
 									</div>
@@ -190,10 +190,12 @@
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
-								<h6>{{$product->name}}</h6>
+								<a href="{{url('/shop/productDetails')}}">
+									<h6>{{$product->name}}</h6>
+								</a>
 								<div class="price">
 									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product -> price + 500000}}</h6>
+									<h6 class="l-through">{{$product -> price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -203,10 +205,6 @@
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{url('/shop/productDetails')}}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -241,7 +239,9 @@
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
-								<h6>{{$product->name}}</h6>
+								<a href="{{url('/shop/productDetails')}}">
+									<h6>{{$product->name}}</h6>
+								</a>
 								<div class="price">
 									<h6>{{$product->price}}</h6>
 									<h6 class="l-through">{{$product->price}}</h6>
@@ -254,10 +254,6 @@
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{url('/shop/productDetails')}}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -310,37 +306,22 @@
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
+						@foreach ($products as $product)
 						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/e-p1.png" alt="">
+							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
 								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
+									<h6>{{$product->price}}</h6>
+									<h6 class="l-through">{{$product->price}}</h6>
 								</div>
-								<h4>addidas New Hammer sole
-									for Sports person</h4>
+								<h4>{{$product->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
 									<a class="add-btn" href=""><span class="ti-bag"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
 								</div>
 							</div>
 						</div>
-						<!-- single exclusive carousel -->
-						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/e-p1.png" alt="">
-							<div class="product-details">
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<h4>addidas New Hammer sole
-									for Sports person</h4>
-								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -387,114 +368,20 @@
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row">
+						@foreach ($products as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r1.jpg" alt=""></a>
+								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
 								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
+									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
+										<h6>{{$product->price}}</h6>
+										<h6 class="l-through">{{$product->price}}</h6>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r2.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r3.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r5.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r6.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r7.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r9.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r10.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/img/r11.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 				<div class="col-lg-3">
