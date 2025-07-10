@@ -45,22 +45,20 @@ Route::group(['prefix' => 'cate'], function () {
 });
 
 Route::group(['prefix' => 'shop'], function () {
+    Route::get('/', [ShopController::class, 'shopCategory']);
     Route::get('/shopCategory', [ShopController::class, 'shopCategory']);
     Route::get('/productDetails', [ShopController::class, 'productDetails']);
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show'])->name('product.details');
+    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
 });
-Route::group(['prefix' => 'page'], function () {
-    Route::get('/login', [PageController::class, 'login']);
-    Route::get('/tracking', [PageController::class, 'tracking']);
-    Route::get('/elementss', [PageController::class, 'elementss']);
-});
+
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/index', [ContactController::class, 'index']);
 });

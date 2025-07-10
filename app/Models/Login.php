@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model {
     public $table = 'account';
 
-    public $primarykey = 'id';
+    public $primaryKey  = 'id';
 
     public $timestamps = false;
 

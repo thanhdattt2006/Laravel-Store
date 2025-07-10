@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Colors extends Model {
     public $table = 'colors';
 
-    public $primarykey = 'id';
+    public $primaryKey  = 'id';
 
     public $timestamps = false;
 

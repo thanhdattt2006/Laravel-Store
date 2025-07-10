@@ -148,7 +148,7 @@
                             <div class="radion_btn">
                                 <input type="radio" id="f-option6" name="selector">
                                 <label for="f-option6">Paypal </label>
-                                <img src="img/product/card.jpg" alt="">
+                                <img src="{{asset('user')}}/img/product/card.jpg" alt="">
                                 <div class="check"></div>
                             </div>
                             <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
@@ -167,5 +167,25 @@
     </div>
 </section>
 <!--================End Checkout Area =================-->
+
+@endsection
+
+@section('scripts')
+<script>
+	const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
 
 @endsection
