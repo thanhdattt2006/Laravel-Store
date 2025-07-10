@@ -34,7 +34,8 @@
                         <img class="img-fluid" src="{{ asset('user/nike-img/' . $product->photo) }}" alt="{{ $product->name }}">
                     </div>
                 </div> -->
-                <div style="position: relative; text-align: center;">
+
+                <!-- <div style="position: relative; text-align: center;">
                     <img id="mainImage" class="img-fluid" style="max-width: 100%; height: auto;">
 
                     <button id="prevBtn" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 2rem;">⟨</button>
@@ -70,7 +71,22 @@
                     if (photos.length > 0) {
                         showImage(0);
                     }
-                </script>
+                </script> -->
+
+                <div class="ConTaiNer">
+                    <div class="Main">
+                        <img src="{{ asset('user/nike-img/' . $photo) }}" alt="{{$photo}}" class="imgFeature">
+                        <div class="control prev"><i class='bx  bx-arrow-left-stroke'  ></i> </div>
+                        <div class="control next"><i class='bx  bx-arrow-right-stroke'  ></i> </div>
+                    </div>
+                    
+                    <div class="listImage">
+                        @foreach($photos as $photo)
+                        <div><img src="{{ asset('user/nike-img/' . $photo) }}"/></div>
+                        @endforeach
+                    </div>
+                </div>
+
 
             </div>
             <div class="col-lg-5 offset-lg-1">
@@ -599,5 +615,7 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
+
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
 @endsection
