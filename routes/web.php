@@ -45,6 +45,7 @@ Route::group(['prefix' => 'cate'], function () {
 });
 
 Route::group(['prefix' => 'shop'], function () {
+    Route::get('/', [ShopController::class, 'shopCategory']);
     Route::get('/shopCategory', [ShopController::class, 'shopCategory']);
     Route::get('/productDetails', [ShopController::class, 'productDetails']);
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);

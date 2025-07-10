@@ -122,6 +122,11 @@ class ShopController extends Controller
     {
         $keyword = $request->get('keyword');
         $data = [
+            'cates' => Cate::get(),
+            'names' => Cate::pluck('name'),
+            'products' => Product::get(),
+            'photo' => Product::pluck('name'),
+            'colors' => Colors::pluck('name'),
             'products' => Product::where('name', 'like', '%' . $keyword . '%')->get(),
             'keyword' => $keyword
         ];
