@@ -6,11 +6,11 @@
 	<div class="container">
 		<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 			<div class="col-first">
-				<h1>Shop Category page</h1>
+				<h1>Shop Category Page</h1>
 				<nav class="d-flex align-items-center">
-					<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+					<a href="#">Home<span class="lnr lnr-arrow-right"></span></a>
 					<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-					<a href="category.html">Fashion Category</a>
+					<a href="#">Shop Category</a>
 				</nav>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 				<div class="head">Browse Categories</div>
 				@foreach ($cates as $cate)
 				<ul class="main-categories">
-					<li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
+					<li class="main-nav-list"><a data-toggle="collapse" href="{{$cate->name}}" aria-expanded="false" aria-controls="fruitsVegetable"><span
 								class="lnr lnr-arrow-right"></span>{{$cate->name}}<span class="number">(02)</span></a>
 					</li>
 				</ul>
@@ -63,13 +63,13 @@
 				<div class="sorting">
 					<select>
 						<option value="1">Default sorting</option>
-						<option value="1">Default sorting</option>
+
 					</select>
 				</div>
 				<div class="sorting mr-auto">
 					<select>
 						<option value="1">Show 6</option>
-						<option value="1">Show 8</option>
+
 					</select>
 				</div>
 				<div class="pagination">
@@ -87,7 +87,7 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products as $product)
+					@foreach($products -> take(6) as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
@@ -126,7 +126,7 @@
 				<div class="sorting mr-auto">
 					<select>
 						<option value="1">Show 6</option>
-						<option value="1">Show 8</option>
+
 					</select>
 				</div>
 				<div class="pagination">
@@ -159,7 +159,7 @@
 		<div class="row">
 			<div class="col-lg-9">
 				<div class="row">
-					@foreach ($products as $product)
+					@foreach ($products ->take(6) as $product)
 					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 						<div class="single-related-product d-flex">
 							<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
