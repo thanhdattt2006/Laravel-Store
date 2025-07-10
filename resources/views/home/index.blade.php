@@ -27,8 +27,27 @@
 							</div>
 						</div>
 						<!-- single-slide -->
-						<div class="row single-slide">
-							<div class="col-lg-5">
+						<div class="row single-slide align-items-center d-flex">
+							<div class="col-lg-5 col-md-6">
+								<div class="banner-content">
+									<h1>Nike New <br>Collection!</h1>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+									<div class="add-bag d-flex align-items-center">
+										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+										<span class="add-text text-uppercase">Add to Bag</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-7">
+								<div class="banner-img">
+									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
+								</div>
+							</div>
+						</div>
+						<!-- single-slide -->
+						<div class="row single-slide align-items-center d-flex">
+							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
 									<h1>Nike New <br>Collection!</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -399,4 +418,25 @@
 		</div>
 	</section>
 	<!-- End related-product Area -->
+	@endsection
+
+	@section('scripts')
+	<script>
+        const ASSET_URL = "{{asset('user')}}"
+    </script>
+	<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	 crossorigin="anonymous"></script>
+	<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+	<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+	<script src="{{asset('user/js/countdown.js')}}"></script>
+	<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+	<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+	<!--gmaps Js-->
+	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+	<script src="{{asset('user/js/main.js')}}"></script>
+
 	@endsection

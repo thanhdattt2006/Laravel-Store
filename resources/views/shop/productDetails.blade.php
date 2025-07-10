@@ -34,7 +34,8 @@
                         <img class="img-fluid" src="{{ asset('user/nike-img/' . $product->photo) }}" alt="{{ $product->name }}">
                     </div>
                 </div> -->
-                <div style="position: relative; text-align: center;">
+
+                <!-- <div style="position: relative; text-align: center;">
                     <img id="mainImage" class="img-fluid" style="max-width: 100%; height: auto;">
 
                     <button id="prevBtn" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 2rem;">⟨</button>
@@ -70,7 +71,22 @@
                     if (photos.length > 0) {
                         showImage(0);
                     }
-                </script>
+                </script> -->
+
+                <div class="ConTaiNer">
+                    <div class="Main">
+                        <img src="{{ asset('user/nike-img/' . $photo) }}" alt="{{$photo}}" class="imgFeature">
+                        <div class="control prev"><i class='bx  bx-arrow-left-stroke'  ></i> </div>
+                        <div class="control next"><i class='bx  bx-arrow-right-stroke'  ></i> </div>
+                    </div>
+                    
+                    <div class="listImage">
+                        @foreach($photos as $photo)
+                        <div><img src="{{ asset('user/nike-img/' . $photo) }}"/></div>
+                        @endforeach
+                    </div>
+                </div>
+
 
             </div>
             <div class="col-lg-5 offset-lg-1">
@@ -579,5 +595,27 @@
     </div>
 </section>
 <!-- End related-product Area -->
+
+@endsection
+
+@section('scripts')
+<script>
+	const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
+
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
 @endsection
