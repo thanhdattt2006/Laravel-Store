@@ -59,3 +59,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
+
+// update-cart
+ const updateCartBtn = document.querySelector(".update-cart");
+        const deleteButtons = document.querySelectorAll(".hidden");
+
+        updateCartBtn.addEventListener("click", function () {
+        deleteButtons.forEach(function (btn) {
+        btn.classList.toggle("close"); // hoặc "flex" tùy CSS
+      });
+    });
+
+// 
+

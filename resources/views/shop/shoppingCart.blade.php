@@ -36,7 +36,7 @@
                         $cart = session('shoppingCart', []);
                     @endphp
                     @foreach ($cart as $id => $item)
-                        <tr>
+                        <tr class="top">
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
@@ -63,12 +63,15 @@
                             <td>
                                 <h5>{{ $item['price'] }}</h5>
                             </td>
+                            <td>
+                                <i class="fa fa-close hidden"></i>
+                            </td>
                         </tr>
                         @endforeach
                         
                         <tr class="bottom_button">
                             <td>
-                                <a class="gray_btn" href="#">Update Cart</a>
+                                <a class="gray_btn update-cart">Update Cart</a>
                             </td>
                             <td>
 
@@ -155,8 +158,11 @@
         </div>
     </div>
 </section>
-<!--================End Cart Area =================-->
 
+<!--================End Cart Area =================-->
+<script type="text/javascript">
+       
+    </script>
 @endsection
 
 @section('scripts')
@@ -177,4 +183,5 @@
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
 
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 @endsection

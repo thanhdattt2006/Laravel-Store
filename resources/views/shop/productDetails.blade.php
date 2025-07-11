@@ -73,7 +73,36 @@
                     <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
                         something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
                         during the winter.</p>
-                    <form id="colorForm" method="GET" action="">
+
+                       <div class="container-color">
+                            <ul class="color-list">
+                                <label for="">Color: </label>
+                                <form id="colorForm" method="GET" action="">
+                                <input type="hidden" name="color_id" id="colorIdInput">
+                                @foreach($colors as $color)
+                                    <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>   
+                                @endforeach
+                                </form>
+                               
+                                <!-- Size -->
+                                <label for="">Size : </label>
+                                <li class="size">
+                                    <div>
+                                        <select name="" id="">
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="36">36</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="41">41</option>
+                                            <option value="...">...</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> 
+
+                    <!-- <form id="colorForm" method="GET" action="">
                         <label for="color">Colors:</label>
                         <select id="color" name="color_id" onchange="document.getElementById('colorForm').submit()">
                             @foreach($colors as $color)
@@ -82,7 +111,7 @@
                             </option>
                             @endforeach
                         </select>
-                    </form>
+                    </form> -->
 
                     <br>
 
@@ -571,6 +600,36 @@
         </div>
     </div>
 </section>
+<script>
+// color-picker
+
+    // waitng DOM complete loading
+    document.addEventListener("DOMContentLoaded", function () {
+        // choose all button had class color-item
+        const colorButtons = document.querySelectorAll('.color-item');
+
+        colorButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const colorId = this.getAttribute('data-id');
+                console.log("Selected Color ID:", colorId); // show ID trong console
+            });
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.color-item');
+        const colorForm = document.getElementById('colorForm');
+        const colorIdInput = document.getElementById('colorIdInput');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const colorId = this.getAttribute('data-id');
+                colorIdInput.value = colorId;
+                colorForm.submit(); // sent form
+            });
+        });
+    });
+</script>
 <!-- End related-product Area -->
 
 @endsection
