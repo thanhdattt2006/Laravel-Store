@@ -1,6 +1,7 @@
 @extends('layout.user')
 
 @section('content')
+<link rel="stylesheet" href="{{url('resources/css')}}/app.css">
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
 	<div class="container">
@@ -73,13 +74,7 @@
 					</select>
 				</div>
 				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-					<a href="#">6</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+					{{ $products -> links () }}
 				</div>
 			</div>
 			<!-- End Filter Bar -->
@@ -87,7 +82,7 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-					@foreach($products -> take(6) as $product)
+					@foreach($products as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
@@ -130,13 +125,7 @@
 					</select>
 				</div>
 				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-					<a href="#">6</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+					{{ $products -> links () }}
 				</div>
 			</div>
 			<!-- End Filter Bar -->
@@ -159,7 +148,7 @@
 		<div class="row">
 			<div class="col-lg-9">
 				<div class="row">
-					@foreach ($products ->take(6) as $product)
+					@foreach ($products -> take(9) as $product)
 					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 						<div class="single-related-product d-flex">
 							<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>

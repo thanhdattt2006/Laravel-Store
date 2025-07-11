@@ -15,7 +15,7 @@ class ShopController extends Controller
         $data = [
             'cates' => Cate::get(),
             'names' => Cate::pluck('name'),
-            'products' => Product::get(),
+            'products' => Product::paginate(6),
             'photo' => Product::pluck('name'),
             'colors' => Colors::pluck('name'),
         ];
@@ -133,8 +133,6 @@ class ShopController extends Controller
         return view('shop/shopCategory')->with($data);
     }
 
-
-
     // Thêm vào giỏ hàng khó vcl đừng đụng !!! //
     public function addToCart(Request $request)
     {
@@ -179,8 +177,5 @@ class ShopController extends Controller
     $cart = session('shoppingCart', []);
     return view('shop/shoppingCart', compact('cart'));
 }
-
 }
-
-
 
