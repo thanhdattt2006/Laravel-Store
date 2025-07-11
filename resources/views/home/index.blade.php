@@ -203,14 +203,12 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->
-<<<<<<< HEAD
+					<!-- single product -->HEAD
 
-					@foreach ($products as $product)
 
-=======
+
 					@foreach ($products -> take(8) as $product)
->>>>>>> 869ca34da6ae3b8f4dc786614d1a2ce9c13f7695
+
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
@@ -447,33 +445,34 @@
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.ti-bag').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault(); // ⛔ Ngăn reload nếu nằm trong <a>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('.ti-bag').forEach(button => {
+				button.addEventListener('click', function(e) {
+					e.preventDefault(); // ⛔ Ngăn reload nếu nằm trong <a>
 
-            const productId = this.dataset.id;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+					const productId = this.dataset.id;
+					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({ id: productId })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message + ' ✅');
-                    } else {
-                        window.location.href = '/shop/shoppingCart';
-                    }
-                });
-        });
-    });
-});
-
+					fetch('/shop/shoppingCart', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': csrfToken
+							},
+							body: JSON.stringify({
+								id: productId
+							})
+						})
+						.then(res => res.json())
+						.then(data => {
+							if (data.success) {
+								alert(data.message + ' ✅');
+							} else {
+								window.location.href = '/shop/shoppingCart';
+							}
+						});
+				});
+			});
+		});
 	</script>
 	@endsection
