@@ -50,11 +50,10 @@ Route::group(['prefix' => 'cate'], function () {
 Route::group(['prefix' => 'shop'], function () {
     Route::get('/', [ShopController::class, 'shopCategory']);
     Route::get('/shopCategory', [ShopController::class, 'shopCategory']);
-    Route::get('/productDetails', [ShopController::class, 'productDetails']);
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
-    Route::get('/productDetails/{id}', [ShopController::class, 'show'])->name('product.details');
+    Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);

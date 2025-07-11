@@ -12,20 +12,22 @@
 					<a href="#">Home<span class="lnr lnr-arrow-right"></span></a>
 					<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
 					<a href="#">Shop Category</a>
+
 				</nav>
 			</div>
 		</div>
 	</div>
 </section>
 <!-- End Banner Area -->
-<div class="container">
+<<div class="container">
 	<div class="row">
 		<div class="col-xl-3 col-lg-4 col-md-5">
 			<div class="sidebar-categories">
 				<div class="head">Categories</div>
 				@foreach ($cates as $cate)
 				<ul class="main-categories">
-					<li class="main-nav-list"><a href="{{url('shop/shopCategory')}}">{{$cate->name}}<span class="number">(18)</span></a>
+					<li class="main-nav-list">
+						<a href="{{ url('shop/shopCategory') }}">{{$cate->name}}<span class="number">(18)</span></a>
 					</li>
 				</ul>
 				@endforeach
@@ -99,7 +101,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>

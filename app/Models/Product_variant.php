@@ -21,6 +21,9 @@ class Product_variant extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
-    
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'product_variant_id');
+    }
     
 }

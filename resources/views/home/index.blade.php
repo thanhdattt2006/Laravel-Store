@@ -235,7 +235,8 @@
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
-									<a href="{{ route('product.details', ['id' => $product->id]) }}" class="social-info">
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -285,7 +286,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="{{ route('product.details', ['id' => $product->id]) }}" class="social-info">
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
