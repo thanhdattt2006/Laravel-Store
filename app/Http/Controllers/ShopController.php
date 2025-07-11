@@ -173,9 +173,8 @@ class ShopController extends Controller
 
     // lấy dữ liệu in lên shoppingCart
     public function showCart()
-{
-    $cart = session('shoppingCart', []);
-    return view('shop/shoppingCart', compact('cart'));
+    {
+        $cart = session('shoppingCart', []);
+        return view('shop/shoppingCart', compact('cart'));
+    }
 }
-}
-

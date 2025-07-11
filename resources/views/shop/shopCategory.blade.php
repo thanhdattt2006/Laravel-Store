@@ -22,11 +22,10 @@
 	<div class="row">
 		<div class="col-xl-3 col-lg-4 col-md-5">
 			<div class="sidebar-categories">
-				<div class="head">Browse Categories</div>
+				<div class="head">Categories</div>
 				@foreach ($cates as $cate)
 				<ul class="main-categories">
-					<li class="main-nav-list"><a data-toggle="collapse" href="{{$cate->name}}" aria-expanded="false" aria-controls="fruitsVegetable"><span
-								class="lnr lnr-arrow-right"></span>{{$cate->name}}<span class="number">(02)</span></a>
+					<li class="main-nav-list"><a href="{{url('shop/shopCategory')}}">{{$cate->name}}<span class="number">(18)</span></a>
 					</li>
 				</ul>
 				@endforeach
@@ -70,11 +69,7 @@
 				<div class="sorting mr-auto">
 					<select>
 						<option value="1">Show 6</option>
-
 					</select>
-				</div>
-				<div class="pagination">
-					{{ $products -> links () }}
 				</div>
 			</div>
 			<!-- End Filter Bar -->
@@ -118,12 +113,6 @@
 			<!-- End Best Seller -->
 			<!-- Start Filter Bar -->
 			<div class="filter-bar d-flex flex-wrap align-items-center">
-				<div class="sorting mr-auto">
-					<select>
-						<option value="1">Show 6</option>
-
-					</select>
-				</div>
 				<div class="pagination">
 					{{ $products -> links () }}
 				</div>
