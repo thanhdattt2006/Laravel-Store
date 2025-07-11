@@ -204,7 +204,7 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products as $product)
+					@foreach ($products -> take(8) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
@@ -257,7 +257,7 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products as $product)
+					@foreach ($products -> take(8) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
@@ -329,7 +329,7 @@
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products as $product)
+						@foreach ($products -> take(8) as $product)
 						<div class="single-exclusive-slider">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
@@ -391,7 +391,7 @@
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row">
-						@foreach ($products as $product)
+						@foreach ($products -> take(9) as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
 								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
