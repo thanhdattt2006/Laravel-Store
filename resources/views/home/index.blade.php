@@ -30,7 +30,7 @@
 						<div class="row single-slide align-items-center d-flex">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
-									<h1>Nike New <br>Collection!</h1>
+									<h1>Nike New 1 <br>Collection!</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
@@ -41,7 +41,7 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/Banner1.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 						<div class="row single-slide align-items-center d-flex">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
-									<h1>Nike New <br>Collection!</h1>
+									<h1>Nike New 2 <br>Collection!</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
@@ -204,7 +204,9 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
+
 					@foreach ($products as $product)
+
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
@@ -218,7 +220,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span class="ti-bag"></span>
+										<span data-id="{{ $product->id }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -237,6 +239,7 @@
 							</div>
 						</div>
 					</div>
+
 					@endforeach
 
 				</div>
@@ -271,7 +274,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span class="ti-bag"></span>
+										<span data-id="{{ $product->id }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -339,7 +342,7 @@
 								</div>
 								<h4>{{$product->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
+									<a class="add-btn" href=""><span data-id="{{ $product->id }}" class="ti-bag"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
 								</div>
 							</div>
@@ -422,11 +425,11 @@
 
 	@section('scripts')
 	<script>
-        const ASSET_URL = "{{asset('user')}}"
-    </script>
+		const ASSET_URL = "{{asset('user')}}"
+	</script>
 	<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	 crossorigin="anonymous"></script>
+		crossorigin="anonymous"></script>
 	<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 	<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
 	<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
@@ -438,5 +441,35 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.ti-bag').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // ⛔ Ngăn reload nếu nằm trong <a>
+
+            const productId = this.dataset.id;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/shop/shoppingCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ id: productId })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message + ' ✅');
+                    } else {
+                        window.location.href = '/shop/shoppingCart';
+                    }
+                });
+        });
+    });
+});
+
+	</script>
 
 	@endsection

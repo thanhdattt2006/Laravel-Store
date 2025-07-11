@@ -165,7 +165,7 @@
 							<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
 							<div class="desc">
 								<a href="#" class="title">{{$product->name}}</a>
-								<div class="price">
+								<div class="price">	
 									<h6>{{$product->price}}</h6>
 									<h6 class="l-through">{{$product->price}}</h6>
 								</div>

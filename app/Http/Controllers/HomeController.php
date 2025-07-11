@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $data = [
             'names' => Cate::pluck('name'),
-            'products' => Product::get(),
+            'products' => Product::take(8)->get(),
             'photo' => Product::pluck('name'),
         ];
         return view('home/index')->with($data);

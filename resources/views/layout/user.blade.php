@@ -2,6 +2,7 @@
 <html lang="zxx" class="no-js">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
@@ -47,7 +48,7 @@
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="{{url('home/index')}}"><img src="{{asset('user')}}/img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/img/logo.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -57,17 +58,16 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item active"><a class="nav-link" href="{{url('home/index')}}">Home</a></li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                    aria-expanded="false">Shop</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/shopCategory')}}">Shop Category</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
+                            <li class="nav-item active">
+                                <a href="{{url('shop')}}" class="nav-link" >Shop</a>
+                                <!-- <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/shopCategory')}}">Shop Category</a></li> -->
                                     <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productDetails')}}">Product Details</a></li> -->
                                     <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productCheckout')}}">Product Checkout</a></li> -->
                                     <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/shoppingCart')}}">Shopping Cart</a></li> -->
                                     <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/confirmation')}}">Confirmation</a></li> -->
-                                </ul>
+                                <!-- </ul> -->
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

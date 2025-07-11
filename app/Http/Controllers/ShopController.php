@@ -132,4 +132,55 @@ class ShopController extends Controller
         ];
         return view('shop/shopCategory')->with($data);
     }
+
+
+
+    // Thêm vào giỏ hàng khó vcl đừng đụng !!! //
+    public function addToCart(Request $request)
+    {
+        $id = $request->id;
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm không tồn tại'
+            ]);
+        }
+
+        // Lấy giỏ hàng hiện tại từ session
+        $cart = session()->get('shoppingCart', []);
+
+        // Nếu sản phẩm đã có, tăng số lượng
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            // Nếu chưa có, thêm mới
+            $cart[$id] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'photo' => $product->photo,
+                'quantity' => 1
+            ];
+        }
+
+        session()->put('shoppingCart', $cart); // lưu lại session
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã thêm vào giỏ hàng'
+        ]);
+    }
+
+
+    // lấy dữ liệu in lên shoppingCart
+    public function showCart()
+{
+    $cart = session('shoppingCart', []);
+    return view('shop/shoppingCart', compact('cart'));
 }
+
+}
+
+
+

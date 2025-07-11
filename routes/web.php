@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
+use App\Models\Account;
 use App\Models\Cate;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +34,7 @@ Route::group(['prefix' => ''], function () {
 Route::group(['prefix' => 'home'], function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/index', [HomeController::class, 'index']);
+    Route::post('/index', [HomeController::class, 'index']);
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -53,6 +56,8 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show'])->name('product.details');
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
+    Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
+    Route::get('/shoppingCart', [ShopController::class, 'showCart']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
@@ -64,8 +69,8 @@ Route::group(['prefix' => 'contact'], function () {
 });
 
 Route::group(['prefix' => 'login'], function () {
-    Route::get('/', [LoginController::class, 'index']);
-    Route::get('/index', [LoginController::class, 'index']);
+    Route::get('/', [AccountController::class, 'index']);
+    Route::post('/index', [AccountController::class, 'index']);
 });
 
 Route::group(['prefix' => 'tracking'], function () {
