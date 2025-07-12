@@ -57,6 +57,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    Route::get('/shopCategory/{id}', [ShopController::class, 'showByCategory']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);

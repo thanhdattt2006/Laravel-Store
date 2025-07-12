@@ -60,7 +60,7 @@
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
                             <li class="nav-item active">
-                                <a href="{{url('shop')}}" class="nav-link" >Shop</a>
+                                <a href="{{url('shop/shopCategory')}}" class="nav-link" >Shop</a>
                                 <!-- <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{url('shop/shopCategory')}}">Shop Category</a></li> -->
                                     <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productDetails')}}">Product Details</a></li> -->
