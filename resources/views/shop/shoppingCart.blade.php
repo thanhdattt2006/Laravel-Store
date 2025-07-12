@@ -49,7 +49,7 @@
                                 </div>
                             </td>
                             <td>
-                                <h5>{{ number_format($item['price'], 0, ',', '.') }} </h5>
+                                <h5 class="currency-format">{{$item['price'] }} </h5>
                             </td>
                             <td>
                                 <div class="product_count">
@@ -74,7 +74,7 @@
 
                             </td>
                             <td>
-                                <h5 id="total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</h5>
+                                <h5 id="total-{{ $id }}" >{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</h5>
                             </td>
                             <td>
                                 <i class="fa fa-close hidden" onclick="removeItem('{{ $id }}')"></i>
@@ -113,7 +113,7 @@
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5>$2160.00</h5>
+                                <h5 class="currency-format">216000000</h5>
                             </td>
                         </tr>
                         <tr class="shipping_area">

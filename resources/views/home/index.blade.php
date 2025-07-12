@@ -214,8 +214,8 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product -> price }}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product -> price }}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -269,8 +269,8 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -337,8 +337,8 @@
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<h4>{{$product->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
@@ -401,8 +401,8 @@
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
-										<h6>{{$product->price}}</h6>
-										<h6 class="l-through">{{$product->price}}</h6>
+										<h6 class="currency-format">{{$product->price}}</h6>
+										<h6 class="l-through currency-format">{{$product->price}}</h6>
 									</div>
 								</div>
 							</div>
@@ -441,6 +441,7 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
