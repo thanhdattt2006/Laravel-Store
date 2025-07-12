@@ -110,7 +110,7 @@
                             <li class="nav-item">
                                 <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                             </li>
-                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag"></span></a></li>
+                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart"></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
         </div>
     </footer>
     <!-- End footer Area -->
-
+    
     @yield('scripts')
 </body>
 

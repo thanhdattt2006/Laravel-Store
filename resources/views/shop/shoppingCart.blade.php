@@ -35,8 +35,7 @@
                         @php
                         $cart = session('shoppingCart');
                         @endphp
-
-                        @foreach ($cart as $id => $item)
+                        @foreach ($cart ?? [] as $id => $item)
                         <tr class="top" id="{{ $id }}">
                             <td>
                                 <div class="media">

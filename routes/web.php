@@ -9,8 +9,6 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
-use App\Models\Account;
-use App\Models\Cate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,8 +58,6 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::post('/shoppingCart/{id}', [ShopController::class, 'updateCart']);
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
-    
-
 
     Route::get('/shopCategory/{id}', [ShopController::class, 'showByCategory']);
 });
