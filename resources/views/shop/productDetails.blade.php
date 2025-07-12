@@ -23,38 +23,111 @@
     <div class="container">
         <div class="row s_product_inner">
             <div class="col-lg-6">
-                <div class="s_Product_carousel">
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
+
+                <div class="ConTaiNer">
+                    <div class="Main">
+                        @php
+                        $mainPhoto = null;
+                        @endphp
+
+                        @foreach ($photos as $photo)
+                        @php
+                        $variant = \App\Models\Product_variant::find($photo->product_variant_id);
+                        @endphp
+                        @if ($variant && $variant->colors_id == $selectedColorId)
+                        @php $mainPhoto = $photo; break; @endphp
+                        @endif
+                        @endforeach
+
+                        @if ($mainPhoto)
+                        <img src="{{ asset('user/nike-img/' . $mainPhoto->name) }}" alt="{{ $mainPhoto->name }}" class="imgFeature">
+                        @endif
+                        <div class="control prev"><i class='bx  bx-arrow-left-stroke'></i> </div>
+                        <div class="control next"><i class='bx  bx-arrow-right-stroke'></i> </div>
                     </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
+
+                    <div class="listImage">
+                        @foreach($photos as $photo)
+                        @php
+                        $variant = \App\Models\Product_variant::find($photo->product_variant_id);
+                        @endphp
+
+                        @if($variant && $variant->colors_id == $selectedColorId)
+                        <div><img src="{{ asset('user/nike-img/' . $photo->name ) }}" /></div>
+                        @endif
+                        @endforeach
                     </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{asset('user')}}/img/category/s-p1.jpg" alt="">
-                    </div>
+
                 </div>
+
+
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>Faded SkyBlu Denim Jeans</h3>
-                    <h2>$149.99</h2>
+                    <h3>{{ $product->name }}</h3>
+                    <h2>${{ $product->price }}</h2>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> : Household</a></li>
+                        <li><a class="active" href="#"><span>Category</span> : {{$product->cate->name}}</a></li>
                         <li><a href="#"><span>Availibility</span> : In Stock</a></li>
                     </ul>
                     <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
                         something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
                         during the winter.</p>
+
+                       <div class="container-color">
+                            <ul class="color-list">
+                                <label for="">Color: </label>
+                                <form id="colorForm" method="GET" action="">
+                                <input type="hidden" name="color_id" id="colorIdInput">
+                                @foreach($colors as $color)
+                                    <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>   
+                                @endforeach
+                                </form>
+                               
+                                <!-- Size -->
+                                <label for="">Size : </label>
+                                <li class="size">
+                                    <div>
+                                        <select name="" id="">
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="36">36</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="41">41</option>
+                                            <option value="...">...</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> 
+
+                    <!-- <form id="colorForm" method="GET" action="">
+                        <label for="color">Colors:</label>
+                        <select id="color" name="color_id" onchange="document.getElementById('colorForm').submit()">
+                            @foreach($colors as $color)
+                            <option value="{{ $color->id }}" {{ $color->id == $selectedColorId ? 'selected' : '' }}>
+                                {{ $color->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </form> -->
+
+                    <br>
+
                     <div class="product_count">
                         <label for="qty">Quantity:</label>
-                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                            class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--; return false;">
+                        <input type="number" name="qty" id="qty" min="1" value="1" title="Quantity:" class="input-text qty">
 
-                            class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                        <button type="button" class="items-count" onclick="document.getElementById('qty').stepUp();">
+
+                        </button>
+
+                        <button type="button" class="items-count" onclick="let qty = document.getElementById('qty'); if (parseInt(qty.value) > 1) qty.stepDown();">
+
+                        </button>
                     </div>
+
                     <div class="card_area d-flex align-items-center">
                         <a class="primary-btn" href="#">Add to Cart</a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
@@ -527,6 +600,58 @@
         </div>
     </div>
 </section>
+<script>
+// color-picker
+
+    // waitng DOM complete loading
+    document.addEventListener("DOMContentLoaded", function () {
+        // choose all button had class color-item
+        const colorButtons = document.querySelectorAll('.color-item');
+
+        colorButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const colorId = this.getAttribute('data-id');
+                console.log("Selected Color ID:", colorId); // show ID trong console
+            });
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.color-item');
+        const colorForm = document.getElementById('colorForm');
+        const colorIdInput = document.getElementById('colorIdInput');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const colorId = this.getAttribute('data-id');
+                colorIdInput.value = colorId;
+                colorForm.submit(); // sent form
+            });
+        });
+    });
+</script>
 <!-- End related-product Area -->
+
+@endsection
+
+@section('scripts')
+<script>
+    const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
+
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
 @endsection

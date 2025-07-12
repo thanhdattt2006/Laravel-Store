@@ -1,0 +1,125 @@
+
+/* .container */
+.ConTaiNer{
+    width: 90%;
+    height: 90%;
+    margin: 50px auto;
+}
+
+/* .main */
+.ConTaiNer .Main{
+    height: 80%;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* img_feature */
+.ConTaiNer .Main .imgFeature{
+    transition: 0.3s;
+}
+
+
+/* control */
+.control{
+    position: absolute;
+    font-size: 50px;
+    color: #ffb700a3;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.prev{
+    left: 0px;
+    cursor: pointer;
+}
+
+.next{
+    right: 0px;
+    cursor: pointer;
+}
+
+.listImage{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.listImage div{
+    flex: 1;
+    padding: 3px;
+}
+
+.ConTaiNer img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.ConTaiNer .listImage div {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.acTive{
+  box-shadow: 0px 0px 2px 2px #acb5ba;
+}
+
+
+/* color-picker & lose-product-detail */
+
+.container-color .color-list{
+    display: flex;
+}
+
+.container-color .color-list .color-item{
+    border: 1px solid rgb(180, 173, 173);
+    color: aqua;
+    background-color: rgb(222, 32, 32);
+    width: 37px;
+    height: 37px;
+    margin-right: 13px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.container-color .color-list .color-item:hover{
+    box-shadow: 0px 0px 2px 2px rgb(200, 198, 198);
+}
+
+.container-color .size  div{
+    height: 37px;
+    border: 0px;
+    border-radius: 3px;
+    background-color: #f4f1f1;
+    color: rgb(162, 162, 162);
+}
+
+
+.container-color .color-list label{
+    margin-right: 5px;
+    padding-top: 6px;
+}
+
+/* update-cart */
+.top td i{
+    font-size: 17px;
+}
+
+.top .hidden{
+    display: none;
+}
+
+.top .hidden.close{
+    display: block;
+}
+
+.bottom_button .update-cart{
+    opacity: 1;
+    cursor: pointer;
+}
