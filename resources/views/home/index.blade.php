@@ -128,10 +128,10 @@
 						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" alt="">
-								<a href="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt="">
+								<a href="{{url('/shop/shopCategory/1')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Running</h6>
 									</div>
 								</a>
 							</div>
@@ -140,9 +140,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
-								<a href="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/3')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Basketball</h6>
 									</div>
 								</a>
 							</div>
@@ -151,9 +151,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
-								<a href="{{asset('user')}}/nike-img/football10-den-5.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/2')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Product for Football</h6>
+										<h6 class="deal-title">Sneaker for Football</h6>
 									</div>
 								</a>
 							</div>
@@ -162,9 +162,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
-								<a href="{{asset('user')}}/nike-img/gym8-trang-5.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/4')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Trainnig & Gym</h6>
 									</div>
 								</a>
 							</div>
@@ -203,10 +203,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->HEAD
-
-
-
+					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
 
 					<div class="col-lg-3 col-md-6">

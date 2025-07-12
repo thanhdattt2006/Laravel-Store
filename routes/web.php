@@ -7,8 +7,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
 use App\Models\Account;
@@ -56,6 +54,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+
     Route::get('/shoppingCart/{id}', [ShopController::class, 'removeFromCart']);
     
 
@@ -63,6 +62,8 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
     
 
+
+    Route::get('/shopCategory/{id}', [ShopController::class, 'showByCategory']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);

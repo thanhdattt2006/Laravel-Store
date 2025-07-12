@@ -25,5 +25,5 @@ class Product_variant extends Model
     {
         return $this->hasMany(Photo::class, 'product_variant_id');
     }
-    
+
 }

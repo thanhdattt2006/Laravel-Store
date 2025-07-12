@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function shopCategory()
+    public function shopCategory(Request $request)
     {
 
         $data = [
@@ -181,5 +181,18 @@ class ShopController extends Controller
                 'selectedColorId' => $selectedColorId
             ];
         return view('shop/productDetails')->with($data);
+    }
+    // Function phân trang cho các Cates theo id
+    public function showByCategory($id)
+    {
+        $data = [
+            'cates' => Cate::get(),
+            'names' => Cate::pluck('name'),
+            'productByCate' => Product::where('cate_id', $id)->paginate(6),
+            'products' => Product::paginate(6),
+            'photo' => Product::pluck('name'),
+            'colors' => Colors::pluck('name'),
+        ];
+        return view('shop/shopCategory')->with($data);
     }
 }
