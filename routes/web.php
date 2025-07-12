@@ -55,8 +55,14 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
-    Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    Route::get('/shoppingCart/{id}', [ShopController::class, 'removeFromCart']);
+    
+
+    Route::post('/shoppingCart/{id}', [ShopController::class, 'updateCart']);
+    Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
+    
+
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
@@ -64,6 +70,7 @@ Route::group(['prefix' => 'blog'], function () {
 });
 
 Route::group(['prefix' => 'contact'], function () {
+    Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
 });
 

@@ -21,7 +21,7 @@
 	<!--================Contact Area =================-->
 	<section class="contact_area section_gap_bottom">
 	    <div class="container">
-	        <div id="mapBox" class="mapBox" data-lat="10.80671" data-lon="106.71421" data-zoom="20" data-info="D5 Street, Bình Thạnh District, Saigon"
+	        <div id="mapBox"  class="mapBox" data-lat="10.80671" data-lon="106.71421" data-zoom="20" data-info="D5 Street, Bình Thạnh District, Saigon"
 	            data-mlat="10.80671" data-mlon="106.71421">
 	        </div>
 	        <div class="row">
@@ -91,8 +91,31 @@
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
 <!--gmaps Js-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE&callback=initMap" async defer></script>
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
+<script>
+  function initMap() {
+    if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+      console.error("Google Maps chưa sẵn sàng");
+      return;
+    }
+
+    const map = new GMaps({
+      el: '#map',
+      lat: 10.762622,
+      lng: 106.660172,
+      zoom: 15,
+      mapType: 'ROADMAP'
+    });
+
+    map.addMarker({
+      lat: 10.762622,
+      lng: 106.660172,
+      title: 'Vị trí cửa hàng'
+    });
+  }
+</script>
+
 
 @endsection

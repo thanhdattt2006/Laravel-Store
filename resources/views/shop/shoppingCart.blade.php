@@ -32,15 +32,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $cart = session('shoppingCart', []);
-                    @endphp
-                    @foreach ($cart as $id => $item)
-                        <tr class="top">
+                        @php
+                        $cart = session('shoppingCart');
+                        @endphp
+
+                        @foreach ($cart as $id => $item)
+                        <tr class="top" id="{{ $id }}">
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img height="150px"  src="{{asset('user')}}/nike-img/{{ $item['photo'] }}" alt="">
+                                        <img height="150px" src="{{ asset('user')}}/nike-img/{{ $item['photo'] }}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $item['name'] }}</p>
@@ -48,27 +49,41 @@
                                 </div>
                             </td>
                             <td>
-                                <h5>{{ $item['price'] }}</h5>
+                                <h5>{{ number_format($item['price'], 0, ',', '.') }} </h5>
                             </td>
                             <td>
                                 <div class="product_count">
-                                    <input type="text" name="qty" id="sst" maxlength="12" value="{{1}}" title="Quantity:"
-                                        class="input-text qty">
-                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                        class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--;return false;"
-                                        class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                    <input type="text"
+                                        name="qty"
+                                        id="qty-{{ $id }}"
+                                        min="1"
+                                        value="{{ $item['quantity'] }}"
+                                        class="input-text qty"
+                                        data-id="{{ $id }}"
+                                        data-price="{{ $item['price'] }}"
+                                        oninput="handleQtyChange(this)">
+
+                                    <button onclick="changeQty('{{ $id }}', 1)" class="increase items-count" type="button">
+                                        <i class="lnr lnr-chevron-up"></i>
+                                    </button>
+
+                                    <button onclick="changeQty('{{ $id }}', -1)" class="reduced items-count" type="button">
+                                        <i class="lnr lnr-chevron-down"></i>
+                                    </button>
                                 </div>
+
                             </td>
                             <td>
-                                <h5>{{ $item['price'] }}</h5>
+                                <h5 id="total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</h5>
                             </td>
                             <td>
-                                <i class="fa fa-close hidden"></i>
+                                <i class="fa fa-close hidden" onclick="removeItem('{{ $id }}')"></i>
                             </td>
                         </tr>
                         @endforeach
-                        
+                        <!-- CSRF token -->
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
                         <tr class="bottom_button">
                             <td>
                                 <a class="gray_btn update-cart">Update Cart</a>
@@ -161,17 +176,17 @@
 
 <!--================End Cart Area =================-->
 <script type="text/javascript">
-       
-    </script>
+
+</script>
 @endsection
 
 @section('scripts')
 <script>
-	const ASSET_URL = "{{asset('user')}}"
+    const ASSET_URL = "{{asset('user')}}"
 </script>
 <script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
@@ -182,6 +197,110 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+<script>
+    function updateTotal(id, price) {
+        let qty = parseInt(document.getElementById('sst-' + id).value);
+        if (!isNaN(qty)) {
+            let total = qty * price;
+            document.getElementById('total-' + id).innerText = total.toLocaleString('vi-VN');
+        }
+    }
+
+    function changeQty(id, delta) {
+        const input = document.getElementById('qty-' + id);
+        let qty = parseInt(input.value) || 1;
+
+        qty += delta;
+        if (qty < 1) qty = 1;
+
+        input.value = qty;
+        updateTotalDisplay(id, qty);
+    }
+
+    function handleQtyChange(input) {
+        let qty = parseInt(input.value) || 1;
+        if (qty < 1) qty = 1;
+        input.value = qty;
+
+        const id = input.dataset.id;
+        updateTotalDisplay(id, qty);
+    }
+
+    function updateTotalDisplay(id, qty) {
+        const price = parseFloat(document.getElementById('qty-' + id).dataset.price);
+        const total = qty * price;
+        document.getElementById('total-' + id).innerText = total.toLocaleString('vi-VN');
+    }
+
+    function removeItem(id) {
+        if (confirm("Are you sure to drop this product ?")) {
+            fetch('/shop/shoppingCart/' + id, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(id).remove(); // xóa hàng trong bảng
+                        alert('Product have been deleted');
+                    } else {
+                        alert('Cant delete ');
+                    }
+                })
+                .catch(error => {
+                    alert('Lỗi kết nối server');
+                    console.error(error);
+                });
+        }
+    }
+
+
+    function updateCartSession(id, newQty) {
+        console.log('🟡 Gửi update:', id, newQty);
+        fetch('/shop/shoppingCart/' + id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    quantity: newQty
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('🟢 Cập nhật session OK');
+                    location.reload(); // hoặc update DOM nếu thích mượt hơn
+                } else {
+                    alert('Cập nhật thất bại');
+                }
+            })
+            .catch(err => {
+                console.error('🔴 Lỗi khi fetch:', err);
+            });
+    }
+
+    function increaseQty(id, price) {
+        let input = document.getElementById('sst-' + id);
+        let qty = parseInt(input.value) || 1;
+        qty++;
+        input.value = qty;
+        updateCartSession(id, qty);
+    }
+
+    function decreaseQty(id, price) {
+        let input = document.getElementById('sst-' + id);
+        let qty = parseInt(input.value) || 1;
+        if (qty > 1) qty--;
+        input.value = qty;
+        updateCartSession(id, qty);
+    }
+</script>
+
+
 @endsection

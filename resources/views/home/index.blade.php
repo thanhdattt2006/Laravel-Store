@@ -468,6 +468,7 @@
 							if (data.success) {
 								alert(data.message + ' ✅');
 							} else {
+								alert(data.message + ' ❎');
 								window.location.href = '/shop/shoppingCart';
 							}
 						});

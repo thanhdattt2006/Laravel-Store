@@ -86,7 +86,7 @@
                                     <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="{{url('contact/index')}}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
 
                              <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
