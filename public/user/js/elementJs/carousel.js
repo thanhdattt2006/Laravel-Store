@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // currency-format
-
     // select all elements had class "currency-format"
     const moneyElements = document.querySelectorAll('.currency-format');
 
@@ -11,6 +10,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const formatted = rawValue.toLocaleString('vi-VN') + ' VND';
             element.textContent = formatted;
         }
+    });
+
+    // Registeration
+    const menu = document.querySelector(".navbar-links")
+    const menuCategories = document.querySelector(".sidebar")
+    const closing = document.querySelector(".close")
+
+    menuCategories.addEventListener('click', ()=>{
+        menu.classList.toggle("navbar-open")
+    });
+
+    closing.addEventListener('click', ()=>{
+        menu.classList.toggle("navbar-open")
     });
 
     const imgFeature = document.querySelector('.imgFeature');
