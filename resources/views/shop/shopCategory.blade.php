@@ -59,6 +59,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-xl-9 col-lg-8 col-md-7">
 			<!-- Start Filter Bar -->
 			<div class="filter-bar d-flex flex-wrap align-items-center">
@@ -89,8 +90,8 @@
 									<h6>{{$productByCates->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$productByCates->price}}</h6>
-									<h6 class="l-through">{{$productByCates->price}}</h6>
+									<h6 class="currency-format">{{$productByCates->price}}</h6>
+									<h6 class="l-through currency-format">{{$productByCates->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 
@@ -126,8 +127,8 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -181,8 +182,8 @@
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
-										<h6>{{$product->price}}</h6>
-										<h6 class="l-through">{{$product->price}}</h6>
+										<h6 class="currency-format">{{$product->price}}</h6>
+										<h6 class="l-through currency-format">{{$product->price}}</h6>
 									</div>
 								</div>
 							</div>
@@ -221,5 +222,6 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
 	@endsection
