@@ -59,6 +59,35 @@
                     </div>
 
                 </div>
+                <script>
+                    // Lấy ảnh chính
+                    const imgFeature = document.querySelector('.imgFeature');
+                    // Lấy toàn bộ thumbnail
+                    const thumbnails = document.querySelectorAll('.listImage img');
+                    // Danh sách src ảnh
+                    const images = Array.from(thumbnails).map(img => img.getAttribute('src'));
+                    let currentIndex = 0;
+
+                    // Click vào ảnh nhỏ → hiển thị ảnh lớn
+                    thumbnails.forEach((img, index) => {
+                        img.addEventListener('click', () => {
+                            imgFeature.src = images[index];
+                            currentIndex = index;
+                        });
+                    });
+
+                    // Prev button
+                    document.querySelector('.control.prev').addEventListener('click', () => {
+                        currentIndex = (currentIndex - 1 + images.length) % images.length;
+                        imgFeature.src = images[currentIndex];
+                    });
+
+                    // Next button
+                    document.querySelector('.control.next').addEventListener('click', () => {
+                        currentIndex = (currentIndex + 1) % images.length;
+                        imgFeature.src = images[currentIndex];
+                    });
+                </script>
 
 
             </div>
@@ -68,39 +97,41 @@
                     <h2 class="currency-format">{{ $product->price }}</h2>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Category</span> : {{$product->cate->name}}</a></li>
-                        <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                        <li>@foreach ($product_variant as $v )
+                            @if ($v->stock > 0 )
+                            <span>Availibility:</span> In Stock
+                            @else
+                            <span>Availibility:</span> Out of Stock
+                            @endif
+                            @endforeach
+                        </li>
                     </ul>
-                    <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-                        something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-                        during the winter.</p>
+                    <div>{{$product->description }}</div>
+                    <br>
 
-                       <div class="container-color">
-                            <ul class="color-list">
-                                <label for="">Color: </label>
-                                <form id="colorForm" method="GET" action="">
+                    <div class="container-color">
+                        <ul class="color-list">
+                            <label for="">Color: </label>
+                            <form id="colorForm" method="GET" action="">
                                 <input type="hidden" name="color_id" id="colorIdInput">
                                 @foreach($colors as $color)
-                                    <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>   
+                                <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
                                 @endforeach
-                                </form>
-                               
-                                <!-- Size -->
-                                <label for="">Size : </label>
-                                <li class="size">
-                                    <div>
-                                        <select name="" id="">
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>
-                                            <option value="36">36</option>
-                                            <option value="36">36</option>
-                                            <option value="37">37</option>
-                                            <option value="41">41</option>
-                                            <option value="...">...</option>
-                                        </select>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> 
+                            </form>
+
+                            <!-- Size -->
+                            <label for="">Size : </label>
+                            <li class="size">
+                                <div>
+                                    <select name="" id="">
+                                        @for ($i = 36; $i <= 46; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!-- <form id="colorForm" method="GET" action="">
                         <label for="color">Colors:</label>
@@ -601,28 +632,28 @@
     </div>
 </section>
 <script>
-// color-picker
+    // color-picker
 
     // waitng DOM complete loading
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         // choose all button had class color-item
         const colorButtons = document.querySelectorAll('.color-item');
 
-        colorButtons.forEach(function (btn) {
-            btn.addEventListener('click', function () {
+        colorButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
                 const colorId = this.getAttribute('data-id');
                 console.log("Selected Color ID:", colorId); // show ID trong console
             });
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const buttons = document.querySelectorAll('.color-item');
         const colorForm = document.getElementById('colorForm');
         const colorIdInput = document.getElementById('colorIdInput');
 
         buttons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const colorId = this.getAttribute('data-id');
                 colorIdInput.value = colorId;
                 colorForm.submit(); // sent form

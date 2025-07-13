@@ -158,14 +158,13 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('cate')->findOrFail($id);
+        $product = Product::with('cate', 'variant')->findOrFail($id);
+        $product_variant = Product_variant::where('product_id', $id)->get();
         $variantIds = Product_variant::where('product_id', $id)->pluck('id');
         $photos = Photo::whereIn('product_variant_id', $variantIds)->get();
         $colorIds = Product_variant::where('product_id', $id)->pluck('colors_id')->unique();
         $colors = Colors::whereIn('id', $colorIds)->get();
 
-        // $firstVariant = Product_variant::where('product_id', $id)->first();
-        // $selectedColorId = $firstVariant?->colors_id ?? null;
         $selectedColorId = request()->query('color_id');
 
         if (!$selectedColorId) {
@@ -178,7 +177,9 @@ class ShopController extends Controller
                 'names' => Cate::pluck('name'),
                 'photos' => $photos,
                 'colors' => $colors,
-                'selectedColorId' => $selectedColorId
+                'selectedColorId' => $selectedColorId,
+                'product_variant' =>  $product_variant
+
             ];
         return view('shop/productDetails')->with($data);
     }
