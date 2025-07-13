@@ -36,6 +36,13 @@ Route::group(['prefix' => 'home'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
+    Route::get('/addSlider', [AdminController::class, 'addSlider']);
+    Route::get('/allSlider', [AdminController::class, 'allSlider']);
+    Route::get('/addProducts', [AdminController::class, 'addProducts']);
+    Route::get('/allProducts', [AdminController::class, 'allProducts']);
+    Route::get('/addCategories', [AdminController::class, 'addCategories']);
+    Route::get('/allCategories', [AdminController::class, 'allCategories']);
+    Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
 });
 
 Route::group(['prefix' => 'cate'], function () {
