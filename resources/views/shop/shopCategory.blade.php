@@ -27,7 +27,7 @@
 				@foreach ($cates as $cate)
 				<ul class="main-categories">
 					<li class="main-nav-list">
-						<a href="{{ url('/shop/shopCategory/' .$cate->id) }}" class="page-item">{{$cate->name}}<span class="number">(18)</span></a>
+						<a href="{{ url('/shop/shopCategory/' .$cate->id .'/' .$cate->name)}}" class="page-item">{{$cate->name}}<span class="number">(18)</span></a>
 					</li>
 				</ul>
 				@endforeach
@@ -35,31 +35,26 @@
 			<div class="sidebar-filter mt-50">
 				<div class="top-filter-head">Color Filters</div>
 				<div class="common-filter">
-					<form action="#">
+					<div class="sidebar-categories">
 						@foreach ($colors as $color)
-						<ul>
-							<li class="filter-list"><a class="pixel-radio" type="radio" id="{{ $color }}" name="color"><label style="text-transform: capitalize;">{{ $color }}</label></li>
+						<ul class="main-categories">
+							<li class="main-nav-list"><a style="text-transform: capitalize;" href="{{ url('/shop/shopCategory/' .$color->id .'/' .$color->name) }}">{{ $color -> name }}</a></li>
 						</ul>
 						@endforeach
-					</form>
+					</div>
 				</div>
+				<div class="top-filter-head">Price</div>
 				<div class="common-filter">
-					<div class="head">Price</div>
-					<div class="price-range-area">
-						<div id="price-range"></div>
-						<div class="value-wrapper d-flex">
-							<div class="price">Price:</div>
-							<span>đ</span>
-							<div id="lower-value"></div>
-							<div class="to">to</div>
-							<span>đ</span>
-							<div id="upper-value"></div>
-						</div>
+					<div class="sidebar-categories">
+						@foreach ($products as $product)
+						<ul class="main-categories">
+							<li class="main-nav-list"><a href="#">{{ $product -> price }}vnd</a></li>
+						</ul>
+						@endforeach
 					</div>
 				</div>
 			</div>
 		</div>
-		
 		<div class="col-xl-9 col-lg-8 col-md-7">
 			<!-- Start Filter Bar -->
 			<div class="filter-bar d-flex flex-wrap align-items-center">
@@ -86,15 +81,14 @@
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$productByCates->photo}}">
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $productByCates->id) }}" class="social-info">
 									<h6>{{$productByCates->name}}</h6>
 								</a>
 								<div class="price">
-									<h6 class="currency-format">{{$productByCates->price}}</h6>
-									<h6 class="l-through currency-format">{{$productByCates->price}}</h6>
+									<h6>{{$productByCates->price}}</h6>
+									<h6 class="l-through">{{$productByCates->price}}</h6>
 								</div>
 								<div class="prd-bottom">
-
 									<a href="" class="social-info">
 										<span class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
@@ -123,12 +117,12 @@
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6 class="currency-format">{{$product->price}}</h6>
-									<h6 class="l-through currency-format">{{$product->price}}</h6>
+									<h6>{{$product->price}}</h6>
+									<h6 class="l-through">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -175,15 +169,15 @@
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row">
-						@foreach ($products -> take(9) as $product)
+						@foreach ($products as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
 								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
-										<h6 class="currency-format">{{$product->price}}</h6>
-										<h6 class="l-through currency-format">{{$product->price}}</h6>
+										<h6>{{$product->price}}</h6>
+										<h6 class="l-through">{{$product->price}}</h6>
 									</div>
 								</div>
 							</div>
@@ -191,7 +185,7 @@
 						@endforeach
 					</div>
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-2">
 					<div class="ctg-right">
 						<a href="#" target="_blank">
 							<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
@@ -222,6 +216,5 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
-	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
 	@endsection

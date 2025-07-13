@@ -59,7 +59,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/shoppingCart/{id}', [ShopController::class, 'updateCart']);
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
 
-    Route::get('/shopCategory/{id}', [ShopController::class, 'showByCategory']);
+    Route::get('/shopCategory/{cate_id}/{name}', [ShopController::class, 'showByCategory']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);

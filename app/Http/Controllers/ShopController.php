@@ -16,10 +16,9 @@ class ShopController extends Controller
 
         $data = [
             'cates' => Cate::get(),
-            'names' => Cate::pluck('name'),
             'products' => Product::paginate(6),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
         ];
         return view('shop/shopCategory')->with($data);
     }
@@ -65,7 +64,7 @@ class ShopController extends Controller
             'names' => Cate::pluck('name'),
             'products' => Product::get(),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
             'products' => Product::where('name', 'like', '%' . $keyword . '%')->get(),
             'keyword' => $keyword
         ];
@@ -183,16 +182,15 @@ class ShopController extends Controller
         return view('shop/productDetails')->with($data);
     }
     // Function phân trang cho các Cates theo id
-    public function showByCategory($id)
+    public function showByCategory($cate_id)
     {
         $data = [
             'cates' => Cate::get(),
-            'names' => Cate::pluck('name'),
-            'productByCate' => Product::where('cate_id', $id)->paginate(6),
+            'productByCate' => Product::where('cate_id', $cate_id)->paginate(6),
             'products' => Product::paginate(6),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
         ];
-        return view('shop/shopCategory')->with($data);
+        return view('shop.shopCategory')->with($data);
     }
 }
