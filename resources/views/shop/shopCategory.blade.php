@@ -38,7 +38,7 @@
 					<form action="#">
 						@foreach ($colors as $color)
 						<ul>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="{{ $color }}" name="color"><label style="text-transform: capitalize;">{{ $color }}</label></li>
+							<li class="filter-list"><a class="pixel-radio" type="radio" id="{{ $color }}" name="color"><label style="text-transform: capitalize;">{{ $color }}</label></li>
 						</ul>
 						@endforeach
 					</form>
