@@ -17,8 +17,47 @@
 <!-- End Banner Area -->
 
 
-<!--================Login Box Area =================-->
+<!-- Register Area -->
+<div class="navbar-links">
+		<i class="fa fa-close close"></i>
+		<section class="login_box_area section_gap">		
+				<div class="container containerOfRegister set_containerOfRegister">
+                    <div class="login_form_inner login_form_fix form_background">
+                        <h3>Registeration</h3>
+                        
+                        <form class="row login_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                            <!-- Username -->
+                            <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Name'">
+                            </div>
+                            <!-- Email -->
+                            <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email'">
+                            </div>
+                            <!-- password -->
+                            <div class="col-md-12 form-group">
+                                <input type="password" class="form-control" id="name" name="name" placeholder="your Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'your Password'">
+                            </div>
+                            <!-- Confirm-password -->
+                            <div class="col-md-12 form-group">
+                                <input type="password" class="form-control" id="name" name="name" placeholder="Comfirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Comfirm Password'">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account">
+                                    <input type="checkbox" id="f-option2" name="selector">
+                                    <label for="f-option2">I accept terms & conditions</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="primary-btn">Register Now</button>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+			</section>
+	</div>
 
+<!--================Login Box Area =================-->
 <section class="login_box_area section_gap">
     <div class="container">
         <div class="row">
@@ -28,7 +67,7 @@
                     <div class="hover">
                         <h4>New to our website?</h4>
                         <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-                        <a class="primary-btn" href="registration.html">Create an Account</a>
+                        <button type="submit" class="primary-btn register_button sidebar">Create an Account</button>
                     </div>
                 </div>
             </div>
@@ -76,8 +115,8 @@
         </div>
     </div>
 </section>
-
 <!--================End Login Box Area =================-->
+
 @endsection
 
 @section('scripts')
@@ -97,5 +136,8 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
+
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+
 
 @endsection

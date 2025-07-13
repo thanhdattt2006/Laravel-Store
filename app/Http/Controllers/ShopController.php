@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function shopCategory()
+    public function shopCategory(Request $request)
     {
 
         $data = [
@@ -98,7 +98,7 @@ class ShopController extends Controller
                 'name' => $product->name,
                 'price' => $product->price,
                 'photo' => $product->photo,
-                'quantity' => 1
+                'quantity' => 1,
             ];
         }
 
@@ -117,6 +117,45 @@ class ShopController extends Controller
         $cart = session('shoppingCart', []);
         return view('shop/shoppingCart', compact('cart'));
     }
+
+    // xóa sản phẩm trong giỏ hàng
+    public function removeFromCart($id)
+    {
+        $cart = session('shoppingCart', []);
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session(['shoppingCart' => $cart]);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    // update giỏ hàng khi ấn tăng số lượng
+    public function updateCart(Request $request, $id)
+    {
+        $cart = session()->get('shoppingCart', []);
+
+        if (isset($cart[$id])) {
+            $quantity = (int) $request->input('quantity');
+
+            if ($quantity < 1) $quantity = 1;
+
+            $cart[$id]['quantity'] = $quantity;
+            $cart[$id]['total'] = $cart[$id]['price'] * $quantity;
+
+            session(['shoppingCart' => $cart]);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+
+
+
     public function show($id)
     {
         $product = Product::with('cate')->findOrFail($id);
@@ -142,5 +181,18 @@ class ShopController extends Controller
                 'selectedColorId' => $selectedColorId
             ];
         return view('shop/productDetails')->with($data);
+    }
+    // Function phân trang cho các Cates theo id
+    public function showByCategory($id)
+    {
+        $data = [
+            'cates' => Cate::get(),
+            'names' => Cate::pluck('name'),
+            'productByCate' => Product::where('cate_id', $id)->paginate(6),
+            'products' => Product::paginate(6),
+            'photo' => Product::pluck('name'),
+            'colors' => Colors::pluck('name'),
+        ];
+        return view('shop/shopCategory')->with($data);
     }
 }

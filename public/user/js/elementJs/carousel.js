@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // currency-format
+    // select all elements had class "currency-format"
+    const moneyElements = document.querySelectorAll('.currency-format');
+
+    moneyElements.forEach(function(element) {
+        const rawValue = parseInt(element.textContent);
+        if (!isNaN(rawValue)) {
+            const formatted = rawValue.toLocaleString('vi-VN') + ' VND';
+            element.textContent = formatted;
+        }
+    });
+
+    // Registeration
+    const menu = document.querySelector(".navbar-links")
+    const menuCategories = document.querySelector(".sidebar")
+    const closing = document.querySelector(".close")
+
+    menuCategories.addEventListener('click', ()=>{
+        menu.classList.toggle("navbar-open")
+    });
+
+    closing.addEventListener('click', ()=>{
+        menu.classList.toggle("navbar-open")
+    });
 
     const imgFeature = document.querySelector('.imgFeature');
     const listImg = document.querySelectorAll('.listImage img');
@@ -56,8 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 imgFeature.style.opacity= '1';
             }, 100)
     })
-
-
+    
+    
+    
 });
 
 // update-cart
@@ -68,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteButtons.forEach(function (btn) {
         btn.classList.toggle("close"); // hoặc "flex" tùy CSS
       });
-    });
+        });
 
 // 
 

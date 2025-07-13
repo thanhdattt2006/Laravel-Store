@@ -128,10 +128,10 @@
 						<div class="col-lg-6 col-md-6">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" alt="">
-								<a href="{{asset('user')}}/nike-img/basketballjordan0.3-vang-7.png" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt="">
+								<a href="{{url('/shop/shopCategory/1')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Running</h6>
 									</div>
 								</a>
 							</div>
@@ -140,9 +140,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
-								<a href="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/3')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Basketball</h6>
 									</div>
 								</a>
 							</div>
@@ -151,9 +151,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
-								<a href="{{asset('user')}}/nike-img/football10-den-5.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/2')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Product for Football</h6>
+										<h6 class="deal-title">Sneaker for Football</h6>
 									</div>
 								</a>
 							</div>
@@ -162,9 +162,9 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
-								<a href="{{asset('user')}}/nike-img/gym8-trang-5.png" class="img-pop-up" target="_blank">
+								<a href="{{url('/shop/shopCategory/4')}}">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<h6 class="deal-title">Sneaker for Trainnig & Gym</h6>
 									</div>
 								</a>
 							</div>
@@ -203,10 +203,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->HEAD
-
-
-
+					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
 
 					<div class="col-lg-3 col-md-6">
@@ -217,8 +214,8 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product -> price }}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product -> price }}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -272,8 +269,8 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -340,8 +337,8 @@
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<h4>{{$product->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
@@ -404,8 +401,8 @@
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
-										<h6>{{$product->price}}</h6>
-										<h6 class="l-through">{{$product->price}}</h6>
+										<h6 class="currency-format">{{$product->price}}</h6>
+										<h6 class="l-through currency-format">{{$product->price}}</h6>
 									</div>
 								</div>
 							</div>
@@ -444,11 +441,15 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
 				button.addEventListener('click', function(e) {
-					e.preventDefault(); // ⛔ Ngăn reload nếu nằm trong <a>
+					// 👇 Nếu phần tử có class 'skip-add-to-cart', thì bỏ qua
+					if (this.classList.contains('skip-add-to-cart')) return;
+
+					e.preventDefault(); // ⛔ Ngăn load trang khi là nút "Add to cart"
 
 					const productId = this.dataset.id;
 					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -465,11 +466,7 @@
 						})
 						.then(res => res.json())
 						.then(data => {
-							if (data.success) {
-								alert(data.message + ' ✅');
-							} else {
-								window.location.href = '/shop/shoppingCart';
-							}
+							alert((data.success ? '✅ ' : '❎ ') + data.message);
 						});
 				});
 			});

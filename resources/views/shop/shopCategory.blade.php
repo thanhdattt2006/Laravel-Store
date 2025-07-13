@@ -27,7 +27,7 @@
 				@foreach ($cates as $cate)
 				<ul class="main-categories">
 					<li class="main-nav-list">
-						<a href="{{ url('shop/shopCategory') }}">{{$cate->name}}<span class="number">(18)</span></a>
+						<a href="{{ url('/shop/shopCategory/' .$cate->id) }}" class="page-item">{{$cate->name}}<span class="number">(18)</span></a>
 					</li>
 				</ul>
 				@endforeach
@@ -38,7 +38,7 @@
 					<form action="#">
 						@foreach ($colors as $color)
 						<ul>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="{{ $color }}" name="color"><label style="text-transform: capitalize;">{{ $color }}<span>(02)</span></label></li>
+							<li class="filter-list"><input class="pixel-radio" type="radio" id="{{ $color }}" name="color"><label style="text-transform: capitalize;">{{ $color }}</label></li>
 						</ul>
 						@endforeach
 					</form>
@@ -59,6 +59,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-xl-9 col-lg-8 col-md-7">
 			<!-- Start Filter Bar -->
 			<div class="filter-bar d-flex flex-wrap align-items-center">
@@ -79,6 +80,44 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
+					@if (isset($productByCate) && count($productByCate) > 0)
+					@foreach($productByCate as $productByCates)
+					<div class="col-lg-4 col-md-6">
+						<div class="single-product">
+							<img src="{{asset('user')}}/nike-img/{{$productByCates->photo}}">
+							<div class="product-details">
+								<a href="{{url('/shop/productDetails')}}">
+									<h6>{{$productByCates->name}}</h6>
+								</a>
+								<div class="price">
+									<h6 class="currency-format">{{$productByCates->price}}</h6>
+									<h6 class="l-through currency-format">{{$productByCates->price}}</h6>
+								</div>
+								<div class="prd-bottom">
+
+									<a href="" class="social-info">
+										<span class="ti-bag"></span>
+										<p class="hover-text">add to bag</p>
+									</a>
+									<a href="" class="social-info">
+										<span class="lnr lnr-heart"></span>
+										<p class="hover-text">Wishlist</p>
+									</a>
+									<a href="{{ url('/shop/productDetails/' . $productByCates->id) }}" class="social-info">
+										<span class="lnr lnr-move"></span>
+										<p class="hover-text">view more</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					@endforeach
+					<div class="filter-bar d-flex flex-wrap align-items-center">
+						<div class="pagination">
+							{{ $productByCate -> links () }}
+						</div>
+					</div>
+					@else
 					@foreach($products as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
@@ -88,11 +127,10 @@
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
-
 									<a href="" class="social-info">
 										<span class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
@@ -110,81 +148,80 @@
 						</div>
 					</div>
 					@endforeach
+					<div class="filter-bar d-flex flex-wrap align-items-center">
+						<div class="pagination">
+							{{ $products -> links () }}
+						</div>
+					</div>
+					@endif
 				</div>
 			</section>
-			<!-- End Best Seller -->
-			<!-- Start Filter Bar -->
-			<div class="filter-bar d-flex flex-wrap align-items-center">
-				<div class="pagination">
-					{{ $products -> links () }}
-				</div>
-			</div>
-			<!-- End Filter Bar -->
 		</div>
 	</div>
-</div>
+	</div>
 
-<!-- Start related-product Area -->
-<section class="related-product-area section_gap">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-6 text-center">
-				<div class="section-title">
-					<h1>Deals of the Week</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-						magna aliqua.</p>
+	<!-- Start related-product Area -->
+	<section class="related-product-area section_gap">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<h1>Deals of the Week</h1>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+							magna aliqua.</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-9">
-				<div class="row">
-					@foreach ($products -> take(9) as $product)
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
-							<div class="desc">
-								<a href="#" class="title">{{$product->name}}</a>
-								<div class="price">	
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="row">
+						@foreach ($products -> take(9) as $product)
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								<div class="desc">
+									<a href="#" class="title">{{$product->name}}</a>
+									<div class="price">
+										<h6 class="currency-format">{{$product->price}}</h6>
+										<h6 class="l-through currency-format">{{$product->price}}</h6>
+									</div>
 								</div>
 							</div>
 						</div>
+						@endforeach
 					</div>
-					@endforeach
 				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="ctg-right">
-					<a href="#" target="_blank">
-						<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
-					</a>
+				<div class="col-lg-3">
+					<div class="ctg-right">
+						<a href="#" target="_blank">
+							<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-<!-- End related-product Area -->
+	</section>
+	<!-- End related-product Area -->
 
-@endsection
+	@endsection
 
-@section('scripts')
-<script>
-	const ASSET_URL = "{{asset('user')}}"
-</script>
-<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
-<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
-<script src="{{asset('user/js/nouislider.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
-<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
-<!--gmaps Js-->
-<script src="{{asset('user/js/gmaps.min.js')}}"></script>
-<script src="{{asset('user/js/main.js')}}"></script>
+	@section('scripts')
+	<script>
+		const ASSET_URL = "{{asset('user')}}"
+	</script>
+	<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		crossorigin="anonymous"></script>
+	<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+	<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+	<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+	<!--gmaps Js-->
+	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 
-@endsection
+	@endsection

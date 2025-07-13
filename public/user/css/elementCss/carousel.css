@@ -1,3 +1,6 @@
+body {
+  overflow-x: hidden;
+}
 
 /* .container */
 .ConTaiNer{
@@ -123,3 +126,66 @@
     opacity: 1;
     cursor: pointer;
 }
+
+/* Register */
+
+.navbar-links{
+    width: 100%;
+    z-index: 5;
+    display: none;
+    background: rgba(38, 37, 37, 0.316);
+    position: absolute;
+}
+
+.set_containerOfRegister{
+    padding: 0px;
+    margin-right: -128px;
+}
+
+.form_background{
+    width: 50%;
+    background: whitesmoke;
+    padding-bottom: 28px;
+}
+
+.register_button{
+        border: 0px;
+}
+
+.navbar-links.navbar-open{
+    display: inline-block;
+    transition: all .2s ease-in;
+}
+
+.navbar-links i{
+    z-index: 5;
+    top: 110px;
+    right: 460px;
+    font-size: 20px;
+    position: absolute;
+    color: rgb(99, 99, 99);
+    font-size: 27px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
