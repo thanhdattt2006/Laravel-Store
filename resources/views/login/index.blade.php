@@ -16,6 +16,8 @@
 </section>
 <!-- End Banner Area -->
 
+
+<!-- Register Area -->
 <div class="navbar-links">
 		<i class="fa fa-close close"></i>
 		<section class="login_box_area section_gap">		
@@ -55,10 +57,7 @@
 			</section>
 	</div>
 
-
-
 <!--================Login Box Area =================-->
-
 <section class="login_box_area section_gap">
     <div class="container">
         <div class="row">
@@ -116,7 +115,6 @@
         </div>
     </div>
 </section>
-
 <!--================End Login Box Area =================-->
 
 @endsection
