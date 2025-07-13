@@ -86,12 +86,23 @@
                                     <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="{{url('contact/index')}}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
 
-                             <li class="nav-item submenu dropdown">
+                            
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            </li>
+                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart"></span></a></li>
+                        </ul>
+
+                        <ul class="nav navbar-nav" style="margin-left: 22px;">
+                            <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);"><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);"><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path></svg>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Log-in</a></li>
@@ -105,12 +116,6 @@
                             </li>
 
 
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item">
-                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-                            </li>
-                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag"></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -210,7 +215,7 @@
         </div>
     </footer>
     <!-- End footer Area -->
-
+    
     @yield('scripts')
 </body>
 
