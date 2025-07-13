@@ -446,7 +446,10 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
 				button.addEventListener('click', function(e) {
-					e.preventDefault(); // ⛔ Ngăn reload nếu nằm trong <a>
+					// 👇 Nếu phần tử có class 'skip-add-to-cart', thì bỏ qua
+					if (this.classList.contains('skip-add-to-cart')) return;
+
+					e.preventDefault(); // ⛔ Ngăn load trang khi là nút "Add to cart"
 
 					const productId = this.dataset.id;
 					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -463,12 +466,7 @@
 						})
 						.then(res => res.json())
 						.then(data => {
-							if (data.success) {
-								alert(data.message + ' ✅');
-							} else {
-								alert(data.message + ' ❎');
-								window.location.href = '/shop/shoppingCart';
-							}
+							alert((data.success ? '✅ ' : '❎ ') + data.message);
 						});
 				});
 			});
