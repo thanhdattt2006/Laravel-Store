@@ -35,11 +35,15 @@ class AdminController extends Controller
         return view('admin/managementAll/allCategories');
     }
 
+    //Orders
     public function managementOrder(){
         return view('admin/managementAll/managementOrder');
     }
 
-
+    //Customers
+    public function customers(){
+        return view('admin/managementAll/customers');
+    }
 
 }
 ?>

@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
     Route::get('/allCategories', [AdminController::class, 'allCategories']);
     Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
+    Route::get('/customers', [AdminController::class, 'customers']);
 });
 
 Route::group(['prefix' => 'cate'], function () {

@@ -10,7 +10,7 @@
                   <div class="card-header">
                     <div class="d-flex align-items-center top">
                       <h4 class="card-title">Product List</h4>
-                      <a href="#">
+                      <a href="{{url('admin/addProducts')}}">
                         <button class="btn btn-primary btn-round ms-auto">
                           <i class="fa fa-plus"></i>
                           Add Product
@@ -267,6 +267,7 @@
                               </div>
                             </td>
                           </tr>
+                          <tr>
                             <td>Sonya Frost</td>
                             <td>Software Engineer</td>
                             <td>Edinburgh</td>

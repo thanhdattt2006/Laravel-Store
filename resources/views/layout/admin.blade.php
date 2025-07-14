@@ -51,7 +51,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
+            <a href="{{url('admin/index')}}" class="logo">
               <img
                 src="assets/img/kaiadmin/logo_light.svg"
                 alt="navbar brand"
@@ -93,6 +93,7 @@
                 </span>
                 <h4 class="text-section">Manage-All</h4>
               </li>
+
               <!-- slider -->
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
@@ -170,6 +171,13 @@
                 </a>
               </li>
 
+              <!-- Customers -->
+              <li class="nav-item">
+                <a href="{{url('admin/customers')}}">
+                  <i class="fas fa-users"></i>
+                  <p>Customers</p>
+                </a>
+              </li>
               <!-- Map -->
             </ul>
           </div>
