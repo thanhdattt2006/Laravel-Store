@@ -16,10 +16,9 @@ class ShopController extends Controller
 
         $data = [
             'cates' => Cate::get(),
-            'names' => Cate::pluck('name'),
             'products' => Product::paginate(6),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
         ];
         return view('shop/shopCategory')->with($data);
     }
@@ -65,7 +64,7 @@ class ShopController extends Controller
             'names' => Cate::pluck('name'),
             'products' => Product::get(),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
             'products' => Product::where('name', 'like', '%' . $keyword . '%')->get(),
             'keyword' => $keyword
         ];
@@ -158,14 +157,13 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('cate')->findOrFail($id);
+        $product = Product::with('cate', 'variant')->findOrFail($id);
+        $product_variant = Product_variant::where('product_id', $id)->get();
         $variantIds = Product_variant::where('product_id', $id)->pluck('id');
         $photos = Photo::whereIn('product_variant_id', $variantIds)->get();
         $colorIds = Product_variant::where('product_id', $id)->pluck('colors_id')->unique();
         $colors = Colors::whereIn('id', $colorIds)->get();
 
-        // $firstVariant = Product_variant::where('product_id', $id)->first();
-        // $selectedColorId = $firstVariant?->colors_id ?? null;
         $selectedColorId = request()->query('color_id');
 
         if (!$selectedColorId) {
@@ -178,21 +176,22 @@ class ShopController extends Controller
                 'names' => Cate::pluck('name'),
                 'photos' => $photos,
                 'colors' => $colors,
-                'selectedColorId' => $selectedColorId
+                'selectedColorId' => $selectedColorId,
+                'product_variant' =>  $product_variant
+
             ];
         return view('shop/productDetails')->with($data);
     }
     // Function phân trang cho các Cates theo id
-    public function showByCategory($id)
+    public function showByCategory($cate_id)
     {
         $data = [
             'cates' => Cate::get(),
-            'names' => Cate::pluck('name'),
-            'productByCate' => Product::where('cate_id', $id)->paginate(6),
+            'productByCate' => Product::where('cate_id', $cate_id)->paginate(6),
             'products' => Product::paginate(6),
             'photo' => Product::pluck('name'),
-            'colors' => Colors::pluck('name'),
+            'colors' => Colors::all(),
         ];
-        return view('shop/shopCategory')->with($data);
+        return view('shop.shopCategory')->with($data);
     }
 }

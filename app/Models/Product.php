@@ -29,20 +29,5 @@ class Product extends Model
         return $this->hasMany(Product_variant::class, 'product_id');
     }
 
-    // Lấy tất cả ảnh qua các biến thể
-    // public function variant_photo()
-    // {
-    //     return $this->hasManyThrough(
-    //         Photo::class,               // bảng cần lấy cuối cùng
-    //         Product_variant::class,     // bảng trung gian
-    //         'product_id',               // khóa ngoại ở product_variant trỏ tới product
-    //         'product_variant_id',       // khóa ngoại ở photo trỏ tới product_variant
-    //         'id',                       // khóa chính ở bảng product
-    //         'id'                        // khóa chính ở bảng product_variant
-    //     );
-    // }
-    // public function color()
-    // {
-    //     return $this->belongsTo(Colors::class, 'colors_id');
-    // }
+   
 }
