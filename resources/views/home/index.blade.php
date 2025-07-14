@@ -422,7 +422,6 @@
 	</section>
 	<!-- End related-product Area -->
 	@endsection
-
 	@section('scripts')
 	<script>
 		const ASSET_URL = "{{asset('user')}}"
@@ -442,6 +441,7 @@
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
@@ -466,10 +466,28 @@
 						})
 						.then(res => res.json())
 						.then(data => {
-							alert((data.success ? '✅ ' : '❎ ') + data.message);
+							Swal.fire({
+								icon: data.success ? 'success' : 'error',
+								title: data.success ? 'Product added' : 'Error',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
 						});
 				});
 			});
 		});
 	</script>
+	@if (session('success'))
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+		});
+	</script>
+	@endif
+
 	@endsection

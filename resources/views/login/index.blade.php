@@ -136,8 +136,5 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
-
-
 @endsection
