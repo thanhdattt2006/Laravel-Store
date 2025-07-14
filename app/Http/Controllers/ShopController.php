@@ -89,16 +89,19 @@ class ShopController extends Controller
 
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
+
+            // Đưa item lên đầu
+            $item = $cart[$id];
+            unset($cart[$id]);
+            $cart = [$id => $item] + $cart;
         } else {
-            $cart[$id] = [
+            // Thêm mới vào đầu
+            $cart = [$id => [
                 'name' => $product->name,
                 'price' => $product->price,
                 'photo' => $product->photo,
                 'quantity' => 1,
-            ];
-
-            // 👉 Đưa sản phẩm mới lên đầu
-            $cart = array_reverse($cart, true);
+            ]] + $cart;
         }
 
         session()->put('shoppingCart', $cart);
@@ -108,6 +111,7 @@ class ShopController extends Controller
             'message' => 'Product added to cart successfully',
         ]);
     }
+
 
 
     // lấy dữ liệu in lên shoppingCart

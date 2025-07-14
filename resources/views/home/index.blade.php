@@ -442,6 +442,8 @@
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	@if (session('success') && request()->routeIs('shop.cart'))
+	<!-- Hiện alert như trên -->
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
@@ -488,6 +490,7 @@
 			});
 		});
 	</script>
+	@endif
 	@endif
 
 	@endsection

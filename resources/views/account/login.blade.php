@@ -58,6 +58,7 @@
 	</div>
 
 <!--================Login Box Area =================-->
+
 <section class="login_box_area section_gap">
     <div class="container">
         <div class="row">
@@ -74,7 +75,7 @@
             <div class="col-lg-6">
                 <div class="login_form_inner">
                     <h3>Log in to enter</h3>
-                    <form class="row login_form" action="{{ url('/home/index') }}" method="POST" id="loginForm" novalidate="novalidate">
+                    <form class="row login_form" action="{{ url('/account/login') }}" method="POST" id="loginForm" novalidate="novalidate">
                         @csrf
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="username" name="username"
