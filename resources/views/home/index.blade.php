@@ -420,6 +420,8 @@
 			</div>
 		</div>
 	</section>
+
+
 	<!-- End related-product Area -->
 	@endsection
 	@section('scripts')
@@ -442,16 +444,13 @@
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	@if (session('success') && request()->routeIs('shop.cart'))
-	<!-- Hiện alert như trên -->
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
 				button.addEventListener('click', function(e) {
-					// 👇 Nếu phần tử có class 'skip-add-to-cart', thì bỏ qua
 					if (this.classList.contains('skip-add-to-cart')) return;
 
-					e.preventDefault(); // ⛔ Ngăn load trang khi là nút "Add to cart"
+					e.preventDefault();
 
 					const productId = this.dataset.id;
 					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -491,6 +490,4 @@
 		});
 	</script>
 	@endif
-	@endif
-
 	@endsection
