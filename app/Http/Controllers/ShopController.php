@@ -29,9 +29,9 @@ class ShopController extends Controller
             $query->where('cate_id', $request->cate_id);
         }
 
-        // ✅ Lọc theo khoảng giá từ select option
+        //  Lọc theo khoảng giá từ select option
         if ($request->filled('price_range')) {
-            $range = explode('-', $request->price_range); // Tách "500000-1000000" thành mảng [500000, 1000000]
+            $range = explode('-', $request->price_range);
             if (count($range) == 2) {
                 $query->whereBetween('price', [$range[0], $range[1]]);
             }

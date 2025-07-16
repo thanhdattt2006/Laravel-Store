@@ -60,16 +60,21 @@
 					</div>
 					<div class="top-filter-head">Price</div>
 					<div class="common-filter">
-						<div class="price-range-area">
-							<div class="value-wrapper">
-								<label>Chọn khoảng giá:
-									<select name="price_range">
-										<option value="">-- Chọn giá --</option>
-										<option value="0-500000" {{ request('price_range') == '0-500000' ? 'selected' : '' }}>Dưới 500.000đ</option>
-										<option value="500000-1000000" {{ request('price_range') == '500000-1000000' ? 'selected' : '' }}>500.000đ - 1.000.000đ</option>
+						<div class="sidebar-categories">
+							<div class="main-categories">
+								<div class="sorting">
+									<select name="price_range" onchange="this.form.submit()">
+										<option value="0">-- Chọn giá --</option>
 										<option value="1000000-2000000" {{ request('price_range') == '1000000-2000000' ? 'selected' : '' }}>1.000.000đ - 2.000.000đ</option>
+										<option value="2000000-3000000" {{ request('price_range') == '2000000-3000000' ? 'selected' : '' }}>2.000.000đ - 3.000.000đ</option>
+										<option value="3000000-4000000" {{ request('price_range') == '3000000-4000000' ? 'selected' : '' }}>3.000.000đ - 4.000.000đ</option>
+										<option value="4000000-5000000" {{ request('price_range') == '4000000-5000000' ? 'selected' : '' }}>4.000.000đ - 5.000.000đ</option>
+										<option value="5000000-6000000" {{ request('price_range') == '5000000-6000000' ? 'selected' : '' }}>5.000.000đ - 6.000.000đ</option>
+										<option value="6000000-7000000" {{ request('price_range') == '6000000-7000000' ? 'selected' : '' }}>6.000.000đ - 7.000.000đ</option>
+										<option value="6000000-7000000" {{ request('price_range') == '7000000-8000000' ? 'selected' : '' }}>7.000.000đ - 8.000.000đ</option>
+										<option value="6000000-7000000" {{ request('price_range') == '8000000-9000000' ? 'selected' : '' }}>8.000.000đ - 9.000.000đ</option>
 									</select>
-								</label>
+								</div>
 							</div>
 						</div>
 					</div>
