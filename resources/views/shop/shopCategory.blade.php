@@ -22,38 +22,60 @@
 <<div class="container">
 	<div class="row">
 		<div class="col-xl-3 col-lg-4 col-md-5">
-			<div class="sidebar-categories">
-				<div class="head">Categories</div>
-				@foreach ($cates as $cate)
-				<ul class="main-categories">
-					<li class="main-nav-list">
-						<a href="{{ url('/shop/shopCategory/' .$cate->id .'/' .$cate->name)}}" class="page-item">{{$cate->name}}<span class="number">(18)</span></a>
-					</li>
-				</ul>
-				@endforeach
-			</div>
-			<div class="sidebar-filter mt-50">
-				<div class="top-filter-head">Color Filters</div>
-				<div class="common-filter">
-					<div class="sidebar-categories">
-						@foreach ($colors as $color)
-						<ul class="main-categories">
-							<li class="main-nav-list"><a style="text-transform: capitalize;" href="{{ url('/shop/shopCategory/' .$color->id .'/' .$color->name) }}">{{ $color -> name }}</a></li>
-						</ul>
-						@endforeach
+			<form method="GET" action="{{ route('shop.category') }}">
+				<div class="sidebar-categories">
+					<div class="head">Categories</div>
+					@foreach ($cates as $cate)
+					<ul class="main-categories">
+						<li class="main-nav-list">
+							<label style='text-transform: capitalize;'>
+								<a class="page-item">
+									<input type="radio" class="pixel-radio" name="cate_id" value="{{ $cate->id }}"
+										{{ request('cate_id') == $cate->id ? 'checked' : '' }}>
+									{{ $cate->name }}
+								</a>
+							</label>
+						</li>
+					</ul>
+					@endforeach
+				</div>
+				<div class="sidebar-filter mt-50">
+					<div class="top-filter-head">Color Filters</div>
+					<div class="common-filter">
+						<div class="sidebar-categories">
+							@foreach($colors as $color)
+							<ul class="main-categories">
+								<li class="main-nav-list">
+									<label style='text-transform: capitalize;'>
+										<a class="page-item">
+											<input type="radio" class="pixel-radio" name="color_id[]" value="{{ $color->id }}"
+												{{ is_array(request('color_id')) && in_array($color->id, request('color_id')) ? 'checked' : '' }}>
+											{{ $color->name }}
+										</a>
+									</label>
+								</li>
+							</ul>
+							@endforeach
+						</div>
+					</div>
+					<div class="top-filter-head">Price</div>
+					<div class="common-filter">
+						<div class="price-range-area">
+							<div class="value-wrapper">
+								<label>Chọn khoảng giá:
+									<select name="price_range">
+										<option value="">-- Chọn giá --</option>
+										<option value="0-500000" {{ request('price_range') == '0-500000' ? 'selected' : '' }}>Dưới 500.000đ</option>
+										<option value="500000-1000000" {{ request('price_range') == '500000-1000000' ? 'selected' : '' }}>500.000đ - 1.000.000đ</option>
+										<option value="1000000-2000000" {{ request('price_range') == '1000000-2000000' ? 'selected' : '' }}>1.000.000đ - 2.000.000đ</option>
+									</select>
+								</label>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="top-filter-head">Price</div>
-				<div class="common-filter">
-					<div class="sidebar-categories">
-						@foreach ($products as $product)
-						<ul class="main-categories">
-							<li class="main-nav-list"><a href="#" class="currency-format">{{ $product -> price }}</a></li>
-						</ul>
-						@endforeach
-					</div>
-				</div>
-			</div>
+				<button type="submit" class="btn">Lọc</button>
+			</form>
 		</div>
 		<div class="col-xl-9 col-lg-8 col-md-7">
 			<!-- Start Filter Bar -->
@@ -75,44 +97,8 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-					@if (isset($productByCate) && count($productByCate) > 0)
-					@foreach($productByCate as $productByCates)
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img src="{{asset('user')}}/nike-img/{{$productByCates->photo}}">
-							<div class="product-details">
-								<a href="{{ url('/shop/productDetails/' . $productByCates->id) }}" class="social-info">
-									<h6>{{$productByCates->name}}</h6>
-								</a>
-								<div class="price">
-									<h6>{{$productByCates->price}}</h6>
-									<h6 class="l-through">{{$productByCates->price}}</h6>
-								</div>
-								<div class="prd-bottom">
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="{{ url('/shop/productDetails/' . $productByCates->id) }}" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					@endforeach
-					<div class="filter-bar d-flex flex-wrap align-items-center">
-						<div class="pagination">
-							{{ $productByCate -> links () }}
-						</div>
-					</div>
-					@else
-					@foreach($products as $product)
+					@if(isset($productsfilter) && count($productsfilter))
+					@foreach($productsfilter as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
@@ -126,7 +112,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span data-id="{{$product->id}}" class="ti-bag"></span>
+										<span class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -141,10 +127,17 @@
 							</div>
 						</div>
 					</div>
+					<br><br>
 					@endforeach
 					<div class="filter-bar d-flex flex-wrap align-items-center">
 						<div class="pagination">
-							{{ $products -> links () }}
+							{{ $productsfilter->links() }}
+						</div>
+					</div>
+					@else
+					<div class="filter-bar d-flex flex-wrap align-items-center">
+						<div class="pagination">
+							<h4>Không có sản phẩm nào</h4>
 						</div>
 					</div>
 					@endif

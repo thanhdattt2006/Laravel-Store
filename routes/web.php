@@ -53,7 +53,8 @@ Route::group(['prefix' => 'cate'], function () {
 
 Route::group(['prefix' => 'shop'], function () {
     Route::get('/', [ShopController::class, 'shopCategory']);
-    Route::get('/shopCategory', [ShopController::class, 'shopCategory']);
+    Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
+    Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
@@ -66,8 +67,6 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::post('/shoppingCart/{id}', [ShopController::class, 'updateCart']);
     Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
-
-    Route::get('/shopCategory/{cate_id}/{name}', [ShopController::class, 'showByCategory']);
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);

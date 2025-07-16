@@ -13,14 +13,39 @@ class ShopController extends Controller
 {
     public function shopCategory(Request $request)
     {
+        // 1. Lọc ID sản phẩm theo màu nếu có
+        $filteredProductIds = Product_variant::when($request->color_id, function ($query) use ($request) {
+            $query->whereIn('colors_id', (array) $request->color_id);
+        })->pluck('product_id')->unique();
 
+        // 2. Lọc sản phẩm theo ID đã lọc ở bước 1 + cate_id nếu có
+        $query = Product::query();
+
+        if ($request->filled('color_id') && $filteredProductIds->isNotEmpty()) {
+            $query->whereIn('id', $filteredProductIds);
+        }
+
+        if ($request->filled('cate_id')) {
+            $query->where('cate_id', $request->cate_id);
+        }
+
+        // ✅ Lọc theo khoảng giá từ select option
+        if ($request->filled('price_range')) {
+            $range = explode('-', $request->price_range); // Tách "500000-1000000" thành mảng [500000, 1000000]
+            if (count($range) == 2) {
+                $query->whereBetween('price', [$range[0], $range[1]]);
+            }
+        }
+
+        // 3. Dữ liệu truyền ra view
         $data = [
-            'cates' => Cate::get(),
+            'productsfilter' => $query->paginate(6)->appends($request->all()),
             'products' => Product::paginate(6),
-            'photo' => Product::pluck('name'),
             'colors' => Colors::all(),
+            'cates' => Cate::get(),
         ];
-        return view('shop/shopCategory')->with($data);
+
+        return view('shop.shopCategory')->with($data);
     }
     public function productDetails()
     {
@@ -202,17 +227,5 @@ class ShopController extends Controller
 
             ];
         return view('shop/productDetails')->with($data);
-    }
-    // Function phân trang cho các Cates theo id
-    public function showByCategory($cate_id)
-    {
-        $data = [
-            'cates' => Cate::get(),
-            'productByCate' => Product::where('cate_id', $cate_id)->paginate(6),
-            'products' => Product::paginate(6),
-            'photo' => Product::pluck('name'),
-            'colors' => Colors::all(),
-        ];
-        return view('shop.shopCategory')->with($data);
     }
 }
