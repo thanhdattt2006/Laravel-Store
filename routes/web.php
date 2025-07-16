@@ -79,9 +79,30 @@ Route::group(['prefix' => 'contact'], function () {
     Route::get('/index', [ContactController::class, 'index']);
 });
 
-Route::group(['prefix' => 'login'], function () {
-    Route::get('/', [AccountController::class, 'index']);
-    Route::post('/index', [AccountController::class, 'index']);
+
+// Đăng ký route cho AccountController
+Route::group(['prefix' => 'account'], function () {
+    // 👇 Thêm name để dùng trong Blade
+    Route::get('/', [AccountController::class, 'index'])->name('account.login');
+    Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
+    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
+});
+
+
+
+
+// Trang chỉ admin được vào
+Route::middleware(['auth', 'role:1'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return 'Hi admin!';
+    });
+});
+
+// Trang dành cho user bình thường
+Route::middleware(['auth', 'role:2'])->group(function () {
+    Route::get('/user/dashboard', function () {
+        return 'Hi user!';
+    });
 });
 
 Route::group(['prefix' => 'tracking'], function () {

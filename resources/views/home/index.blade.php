@@ -129,7 +129,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/1')}}">
+								<a href="{{url('/shop/shopCategory/1/Running')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Running</h6>
 									</div>
@@ -140,7 +140,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
-								<a href="{{url('/shop/shopCategory/3')}}">
+								<a href="{{url('/shop/shopCategory/3/Basketball')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Basketball</h6>
 									</div>
@@ -151,7 +151,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/2')}}">
+								<a href="{{url('/shop/shopCategory/2/Football')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Football</h6>
 									</div>
@@ -162,7 +162,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/4')}}">
+								<a href="{{url('/shop/shopCategory/4/Trainning & Gym')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Trainnig & Gym</h6>
 									</div>
@@ -422,7 +422,6 @@
 	</section>
 	<!-- End related-product Area -->
 	@endsection
-
 	@section('scripts')
 	<script>
 		const ASSET_URL = "{{asset('user')}}"
@@ -442,6 +441,9 @@
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	@if (session('success') && request()->routeIs('shop.cart'))
+	<!-- Hiện alert như trên -->
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.ti-bag').forEach(button => {
@@ -466,10 +468,29 @@
 						})
 						.then(res => res.json())
 						.then(data => {
-							alert((data.success ? '✅ ' : '❎ ') + data.message);
+							Swal.fire({
+								icon: data.success ? 'success' : 'error',
+								title: data.success ? 'Product added' : 'Error',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
 						});
 				});
 			});
 		});
 	</script>
+	@if (session('success'))
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+		});
+	</script>
+	@endif
+	@endif
+
 	@endsection

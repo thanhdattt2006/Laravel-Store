@@ -81,33 +81,37 @@ class ShopController extends Controller
         if (!$product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sản phẩm không tồn tại'
+                'message' => 'Product not found',
             ]);
         }
 
-        // Lấy giỏ hàng hiện tại từ session
         $cart = session()->get('shoppingCart', []);
 
-        // Nếu sản phẩm đã có, tăng số lượng
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
+
+            // Đưa item lên đầu
+            $item = $cart[$id];
+            unset($cart[$id]);
+            $cart = [$id => $item] + $cart;
         } else {
-            // Nếu chưa có, thêm mới
-            $cart[$id] = [
+            // Thêm mới vào đầu
+            $cart = [$id => [
                 'name' => $product->name,
                 'price' => $product->price,
                 'photo' => $product->photo,
                 'quantity' => 1,
-            ];
+            ]] + $cart;
         }
 
-        session()->put('shoppingCart', $cart); // lưu lại session
+        session()->put('shoppingCart', $cart);
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã thêm vào giỏ hàng'
+            'message' => 'Product added to cart successfully',
         ]);
     }
+
 
 
     // lấy dữ liệu in lên shoppingCart
