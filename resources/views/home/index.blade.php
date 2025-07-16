@@ -490,4 +490,29 @@
 		});
 	</script>
 	@endif
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Kiểm tra nếu chưa hiện alert chào mừng
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Let login or register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+
+				// Đánh dấu đã hiển thị
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
+		});
+	</script>
 	@endsection
