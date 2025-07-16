@@ -48,7 +48,7 @@
 					<div class="sidebar-categories">
 						@foreach ($products as $product)
 						<ul class="main-categories">
-							<li class="main-nav-list"><a href="#">{{ $product -> price }}vnd</a></li>
+							<li class="main-nav-list"><a href="#" class="currency-format">{{ $product -> price }}</a></li>
 						</ul>
 						@endforeach
 					</div>
