@@ -46,7 +46,7 @@
                         <div class="control next"><i class='bx  bx-arrow-right-stroke'></i> </div>
                     </div>
 
-                    <div class="listImage">
+                    <!-- <div class="listImage">
                         @foreach($photos as $photo)
                         @php
                         $variant = \App\Models\Product_variant::find($photo->product_variant_id);
@@ -56,10 +56,23 @@
                         <div><img src="{{ asset('user/nike-img/' . $photo->name ) }}" /></div>
                         @endif
                         @endforeach
+                    </div> -->
+                    <div class="listImage">
+                        @foreach($photos as $photo)
+                        @php
+                        $variant = \App\Models\Product_variant::find($photo->product_variant_id);
+                        @endphp
+
+                        @if($variant)
+                        <div class="image-wrapper color-{{ $variant->colors_id }}" style="{{ $variant->colors_id == $selectedColorId ? '' : 'display:none;' }}">
+                            <img src="{{ asset('user/nike-img/' . $photo->name ) }}" />
+                        </div>
+                        @endif
+                        @endforeach
                     </div>
 
                 </div>
-                <script>
+                <!-- <script>
                     // Lấy ảnh chính
                     const imgFeature = document.querySelector('.imgFeature');
                     // Lấy toàn bộ thumbnail
@@ -87,6 +100,71 @@
                         currentIndex = (currentIndex + 1) % images.length;
                         imgFeature.src = images[currentIndex];
                     });
+                </script> -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const imgFeature = document.querySelector('.imgFeature');
+                        const colorButtons = document.querySelectorAll('.color-item');
+                        const allImageWrappers = document.querySelectorAll('.image-wrapper');
+
+                        // Bắt sự kiện chọn màu
+                        colorButtons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                const selectedColorId = this.getAttribute('data-id');
+
+                                // Ẩn tất cả ảnh
+                                allImageWrappers.forEach(wrapper => {
+                                    wrapper.style.display = 'none';
+                                });
+
+                                // Hiện ảnh của màu đã chọn
+                                const selectedImages = document.querySelectorAll('.color-' + selectedColorId);
+                                selectedImages.forEach((wrapper, index) => {
+                                    wrapper.style.display = 'block';
+
+                                    // Gán lại ảnh chính là ảnh đầu tiên của màu
+                                    if (index === 0) {
+                                        const newSrc = wrapper.querySelector('img').getAttribute('src');
+                                        imgFeature.src = newSrc;
+                                    }
+                                });
+                            });
+                        });
+
+                        // Xử lý click vào thumbnail để đổi ảnh chính
+                        document.querySelectorAll('.listImage').forEach(container => {
+                            container.addEventListener('click', function(e) {
+                                if (e.target.tagName === 'IMG') {
+                                    imgFeature.src = e.target.src;
+                                }
+                            });
+                        });
+
+                        // Prev/Next button
+                        let currentIndex = 0;
+                        const updateMainImage = () => {
+                            const visibleImages = Array.from(document.querySelectorAll('.image-wrapper'))
+                                .filter(div => div.style.display !== 'none')
+                                .map(div => div.querySelector('img'));
+                            if (visibleImages.length > 0) {
+                                imgFeature.src = visibleImages[currentIndex].src;
+                            }
+                        };
+
+                        document.querySelector('.control.prev').addEventListener('click', () => {
+                            const visible = document.querySelectorAll('.image-wrapper:not([style*="display: none"])');
+                            if (visible.length === 0) return;
+                            currentIndex = (currentIndex - 1 + visible.length) % visible.length;
+                            updateMainImage();
+                        });
+
+                        document.querySelector('.control.next').addEventListener('click', () => {
+                            const visible = document.querySelectorAll('.image-wrapper:not([style*="display: none"])');
+                            if (visible.length === 0) return;
+                            currentIndex = (currentIndex + 1) % visible.length;
+                            updateMainImage();
+                        });
+                    });
                 </script>
 
 
@@ -112,12 +190,12 @@
                     <div class="container-color">
                         <ul class="color-list">
                             <label for="">Color: </label>
-                            <form id="colorForm" method="GET" action="">
+                            <div id="colorForm" method="GET" action="">
                                 <input type="hidden" name="color_id" id="colorIdInput">
                                 @foreach($colors as $color)
                                 <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
                                 @endforeach
-                            </form>
+                            </div>
 
                             <!-- Size -->
                             <label for="">Size : </label>
