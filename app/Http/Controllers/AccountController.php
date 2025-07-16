@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -25,7 +27,7 @@ class AccountController extends Controller
 
             $user = Auth::user();
             if ($user->role_id == 1) {
-                return redirect('/admin/index')->with('success', 'Logged in successfully as admin!');
+                return redirect('/admin/index')->with('okay', 'Logged in successfully as admin!');
             } elseif ($user->role_id == 2) {
                 return redirect('/home');
             } else {
@@ -49,6 +51,23 @@ class AccountController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/home')->with('success', 'Logged out successfully!');
+        return redirect('/home')->with('oke', 'Logged out successfully!');
+    }
+
+
+    // Hiển thị trang đăng ký
+    public function register()
+    {
+        return view('/account/login');
+    }
+
+    // Xử lý đăng ký
+    public function registerHandle(Request $request)
+    {
+        $user = $request->post();
+        $user['password'] = Hash::make($user['password']);
+        Account::create($user);
+        return redirect('/account')->with('ok', 'Account created successfully! Now you can login.');
+        
     }
 }

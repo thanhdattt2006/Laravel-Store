@@ -125,6 +125,8 @@
                             <td>
 
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h5>Subtotal</h5>
                             </td>
@@ -139,6 +141,8 @@
                             <td>
 
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h5>Shipping</h5>
                             </td>
