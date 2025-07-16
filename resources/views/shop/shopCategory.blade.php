@@ -126,7 +126,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span class="ti-bag"></span>
+										<span data-id="{{$product->id}}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -216,5 +216,51 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('.ti-bag').forEach(button => {
+				button.addEventListener('click', function(e) {
+					if (this.classList.contains('skip-add-to-cart')) return;
 
+					e.preventDefault();
+
+					const productId = this.dataset.id;
+					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+					fetch('/shop/shoppingCart', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': csrfToken
+							},
+							body: JSON.stringify({
+								id: productId
+							})
+						})
+						.then(res => res.json())
+						.then(data => {
+							Swal.fire({
+								icon: data.success ? 'success' : 'error',
+								title: data.success ? 'Product added' : 'Error',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
+						});
+				});
+			});
+		});
+	</script>
+	@if (session('success'))
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+		});
+	</script>
+	@endif
 	@endsection

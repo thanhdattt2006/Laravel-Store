@@ -76,6 +76,17 @@ class ShopController extends Controller
     public function addToCart(Request $request)
     {
         $id = $request->id;
+        $product_variant = Product_variant::where('product_id', $id)->get();
+        $colorIds = Product_variant::where('product_id', $id)->pluck('colors_id')->unique();
+        $colors = Colors::whereIn('id', $colorIds)->get();
+
+        $selectedColorId = request()->query('color_id');
+
+        if (!$selectedColorId) {
+            $firstVariant = Product_variant::where('product_id', $id)->first();
+            $selectedColorId = $firstVariant?->colors_id ?? null;
+        }
+
         $product = Product::find($id);
 
         if (!$product) {
@@ -95,13 +106,18 @@ class ShopController extends Controller
             unset($cart[$id]);
             $cart = [$id => $item] + $cart;
         } else {
-            // Thêm mới vào đầu
-            $cart = [$id => [
-                'name' => $product->name,
-                'price' => $product->price,
-                'photo' => $product->photo,
-                'quantity' => 1,
-            ]] + $cart;
+            $cart = [
+                $id => [
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'photo' => $product->photo,
+                    'size' => 36,
+                    'quantity' => 1,
+                    'colors' => $colors,
+                    'selectedColorId' => $selectedColorId,
+                    'product_variant' =>  $product_variant
+                ]
+            ] + $cart;
         }
 
         session()->put('shoppingCart', $cart);
@@ -111,6 +127,7 @@ class ShopController extends Controller
             'message' => 'Product added to cart successfully',
         ]);
     }
+
 
 
 

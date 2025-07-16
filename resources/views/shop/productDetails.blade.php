@@ -160,7 +160,13 @@
                     </div>
 
                     <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="#">Add to Cart</a>
+                        <a class="primary-btn"
+                            href="#"
+                            id="add-to-cart-btn"
+                            data-id="{{ $product->id }}"
+                            data-color="{{ $selectedColorId ?? '' }}">
+                            Add to Cart
+                        </a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                     </div>
@@ -658,6 +664,54 @@
                 colorIdInput.value = colorId;
                 colorForm.submit(); // sent form
             });
+        });
+    });
+</script>
+
+
+// add to cart button
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('add-to-cart-btn');
+        if (!button) return;
+
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const productId = this.dataset.id;
+            const colorId = this.dataset.color;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/shop/shoppingCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        id: productId,
+                        color_id: colorId
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    Swal.fire({
+                        icon: data.success ? 'success' : 'error',
+                        title: data.success ? 'Product added' : 'Error',
+                        text: data.message,
+                        confirmButtonText: 'OK'
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: 'Something went wrong. Please try again.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error('Add to cart error:', err);
+                });
         });
     });
 </script>
