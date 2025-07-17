@@ -595,114 +595,20 @@
         <div class="row">
             <div class="col-lg-9">
                 <div class="row">
+                    @foreach ($products -> take(9) as $product)
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r1.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
                             <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
+                                <a href="#" class="title">{{$product->name}}</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6 class="currency-format">{{$product->price}}</h6>
+                                    <h6 class="l-through currency-format">{{$product->price}}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r2.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r3.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r5.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r6.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r7.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r9.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r10.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r11.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-lg-3">
@@ -715,6 +621,7 @@
         </div>
     </div>
 </section>
+
 <script>
     // color-picker
 
@@ -745,54 +652,105 @@
         });
     });
 </script>
-
-
-// add to cart button
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const button = document.getElementById('add-to-cart-btn');
-        if (!button) return;
 
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
+/<script>
+		console.log("Login status: ", isLogined());
 
-            const productId = this.dataset.id;
-            const colorId = this.dataset.color;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+		function isLogined() {
+			return @json(Auth::check());
+		}
 
-            fetch('/shop/shoppingCart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        id: productId,
-                        color_id: colorId
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: data.success ? 'success' : 'error',
-                        title: data.success ? 'Product added' : 'Error',
-                        text: data.message,
-                        confirmButtonText: 'OK'
-                    });
-                })
-                .catch(err => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!',
-                        text: 'Something went wrong. Please try again.',
-                        confirmButtonText: 'OK'
-                    });
-                    console.error('Add to cart error:', err);
-                });
-        });
-    });
-</script>
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message,
+						confirmButtonText: 'OK'
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					Swal.fire({
+						icon: 'error',
+						title: 'An error occurred',
+						text: 'Unable to add product. Please try again later.',
+					});
+				});
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			// Sự kiện click thêm sản phẩm
+			document.querySelectorAll('.primary-btn').forEach(button => {
+				button.addEventListener('click', function(e) {
+					if (this.classList.contains('skip-add-to-cart')) return;
+					e.preventDefault();
+					const productId = this.dataset.id;
+					addToCart(productId);
+				});
+			});
+
+			// SweetAlert hiện khi thêm thành công qua session
+			@if(session('success'))
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+			@endif
+
+			// Alert chào mừng (chỉ hiển thị 1 lần)
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Login or Register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
+		});
+	</script>
 <!-- End related-product Area -->
 
 @endsection

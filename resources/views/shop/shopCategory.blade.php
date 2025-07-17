@@ -101,13 +101,16 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
+
+
 					@if(isset($productsfilter) && count($productsfilter))
 					@foreach($productsfilter as $product)
+
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
 							<div class="product-details">
-								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+								<a href="{{ route('compare.add', $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -122,6 +125,10 @@
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
+									</a>
+									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+										<span class="lnr lnr-sync"></span>
+										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -215,49 +222,100 @@
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		console.log("Login status: ", isLogined());
+
+		function isLogined() {
+			return @json(Auth::check());
+		}
+
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message,
+						confirmButtonText: 'OK'
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					Swal.fire({
+						icon: 'error',
+						title: 'An error occurred',
+						text: 'Unable to add product. Please try again later.',
+					});
+				});
+		}
+
 		document.addEventListener('DOMContentLoaded', function() {
+			// Sự kiện click thêm sản phẩm
 			document.querySelectorAll('.ti-bag').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
-
 					e.preventDefault();
-
 					const productId = this.dataset.id;
-					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-					fetch('/shop/shoppingCart', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-								'X-CSRF-TOKEN': csrfToken
-							},
-							body: JSON.stringify({
-								id: productId
-							})
-						})
-						.then(res => res.json())
-						.then(data => {
-							Swal.fire({
-								icon: data.success ? 'success' : 'error',
-								title: data.success ? 'Product added' : 'Error',
-								text: data.message,
-								confirmButtonText: 'OK'
-							});
-						});
+					addToCart(productId);
 				});
 			});
-		});
-	</script>
-	@if (session('success'))
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+
+			// SweetAlert hiện khi thêm thành công qua session
+			@if(session('success'))
 			Swal.fire({
 				icon: 'success',
 				title: 'Success',
 				text: 'Product has been added to the cart.',
 				confirmButtonText: 'OK'
 			});
+			@endif
+
+			// Alert chào mừng (chỉ hiển thị 1 lần)
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Login or Register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
 		});
 	</script>
-	@endif
 	@endsection

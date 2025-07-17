@@ -34,67 +34,65 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                        $cart = session('shoppingCart');
-                        @endphp
-                        @foreach ($cart ?? [] as $id => $item)
-                        <tr class="top" id="{{ $id }}">
+                        @foreach ($cart->items as $item)
+                        <tr class="top" id="product-{{ $item->product_id }}">
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img height="150px" src="{{ asset('user')}}/nike-img/{{ $item['photo'] }}" alt="">
+                                        <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo) }}" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <p>{{ $item['name'] }}</p>
+                                        <p>{{ $item->product->name }}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                
-                            </td>
+                            <td></td>
                             <td>
                                 <div>
-                                    <div>
-                                        <select name="" id="">
-                                            @for ($i = 36; $i <= 46; $i++)
-                                                <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
-                                        </select>
-                                    </div>
+                                    <select name="size">
+                                        @for ($i = 36; $i <= 46; $i++)
+                                            <option value="{{ $i }}" {{ $i == ($item->size ?? 36) ? 'selected' : '' }}>
+                                            {{ $i }}
+                                            </option>
+                                            @endfor
+                                    </select>
                                 </div>
+                            </td>
                             <td>
-                                <h5 class="currency-format">{{$item['price'] }} </h5>
+                                <h5 class="currency-format">{{ number_format($item->product->price, 0, ',', '.') }}</h5>
                             </td>
                             <td>
                                 <div class="product_count">
                                     <input type="text"
                                         name="qty"
-                                        id="qty-{{ $id }}"
+                                        id="qty-{{ $item->product_id }}"
                                         min="1"
-                                        value="{{ $item['quantity'] }}"
+                                        value="{{ $item->quantity }}"
                                         class="input-text qty"
-                                        data-id="{{ $id }}"
-                                        data-price="{{ $item['price'] }}"
+                                        data-id="{{ $item->product_id }}"
+                                        data-price="{{ $item->product->price }}"
                                         oninput="handleQtyChange(this)">
 
-                                    <button onclick="changeQty('{{ $id }}', 1)" class="increase items-count" type="button">
+                                    <button onclick="changeQty('{{ $item->product_id }}', 1)" class="increase items-count" type="button">
                                         <i class="lnr lnr-chevron-up"></i>
                                     </button>
 
-                                    <button onclick="changeQty('{{ $id }}', -1)" class="reduced items-count" type="button">
+                                    <button onclick="changeQty('{{ $item->product_id }}', -1)" class="reduced items-count" type="button">
                                         <i class="lnr lnr-chevron-down"></i>
                                     </button>
                                 </div>
-
                             </td>
                             <td>
-                                <h5 id="total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</h5>
+                                <h5 id="total-{{ $item->product_id }}">
+                                    {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                </h5>
                             </td>
                             <td>
-                                <i class="fa fa-close hidden" onclick="removeItem('{{ $id }}')"></i>
+                                <i class="fa fa-close" onclick="removeItem('{{ $item->product_id }}')"></i>
                             </td>
                         </tr>
                         @endforeach
+
                         <!-- CSRF token -->
                         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -222,14 +220,8 @@
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function updateTotal(id, price) {
-        let qty = parseInt(document.getElementById('sst-' + id).value);
-        if (!isNaN(qty)) {
-            let total = qty * price;
-            document.getElementById('total-' + id).innerText = total.toLocaleString('vi-VN');
-        }
-    }
 
+    // ✅ Tính tổng phụ của toàn bộ giỏ hàng
     function updateSubtotal() {
         let subtotal = 0;
         document.querySelectorAll('.qty').forEach(function(input) {
@@ -240,12 +232,31 @@
         document.getElementById('subtotal').innerText = subtotal.toLocaleString('vi-VN');
     }
 
-    // Gọi khi trang vừa load
+    // ✅ Gọi khi trang vừa load
     document.addEventListener('DOMContentLoaded', function() {
         updateSubtotal();
     });
 
-    // Gọi sau mỗi lần thay đổi số lượng
+    // ✅ Cập nhật tổng giá của từng item
+    function updateTotalDisplay(id, qty) {
+        const price = parseFloat(document.getElementById('qty-' + id).dataset.price);
+        const total = qty * price;
+        document.getElementById('total-' + id).innerText = total.toLocaleString('vi-VN');
+    }
+
+    // ✅ Cập nhật số lượng khi thay đổi (input tay)
+    function handleQtyChange(input) {
+        let qty = parseInt(input.value) || 1;
+        if (qty < 1) qty = 1;
+        input.value = qty;
+
+        const id = input.dataset.id;
+        updateTotalDisplay(id, qty);
+        updateCartDB(id, qty);
+        updateSubtotal();
+    }
+
+    // ✅ Tăng/giảm số lượng bằng nút
     function changeQty(id, delta) {
         const input = document.getElementById('qty-' + id);
         let qty = parseInt(input.value) || 1;
@@ -255,84 +266,13 @@
 
         input.value = qty;
         updateTotalDisplay(id, qty);
-        updateCartSession(id, qty);
-        updateSubtotal(); // Thêm dòng này
+        updateCartDB(id, qty);
+        updateSubtotal();
     }
 
-    function handleQtyChange(input) {
-        let qty = parseInt(input.value) || 1;
-        if (qty < 1) qty = 1;
-        input.value = qty;
-
-        const id = input.dataset.id;
-        updateTotalDisplay(id, qty);
-        updateCartSession(id, qty);
-        updateSubtotal(); // Thêm dòng này
-    }
-
-    function updateTotalDisplay(id, qty) {
-        const price = parseFloat(document.getElementById('qty-' + id).dataset.price);
-        const total = qty * price;
-        document.getElementById('total-' + id).innerText = total.toLocaleString('vi-VN');
-    }
-
-    function removeItem(id) {
-        Swal.fire({
-            title: 'Are you sure to delete this product?',
-            text: 'This action cannot be undone!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Delete',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch('/shop/shoppingCart/' + id, {
-                        method: 'GET',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.getElementById(id).remove();
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted!',
-                                text: 'The product has been removed from the cart.',
-                                confirmButtonText: 'OK'
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Could not delete',
-                                text: 'Unable to delete this product.',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Server Error',
-                            text: 'Please try again later.',
-                            confirmButtonText: 'OK'
-                        });
-                        console.error(error);
-                    });
-            }
-        });
-    }
-
-
-
-    function updateCartSession(id, newQty) {
-        console.log('🟡 Send updation: ', id, newQty);
-        fetch('/shop/shoppingCart/' + id, {
+    // ✅ Gửi số lượng mới lên server
+    function updateCartDB(id, newQty) {
+        fetch('/cart/update/' + id, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -344,33 +284,51 @@
             })
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    console.log('🟢 Update session OK');
-                } else {
-                    alert('Update failed');
+                if (!data.success) {
+                    alert('Không thể cập nhật số lượng');
                 }
             })
             .catch(err => {
-                console.error('🔴 Error fetching:', err);
+                console.error('🔴 Lỗi cập nhật giỏ hàng:', err);
             });
     }
 
-    function increaseQty(id, price) {
-        let input = document.getElementById('sst-' + id);
-        let qty = parseInt(input.value) || 1;
-        qty++;
-        input.value = qty;
-        updateCartSession(id, qty);
-    }
-
-    function decreaseQty(id, price) {
-        let input = document.getElementById('sst-' + id);
-        let qty = parseInt(input.value) || 1;
-        if (qty > 1) qty--;
-        input.value = qty;
-        updateCartSession(id, qty);
+    // ✅ Xóa sản phẩm khỏi giỏ hàng
+    function removeItem(id) {
+        Swal.fire({
+            title: 'Xóa sản phẩm?',
+            text: 'Hành động này không thể hoàn tác!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/cart/' + id, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById(id).remove();
+                            updateSubtotal();
+                            Swal.fire('Đã xóa!', 'Sản phẩm đã được xóa khỏi giỏ hàng.', 'success');
+                        } else {
+                            Swal.fire('Thất bại', 'Không thể xóa sản phẩm.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('🔴 Lỗi xóa:', error);
+                        Swal.fire('Lỗi máy chủ', 'Vui lòng thử lại sau.', 'error');
+                    });
+            }
+        });
     }
 </script>
+
 
 
 @endsection
