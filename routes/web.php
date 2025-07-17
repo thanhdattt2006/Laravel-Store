@@ -62,6 +62,9 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    
+
+
 
     Route::get('/shoppingCart/{id}', [ShopController::class, 'removeFromCart']);
     
