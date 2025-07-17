@@ -129,7 +129,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/1/Running')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=1')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Running</h6>
 									</div>
@@ -140,7 +140,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
-								<a href="{{url('/shop/shopCategory/3/Basketball')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=3')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Basketball</h6>
 									</div>
@@ -151,7 +151,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/2/Football')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=2')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Football</h6>
 									</div>
@@ -162,7 +162,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/4/Trainning & Gym')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=4')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Trainnig & Gym</h6>
 									</div>
@@ -210,7 +210,7 @@
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -226,7 +226,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
@@ -445,49 +445,101 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		console.log("Login status: ", isLogined());
+
+		function isLogined() {
+			return @json(Auth::check());
+		}
+
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message,
+						confirmButtonText: 'OK'
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					Swal.fire({
+						icon: 'error',
+						title: 'An error occurred',
+						text: 'Unable to add product. Please try again later.',
+					});
+				});
+		}
+
 		document.addEventListener('DOMContentLoaded', function() {
-			document.querySelectorAll('.ti-bag').forEach(button => {
+			// Sự kiện click thêm sản phẩm
+			document.querySelectorAll('.ti-bag', '.add-btn').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
-
 					e.preventDefault();
-
 					const productId = this.dataset.id;
-					const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-					fetch('/shop/shoppingCart', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-								'X-CSRF-TOKEN': csrfToken
-							},
-							body: JSON.stringify({
-								id: productId
-							})
-						})
-						.then(res => res.json())
-						.then(data => {
-							Swal.fire({
-								icon: data.success ? 'success' : 'error',
-								title: data.success ? 'Product added' : 'Error',
-								text: data.message,
-								confirmButtonText: 'OK'
-							});
-						});
+					addToCart(productId);
 				});
 			});
-		});
-	</script>
-	@if (session('success'))
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+
+			// SweetAlert hiện khi thêm thành công qua session
+			@if(session('success'))
 			Swal.fire({
 				icon: 'success',
 				title: 'Success',
 				text: 'Product has been added to the cart.',
 				confirmButtonText: 'OK'
 			});
+			@endif
+
+			// Alert chào mừng (chỉ hiển thị 1 lần)
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Login or Register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
 		});
 	</script>
-	@endif
+
 	@endsection

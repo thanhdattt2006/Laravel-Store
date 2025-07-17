@@ -38,6 +38,25 @@
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -57,7 +76,7 @@
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/nike-img/logonike.png" alt=""style="height: 50px; width: auto;></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -68,16 +87,8 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
-                            <li class="nav-item active">
-                                <a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a>
-                                <!-- <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/shopCategory')}}">Shop Category</a></li> -->
-                                <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productDetails')}}">Product Details</a></li> -->
-                                <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/productCheckout')}}">Product Checkout</a></li> -->
-                                <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/shoppingCart')}}">Shopping Cart</a></li> -->
-                                <!-- <li class="nav-item"><a class="nav-link" href="{{url('shop/confirmation')}}">Confirmation</a></li> -->
-                                <!-- </ul> -->
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
+                            <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                     aria-expanded="false">Blog</a>
@@ -232,7 +243,8 @@
         </div>
     </footer>
     <!-- End footer Area -->
-
+    <!-- Optional JavaScript -->
+     
     @yield('scripts')
 </body>
 

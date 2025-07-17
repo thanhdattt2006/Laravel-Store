@@ -1,0 +1,35 @@
+/* === Compare + Wishlist Override === */
+
+/* Ẩn chữ hover-text */
+.compare-card .prd-bottom .social-info .hover-text,
+.wishlist-card .prd-bottom .social-info .hover-text {
+    display: none !important;
+}
+
+/* Icon hover đổi màu */
+.compare-card .prd-bottom .social-info:hover span,
+.wishlist-card .prd-bottom .social-info:hover span {
+    background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
+    transition: all 0.3s ease;
+}
+
+/* Đảm bảo icon mượt mà */
+.compare-card .prd-bottom .social-info span,
+.wishlist-card .prd-bottom .social-info span {
+    transition: all 0.3s ease;
+}
+
+/* Giữ nguyên vị trí, không bị dịch */
+.compare-card .prd-bottom .social-info,
+.wishlist-card .prd-bottom .social-info {
+    position: relative;
+    left: 0 !important;
+    width: 35px !important; /* giữ hình tròn */
+    height: 35px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    border-radius: 50%;
+}
+

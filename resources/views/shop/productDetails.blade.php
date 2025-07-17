@@ -46,7 +46,7 @@
                         <div class="control next"><i class='bx  bx-arrow-right-stroke'></i> </div>
                     </div>
 
-                    <div class="listImage">
+                    <!-- <div class="listImage">
                         @foreach($photos as $photo)
                         @php
                         $variant = \App\Models\Product_variant::find($photo->product_variant_id);
@@ -56,10 +56,23 @@
                         <div><img src="{{ asset('user/nike-img/' . $photo->name ) }}" /></div>
                         @endif
                         @endforeach
+                    </div> -->
+                    <div class="listImage">
+                        @foreach($photos as $photo)
+                        @php
+                        $variant = \App\Models\Product_variant::find($photo->product_variant_id);
+                        @endphp
+
+                        @if($variant)
+                        <div class="image-wrapper color-{{ $variant->colors_id }}" style="{{ $variant->colors_id == $selectedColorId ? '' : 'display:none;' }}">
+                            <img src="{{ asset('user/nike-img/' . $photo->name ) }}" />
+                        </div>
+                        @endif
+                        @endforeach
                     </div>
 
                 </div>
-                <script>
+                <!-- <script>
                     // Lấy ảnh chính
                     const imgFeature = document.querySelector('.imgFeature');
                     // Lấy toàn bộ thumbnail
@@ -87,6 +100,71 @@
                         currentIndex = (currentIndex + 1) % images.length;
                         imgFeature.src = images[currentIndex];
                     });
+                </script> -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const imgFeature = document.querySelector('.imgFeature');
+                        const colorButtons = document.querySelectorAll('.color-item');
+                        const allImageWrappers = document.querySelectorAll('.image-wrapper');
+
+                        // Bắt sự kiện chọn màu
+                        colorButtons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                const selectedColorId = this.getAttribute('data-id');
+
+                                // Ẩn tất cả ảnh
+                                allImageWrappers.forEach(wrapper => {
+                                    wrapper.style.display = 'none';
+                                });
+
+                                // Hiện ảnh của màu đã chọn
+                                const selectedImages = document.querySelectorAll('.color-' + selectedColorId);
+                                selectedImages.forEach((wrapper, index) => {
+                                    wrapper.style.display = 'block';
+
+                                    // Gán lại ảnh chính là ảnh đầu tiên của màu
+                                    if (index === 0) {
+                                        const newSrc = wrapper.querySelector('img').getAttribute('src');
+                                        imgFeature.src = newSrc;
+                                    }
+                                });
+                            });
+                        });
+
+                        // Xử lý click vào thumbnail để đổi ảnh chính
+                        document.querySelectorAll('.listImage').forEach(container => {
+                            container.addEventListener('click', function(e) {
+                                if (e.target.tagName === 'IMG') {
+                                    imgFeature.src = e.target.src;
+                                }
+                            });
+                        });
+
+                        // Prev/Next button
+                        let currentIndex = 0;
+                        const updateMainImage = () => {
+                            const visibleImages = Array.from(document.querySelectorAll('.image-wrapper'))
+                                .filter(div => div.style.display !== 'none')
+                                .map(div => div.querySelector('img'));
+                            if (visibleImages.length > 0) {
+                                imgFeature.src = visibleImages[currentIndex].src;
+                            }
+                        };
+
+                        document.querySelector('.control.prev').addEventListener('click', () => {
+                            const visible = document.querySelectorAll('.image-wrapper:not([style*="display: none"])');
+                            if (visible.length === 0) return;
+                            currentIndex = (currentIndex - 1 + visible.length) % visible.length;
+                            updateMainImage();
+                        });
+
+                        document.querySelector('.control.next').addEventListener('click', () => {
+                            const visible = document.querySelectorAll('.image-wrapper:not([style*="display: none"])');
+                            if (visible.length === 0) return;
+                            currentIndex = (currentIndex + 1) % visible.length;
+                            updateMainImage();
+                        });
+                    });
                 </script>
 
 
@@ -112,12 +190,12 @@
                     <div class="container-color">
                         <ul class="color-list">
                             <label for="">Color: </label>
-                            <form id="colorForm" method="GET" action="">
+                            <div id="colorForm" method="GET" action="">
                                 <input type="hidden" name="color_id" id="colorIdInput">
                                 @foreach($colors as $color)
                                 <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
                                 @endforeach
-                            </form>
+                            </div>
 
                             <!-- Size -->
                             <label for="">Size : </label>
@@ -517,114 +595,20 @@
         <div class="row">
             <div class="col-lg-9">
                 <div class="row">
+                    @foreach ($products -> take(9) as $product)
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r1.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
                             <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
+                                <a href="#" class="title">{{$product->name}}</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6 class="currency-format">{{$product->price}}</h6>
+                                    <h6 class="l-through currency-format">{{$product->price}}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r2.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r3.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r5.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r6.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r7.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r9.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r10.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/img/r11.jpg" alt=""></a>
-                            <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
-                                <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-lg-3">
@@ -637,6 +621,7 @@
         </div>
     </div>
 </section>
+
 <script>
     // color-picker
 
@@ -667,54 +652,105 @@
         });
     });
 </script>
-
-
-// add to cart button
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const button = document.getElementById('add-to-cart-btn');
-        if (!button) return;
 
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
+/<script>
+		console.log("Login status: ", isLogined());
 
-            const productId = this.dataset.id;
-            const colorId = this.dataset.color;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+		function isLogined() {
+			return @json(Auth::check());
+		}
 
-            fetch('/shop/shoppingCart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        id: productId,
-                        color_id: colorId
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: data.success ? 'success' : 'error',
-                        title: data.success ? 'Product added' : 'Error',
-                        text: data.message,
-                        confirmButtonText: 'OK'
-                    });
-                })
-                .catch(err => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!',
-                        text: 'Something went wrong. Please try again.',
-                        confirmButtonText: 'OK'
-                    });
-                    console.error('Add to cart error:', err);
-                });
-        });
-    });
-</script>
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message,
+						confirmButtonText: 'OK'
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					Swal.fire({
+						icon: 'error',
+						title: 'An error occurred',
+						text: 'Unable to add product. Please try again later.',
+					});
+				});
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			// Sự kiện click thêm sản phẩm
+			document.querySelectorAll('.primary-btn').forEach(button => {
+				button.addEventListener('click', function(e) {
+					if (this.classList.contains('skip-add-to-cart')) return;
+					e.preventDefault();
+					const productId = this.dataset.id;
+					addToCart(productId);
+				});
+			});
+
+			// SweetAlert hiện khi thêm thành công qua session
+			@if(session('success'))
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+			@endif
+
+			// Alert chào mừng (chỉ hiển thị 1 lần)
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Login or Register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
+		});
+	</script>
 <!-- End related-product Area -->
 
 @endsection
