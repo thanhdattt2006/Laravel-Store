@@ -251,7 +251,8 @@
         </div>
     </footer>
     <!-- End footer Area -->
-
+    <!-- Optional JavaScript -->
+     
     @yield('scripts')
 </body>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElementsController;
@@ -57,18 +58,21 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
-    Route::get('/shoppingCart', [ShopController::class, 'shoppingCart']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
-    Route::get('/shoppingCart', [ShopController::class, 'showCart']);
 
-    Route::get('/shoppingCart/{id}', [ShopController::class, 'removeFromCart']);
+
+    // Thêm vào giỏ hàng
+    Route::get('/shoppingCart', [CartController::class, 'index']);
+    Route::get('/shoppingCart', [CartController::class, 'showCartPage'])->name('cart.show');
+    Route::get('/shoppingCart/{accountId}', [CartController::class, 'showCart']);
+    Route::post('/shoppingCart', [CartController::class, 'addToCart']);
     
 
-    Route::post('/shoppingCart/{id}', [ShopController::class, 'updateCart']);
-    Route::post('/shoppingCart', [ShopController::class, 'addToCart']);
 });
+
+
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails', [BlogController::class, 'blogDetails']);

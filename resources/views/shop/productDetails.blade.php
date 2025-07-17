@@ -745,54 +745,105 @@
         });
     });
 </script>
-
-
-// add to cart button
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const button = document.getElementById('add-to-cart-btn');
-        if (!button) return;
 
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
+/<script>
+		console.log("Login status: ", isLogined());
 
-            const productId = this.dataset.id;
-            const colorId = this.dataset.color;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+		function isLogined() {
+			return @json(Auth::check());
+		}
 
-            fetch('/shop/shoppingCart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        id: productId,
-                        color_id: colorId
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: data.success ? 'success' : 'error',
-                        title: data.success ? 'Product added' : 'Error',
-                        text: data.message,
-                        confirmButtonText: 'OK'
-                    });
-                })
-                .catch(err => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!',
-                        text: 'Something went wrong. Please try again.',
-                        confirmButtonText: 'OK'
-                    });
-                    console.error('Add to cart error:', err);
-                });
-        });
-    });
-</script>
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message,
+						confirmButtonText: 'OK'
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					Swal.fire({
+						icon: 'error',
+						title: 'An error occurred',
+						text: 'Unable to add product. Please try again later.',
+					});
+				});
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			// Sự kiện click thêm sản phẩm
+			document.querySelectorAll('.primary-btn').forEach(button => {
+				button.addEventListener('click', function(e) {
+					if (this.classList.contains('skip-add-to-cart')) return;
+					e.preventDefault();
+					const productId = this.dataset.id;
+					addToCart(productId);
+				});
+			});
+
+			// SweetAlert hiện khi thêm thành công qua session
+			@if(session('success'))
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: 'Product has been added to the cart.',
+				confirmButtonText: 'OK'
+			});
+			@endif
+
+			// Alert chào mừng (chỉ hiển thị 1 lần)
+			if (!sessionStorage.getItem('welcomeShown')) {
+				Swal.fire({
+					icon: 'success',
+					title: 'Welcome to our Shop',
+					text: 'You can now register an account to enjoy more features.',
+					confirmButtonText: 'Login or Register',
+					cancelButtonText: 'Maybe later',
+					showCancelButton: true,
+					customClass: {
+						actions: 'swal2-actions-vertical'
+					}
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account';
+					}
+				});
+				sessionStorage.setItem('welcomeShown', 'true');
+			}
+		});
+	</script>
 <!-- End related-product Area -->
 
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Cate;
 use App\Models\Colors;
 use App\Models\Photo;
@@ -96,107 +97,6 @@ class ShopController extends Controller
         return view('shop/shopCategory')->with($data);
     }
 
-
-    // Thêm vào giỏ hàng khó vcl đừng đụng !!! //
-    public function addToCart(Request $request)
-    {
-        $id = $request->id;
-        $product_variant = Product_variant::where('product_id', $id)->get();
-        $colorIds = Product_variant::where('product_id', $id)->pluck('colors_id')->unique();
-        $colors = Colors::whereIn('id', $colorIds)->get();
-
-        $selectedColorId = request()->query('color_id');
-
-        if (!$selectedColorId) {
-            $firstVariant = Product_variant::where('product_id', $id)->first();
-            $selectedColorId = $firstVariant?->colors_id ?? null;
-        }
-
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product not found',
-            ]);
-        }
-
-        $cart = session()->get('shoppingCart', []);
-
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-
-            // Đưa item lên đầu
-            $item = $cart[$id];
-            unset($cart[$id]);
-            $cart = [$id => $item] + $cart;
-        } else {
-            $cart = [
-                $id => [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'photo' => $product->photo,
-                    'size' => 36,
-                    'quantity' => 1,
-                    'colors' => $colors,
-                    'selectedColorId' => $selectedColorId,
-                    'product_variant' =>  $product_variant
-                ]
-            ] + $cart;
-        }
-
-        session()->put('shoppingCart', $cart);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Product added to cart successfully',
-        ]);
-    }
-
-
-
-
-    // lấy dữ liệu in lên shoppingCart
-    public function showCart()
-    {
-        $cart = session('shoppingCart', []);
-        return view('shop/shoppingCart', compact('cart'));
-    }
-
-    // xóa sản phẩm trong giỏ hàng
-    public function removeFromCart($id)
-    {
-        $cart = session('shoppingCart', []);
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session(['shoppingCart' => $cart]);
-
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false]);
-    }
-
-    // update giỏ hàng khi ấn tăng số lượng
-    public function updateCart(Request $request, $id)
-    {
-        $cart = session()->get('shoppingCart', []);
-
-        if (isset($cart[$id])) {
-            $quantity = (int) $request->input('quantity');
-
-            if ($quantity < 1) $quantity = 1;
-
-            $cart[$id]['quantity'] = $quantity;
-            $cart[$id]['total'] = $cart[$id]['price'] * $quantity;
-
-            session(['shoppingCart' => $cart]);
-
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false]);
-    }
 
 
 
