@@ -26,6 +26,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Size</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
@@ -47,6 +49,19 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <select name="" id="">
+                                            @for ($i = 36; $i <= 46; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                        </select>
+                                    </div>
+                                </div>
                             <td>
                                 <h5 class="currency-format">{{$item['price'] }} </h5>
                             </td>
@@ -87,6 +102,8 @@
                             <td>
                                 <a class="gray_btn update-cart">Update Cart</a>
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
 
                             </td>
@@ -108,6 +125,8 @@
                             <td>
 
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h5>Subtotal</h5>
                             </td>
@@ -122,6 +141,8 @@
                             <td>
 
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h5>Shipping</h5>
                             </td>

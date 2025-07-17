@@ -32,6 +32,7 @@
                             <th>Phone</th>
                             <th>Address</th>
                             <th>Role_id</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -42,6 +43,7 @@
                             <th>Phone</th>
                             <th>Address</th>
                             <th>Role_id</th>
+                            <th>Action</th>
                           </tr>
                         </tfoot>
                         <tbody>
