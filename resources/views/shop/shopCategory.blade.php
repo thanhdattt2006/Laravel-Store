@@ -102,13 +102,16 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
+
+
 					@if(isset($productsfilter) && count($productsfilter))
 					@foreach($productsfilter as $product)
+
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
 							<div class="product-details">
-								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+								<a href="{{ route('compare.add', $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -123,6 +126,10 @@
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
+									</a>
+									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+										<span class="lnr lnr-sync"></span>
+										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>

@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
@@ -61,6 +62,14 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
+
+    Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
+    Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
+    Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
+
+
+
 
 
     // Thêm vào giỏ hàng

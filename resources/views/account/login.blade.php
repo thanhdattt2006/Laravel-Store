@@ -114,10 +114,28 @@
                                 placeholder="Password"
                                 onfocus="this.placeholder = ''"
                                 onblur="this.placeholder = 'Password'" required>
-                            <label style="margin-top: 5px; display: block;">
-                                <input type="checkbox" id="toggle-password">
-                            </label>
+                            <span onclick="togglePassword()" style="position: absolute; top: 10px; right: 15px; cursor: pointer;">
+                                <i id="eye-icon" class="fa fa-eye-slash"></i>
+                            </span>
                         </div>
+
+                        <!-- JS xử lý bật/tắt -->
+                        <script>
+                            function togglePassword() {
+                                const passwordInput = document.getElementById('passwordshow');
+                                const eyeIcon = document.getElementById('eye-icon');
+
+                                if (passwordInput.type === 'password') {
+                                    passwordInput.type = 'text';
+                                    eyeIcon.classList.remove('fa-eye-slash');
+                                    eyeIcon.classList.add('fa-eye');
+                                } else {
+                                    passwordInput.type = 'password';
+                                    eyeIcon.classList.remove('fa-eye');
+                                    eyeIcon.classList.add('fa-eye-slash');
+                                }
+                            }
+                        </script>
 
                         <div class="col-md-12 form-group">
                             <div class="creat_account">
@@ -173,11 +191,11 @@
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const toggle = document.getElementById('toggle-password');
         const passwordInput = document.getElementById('passwordshow');
 
-        toggle.addEventListener('change', function () {
+        toggle.addEventListener('change', function() {
             if (this.checked) {
                 passwordInput.type = 'text';
             } else {
