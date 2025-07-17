@@ -129,7 +129,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/1/Running')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=1')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Running</h6>
 									</div>
@@ -140,7 +140,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt="">
-								<a href="{{url('/shop/shopCategory/3/Basketball')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=3')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Basketball</h6>
 									</div>
@@ -151,7 +151,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/football10-den-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/2/Football')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=2')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Football</h6>
 									</div>
@@ -162,7 +162,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="{{asset('user')}}/nike-img/gym8-trang-5.png" alt="">
-								<a href="{{url('/shop/shopCategory/4/Trainning & Gym')}}">
+								<a href="{{url('/shop/shopCategory?cate_id=4')}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Sneaker for Trainnig & Gym</h6>
 									</div>

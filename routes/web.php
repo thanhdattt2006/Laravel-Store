@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
@@ -77,6 +78,11 @@ Route::group(['prefix' => 'blog'], function () {
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
+});
+
+Route::group(['prefix' => 'aboutus'], function () {
+    Route::get('/', [AboutUsController::class, 'index']);
+    Route::get('/aboutus', [AboutUsController::class, 'index']);
 });
 
 
