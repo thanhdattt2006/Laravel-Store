@@ -1,7 +1,6 @@
 @extends('layout.user')
 
 @section('content')
-<link rel="stylesheet" href="{{url('resources/css')}}/app.css">
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
 	<div class="container">
@@ -143,8 +142,7 @@
 						</div>
 					</div>
 					@else
-					<h4>Không có sản phẩm nào</h4>
-					<div class="filter-bar d-flex flex-wrap align-items-center"></div>
+					<div class="filter-bar d-flex flex-wrap align-items-center"><h4>Không có sản phẩm nào</h4></div>
 					@endif
 				</div>
 			</section>
