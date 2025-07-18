@@ -210,7 +210,7 @@
 						<div class="single-product">
 							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -226,7 +226,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="/shop/compare" class="social-info">
+									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>

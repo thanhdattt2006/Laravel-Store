@@ -110,7 +110,7 @@
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
 							<div class="product-details">
-								<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">

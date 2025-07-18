@@ -1,5 +1,7 @@
 @extends('layout.admin')
 @section('content')
+
+      
         <div class="container">
           <div class="page-inner">
             <div class="row">
@@ -8,13 +10,13 @@
                 <div class="card">
                   <div class="card-header">
                     <div class="d-flex align-items-center top">
-                      <h4 class="card-title">Product List</h4>
-                      <a href="#">
+                      <h4 class="card-title">Account List</h4>
+                      <!-- <a href="#">
                         <button class="btn btn-primary btn-round ms-auto">
                           <i class="fa fa-plus"></i>
-                          Add Product
+                          Add Accounts
                         </button>
-                      </a>
+                      </a> -->
                     </div>
                   </div>
                   <div class="card-body">
@@ -146,4 +148,8 @@
             </div>
           </div>
         </div>
+@endsection
+
+@section('scripts')
+      <script src="{{asset('admin/assets/js/plugin/datatables/datatables.min.js')}}"></script> 
 @endsection
