@@ -28,7 +28,7 @@ class CompareController extends Controller {
 {
     $compareIds = session('compare', []);
 
-    if (!in_array($id, $compareIds) && count($compareIds) < 4) {
+    if (!in_array($id, $compareIds) && count($compareIds) < 3) {
         $compareIds[] = $id;
         session(['compare' => $compareIds]);
     }

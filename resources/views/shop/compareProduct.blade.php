@@ -1,7 +1,7 @@
 @extends('layout.user')
 
 @section('content')
-<link rel="stylesheet" href="{{url('resources/css')}}/app.css">
+<link rel="stylesheet" href="{{asset('user')}}/css/compare-wishlist.css">
 
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
@@ -62,38 +62,32 @@
             <td><strong>Action</strong></td>
             @foreach($products as $product)
             <td>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-9 col-lg-8 col-md-7">
-
-                            <section class="lattest-product-area pb-40 category-list">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="single-product">
-                                            <div class="product-details">
-                                                <div class="prd-bottom">
-                                                    <a href="" class="social-info">
-                                                        <span class="ti-bag"></span>
-                                                        <p class="hover-text">add to bag</p>
-                                                    </a>
-                                                    <a href="" class="social-info">
-                                                        <span class="lnr lnr-heart"></span>
-                                                        <p class="hover-text">Wishlist</p>
-                                                    </a>
-                                                    <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
-                                                        <span class="lnr lnr-move"></span>
-                                                        <p class="hover-text">view more</p>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
+    <div  class="compare-card"> 
+        <div class="single-product">
+            <div class="product-details">
+                
+                <div class="prd-bottom">
+                    <a href="" class="social-info">
+                        <span class="ti-bag"></span>
+                        <p class="hover-text">add to bag</p>
+                    </a>
+                    <a href="" class="social-info">
+                        <span class="lnr lnr-heart"></span>
+                        <p class="hover-text">Wishlist</p>
+                    </a>
+                    <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+                        <span class="lnr lnr-move"></span>
+                        <p class="hover-text">view more</p>
+                    </a>
                 </div>
-            </td>
+            </div>
+        </div>
+    </div>
+</td>
+
+
+
+
             @endforeach
         </tr>
     </table>
