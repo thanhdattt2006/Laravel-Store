@@ -62,7 +62,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
-    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
+    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);       
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
