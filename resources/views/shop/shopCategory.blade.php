@@ -1,7 +1,6 @@
 @extends('layout.user')
 
 @section('content')
-<link rel="stylesheet" href="{{url('resources/css')}}/app.css">
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
 	<div class="container">
