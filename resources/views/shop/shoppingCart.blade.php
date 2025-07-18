@@ -34,15 +34,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cart->items as $item)
-                        <tr class="top" id="product-{{ $item->product_id }}">
+                        
+                        <tr class="top" id="">
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo) }}" alt="">
+                                        <img height="150px" src="{{ asset('user/nike-img/sample.png') }}" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <p>{{ $item->product->name }}</p>
+                                        <p>Product name</p>
                                     </div>
                                 </div>
                             </td>
@@ -51,47 +51,46 @@
                                 <div>
                                     <select name="size">
                                         @for ($i = 36; $i <= 46; $i++)
-                                            <option value="{{ $i }}" {{ $i == ($item->size ?? 36) ? 'selected' : '' }}>
-                                            {{ $i }}
+                                            <option>
+                                                {{ $i }}
                                             </option>
                                             @endfor
                                     </select>
                                 </div>
                             </td>
                             <td>
-                                <h5 class="currency-format">{{ number_format($item->product->price, 0, ',', '.') }}</h5>
+                                <h5 class="currency-format">500000</h5>
                             </td>
                             <td>
                                 <div class="product_count">
                                     <input type="text"
                                         name="qty"
-                                        id="qty-{{ $item->product_id }}"
+                                        id="qty"
                                         min="1"
-                                        value="{{ $item->quantity }}"
+                                        value=""
                                         class="input-text qty"
-                                        data-id="{{ $item->product_id }}"
-                                        data-price="{{ $item->product->price }}"
+                                        data-id=""
+                                        data-price=""
                                         oninput="handleQtyChange(this)">
 
-                                    <button onclick="changeQty('{{ $item->product_id }}', 1)" class="increase items-count" type="button">
+                                    <button onclick="changeQty('', 1)" class="increase items-count" type="button">
                                         <i class="lnr lnr-chevron-up"></i>
                                     </button>
 
-                                    <button onclick="changeQty('{{ $item->product_id }}', -1)" class="reduced items-count" type="button">
+                                    <button onclick="changeQty('', -1)" class="reduced items-count" type="button">
                                         <i class="lnr lnr-chevron-down"></i>
                                     </button>
                                 </div>
                             </td>
                             <td>
-                                <h5 id="total-{{ $item->product_id }}">
-                                    {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                <h5 id="total">
+                                    500000
                                 </h5>
                             </td>
                             <td>
-                                <i class="fa fa-close" onclick="removeItem('{{ $item->product_id }}')"></i>
+                                <i class="fa fa-close" onclick="removeItem('')"></i>
                             </td>
                         </tr>
-                        @endforeach
 
                         <!-- CSRF token -->
                         <meta name="csrf-token" content="{{ csrf_token() }}">

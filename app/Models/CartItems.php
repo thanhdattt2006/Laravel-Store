@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItems extends Model
 {
-    public $table = 'cart-items';
+    public $table = 'cart_items';
 
     public $primaryKey  = 'id';
 
@@ -17,13 +17,4 @@ class CartItems extends Model
         'cart_id',
         'quantity'
     ];
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function cart()
-    {
-        return $this->belongsTo(Cart::class);
-    }
 }

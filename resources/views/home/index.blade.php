@@ -445,29 +445,11 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
-		console.log("Login status: ", isLogined());
-
-		function isLogined() {
-			return @json(Auth::check());
-		}
-
-		function addToCart(productId) {
-			if (!isLogined()) {
-				Swal.fire({
-					icon: 'warning',
-					title: 'You need to login',
-					text: 'Please login to add products to your cart.',
-					showCancelButton: true,
-					confirmButtonText: 'Login now',
-					cancelButtonText: 'Maybe later',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = "{{ route('account.login') }}";
-					}
-				});
-				return;
+			function isLogined() {
+				return @json(Auth::check());
 			}
 
+		function sendAddToCartRequest(productId) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 			fetch('/shop/shoppingCart', {
@@ -494,37 +476,66 @@
 					Swal.fire({
 						icon: 'error',
 						title: 'An error occurred',
-						text: 'Unable to add product. Please try again later.',
+						text: 'Unable to add product. Please try again later.'
 					});
 				});
 		}
 
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to login',
+					text: 'Please login to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login now',
+					cancelButtonText: 'Maybe later',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "{{ route('account.login') }}";
+					}
+				});
+				return;
+			}
+
+			sendAddToCartRequest(productId);
+		}
+
 		document.addEventListener('DOMContentLoaded', function() {
-			// Sự kiện click thêm sản phẩm
-			document.querySelectorAll('.ti-bag', '.add-btn').forEach(button => {
+			console.log("Login status:", isLogined());
+
+			// Gán sự kiện click vào nút thêm giỏ hàng
+			document.querySelectorAll('.ti-bag, .add-btn').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
+
 					e.preventDefault();
-					const productId = this.dataset.id;
-					addToCart(productId);
+
+					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					if (productId) {
+						addToCart(productId);
+					} else {
+						console.warn("Product ID not found in button.");
+					}
 				});
 			});
 
-			// SweetAlert hiện khi thêm thành công qua session
+			// Hiển thị thông báo thêm giỏ hàng thành công từ session 
 			@if(session('success'))
 			Swal.fire({
 				icon: 'success',
 				title: 'Success',
 				text: 'Product has been added to the cart.',
-				confirmButtonText: 'OK'
+				confirmButtonText: 'Go to cart',
+				cancelButtonText: 'Keep shopping',
 			});
 			@endif
 
-			// Alert chào mừng (chỉ hiển thị 1 lần)
-			if (!sessionStorage.getItem('welcomeShown')) {
+			// Hiện alert chào mừng cho khách chưa đăng nhập (once)
+			if (!isLogined() && !sessionStorage.getItem('welcomeShown')) {
 				Swal.fire({
 					icon: 'success',
-					title: 'Welcome to our Shop',
+					title: 'Welcome to our shop',
 					text: 'You can now register an account to enjoy more features.',
 					confirmButtonText: 'Login or Register',
 					cancelButtonText: 'Maybe later',
@@ -540,6 +551,7 @@
 				sessionStorage.setItem('welcomeShown', 'true');
 			}
 		});
+
 	</script>
 
 	@endsection

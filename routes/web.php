@@ -69,16 +69,9 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
 
-
-
-
-
     // Thêm vào giỏ hàng
     Route::get('/shoppingCart', [CartController::class, 'index']);
-    Route::get('/shoppingCart', [CartController::class, 'showCartPage'])->name('cart.show');
-    Route::get('/shoppingCart/{accountId}', [CartController::class, 'showCart']);
-    Route::post('/shoppingCart', [CartController::class, 'addToCart']);
-    
+    Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
 
 });
 
