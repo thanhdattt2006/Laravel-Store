@@ -38,7 +38,7 @@
 	                    <img src="{{asset('user')}}/banner/aboutus2.png" alt="post">
 	                    <div class="categories_details">
 	                        <div class="categories_text">
-	                            <a href="blog-details.html">
+	                            <a href="#">
 	                                <h5>INNOVATION</h5>
 	                            </a>
 	                            <div class="border_line"></div>
@@ -52,7 +52,7 @@
 	                    <img src="{{asset('user')}}/banner/aboutus3.png" alt="post">
 	                    <div class="categories_details">
 	                        <div class="categories_text">
-	                            <a href="blog-details.html">
+	                            <a href="#">
 	                                <h5>STYLE & CULTURE</h5>
 	                            </a>
 	                            <div class="border_line"></div>

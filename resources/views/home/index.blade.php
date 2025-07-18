@@ -208,7 +208,7 @@
 
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
 								<a href="{{url('/shop/productDetails')}}">
 									<h6>{{$product->name}}</h6>
@@ -260,12 +260,12 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products -> take(8) as $product)
+					@foreach ($products -> take(9-17) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -327,22 +327,24 @@
 							</div>
 						</div>
 					</div>
-					<a href="" class="primary-btn">Shop Now</a>
+					<a href="{{url('/shop/shopCategory')}}" class="primary-btn">Shop Now</a>
 				</div>
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products -> take(8) as $product)
+						@foreach ($products -> take(16) as $product)
 						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
 								<div class="price">
 									<h6 class="currency-format">{{$product->price}}</h6>
 									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
-								<h4>{{$product->name}}</h4>
+								<div>
+									<h3><a href="{{ url('/shop/productDetails/' . $product->id) }}" style="color: orange;">{{$product->name}}</a></h3>
+								</div>
 								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span data-id="{{ $product->id }}" class="ti-bag"></span></a>
+									<a class="add-btn" href="{{ url('/shop/productDetails/' . $product->id) }}"><span data-id="{{ $product->id }}" class="ti-bag"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
 								</div>
 							</div>
@@ -397,9 +399,9 @@
 						@foreach ($products -> take(9) as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
 								<div class="desc">
-									<a href="#" class="title">{{$product->name}}</a>
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
 									<div class="price">
 										<h6 class="currency-format">{{$product->price}}</h6>
 										<h6 class="l-through currency-format">{{$product->price}}</h6>
@@ -457,6 +459,7 @@
 				text: message
 			});
 		}
+
 
 		function sendAddToCartRequest(productId) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
