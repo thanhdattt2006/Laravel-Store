@@ -76,7 +76,7 @@
 							</select>
 						</div>
 					</div>
-				</div> 
+				</div>
 				<br><br>
 				<button type="submit" class="btn">Filter</button>
 			</form>
@@ -101,11 +101,8 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-
-
 					@if(isset($productsfilter) && count($productsfilter))
 					@foreach($productsfilter as $product)
-
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
@@ -146,11 +143,8 @@
 						</div>
 					</div>
 					@else
-					<div class="filter-bar d-flex flex-wrap align-items-center">
-						<div class="pagination">
-							<h4>Không có sản phẩm nào</h4>
-						</div>
-					</div>
+					<h4>Không có sản phẩm nào</h4>
+					<div class="filter-bar d-flex flex-wrap align-items-center"></div>
 					@endif
 				</div>
 			</section>
