@@ -196,12 +196,11 @@
                                 <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
                                 @endforeach
                             </div>
-
                             <!-- Size -->
-                            <label for="">Size : </label>
+                            <label>Size : </label>
                             <li class="size">
-                                <div>
-                                    <select name="" id="">
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <select name="" id="" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
@@ -210,18 +209,7 @@
                             </li>
                         </ul>
                     </div>
-
-                    <!-- <form id="colorForm" method="GET" action="">
-                        <label for="color">Colors:</label>
-                        <select id="color" name="color_id" onchange="document.getElementById('colorForm').submit()">
-                            @foreach($colors as $color)
-                            <option value="{{ $color->id }}" {{ $color->id == $selectedColorId ? 'selected' : '' }}>
-                                {{ $color->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </form> -->
-
+                   
                     <br>
 
                     <div class="product_count">
