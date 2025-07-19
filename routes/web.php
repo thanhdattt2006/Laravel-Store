@@ -62,6 +62,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);       
+    
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
@@ -74,6 +75,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
+    // Route::get('/shoppingCart', [ShopController::class, 'show']);
 
 
 });

@@ -49,7 +49,20 @@
                                     </div>
                                 </div>
                             </td>
-                            <td></td>
+                            <td>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <select name="size"  data-cart-item-id="{{ $item->id }}">
+                                        @foreach($item->product->variant as $product_variant)
+                                        <option value="{{ $product_variant->id }}"
+                                            {{ $item->product_variant_id == $product_variant->id ? 'selected' : '' }}>
+                                            {{ $product_variant->colors->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </td>
+
                             <td>
                                 <div>
                                     <select name="size" data-cart-item-id="{{ $item->id }}">
