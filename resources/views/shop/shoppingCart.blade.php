@@ -2,11 +2,7 @@
 
 @section('content')
 <!-- Start Banner Area -->
-<style>
-    .cart-delete-button {
-        display: none;
-    }
-</style>
+
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -36,6 +32,7 @@
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
+                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,8 +87,8 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 id="item-total-{{ $item->id }}">
-                                    {{ number_format($item->total) }}
+                                <h5 class="currency-format" id="item-total-{{ $item->id }}">
+                                    {{ $item->total }}
                                 </h5>
                             </td>
                             <td>
@@ -104,12 +101,13 @@
                                 </form>
                             </td>
                         </tr>
+
+                        @endforeach
                         @if (session('delete'))
                         <div class="alert alert-success">
                             {{ session('delete') }}
                         </div>
                         @endif
-                        @endforeach
                         @if (session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
@@ -300,40 +298,6 @@
 
 
     // ✅ Xóa sản phẩm khỏi giỏ hàng
-    function removeItem(id) {
-        Swal.fire({
-            title: 'Xóa sản phẩm?',
-            text: 'Hành động này không thể hoàn tác!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch('/cart/' + id, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('📦 Response:', data);
-                        if (data.success) {
-                            document.getElementById(id).remove();
-                            updateSubtotal();
-                            Swal.fire('Đã xóa!', 'Sản phẩm đã được xóa khỏi giỏ hàng.', 'success');
-                        } else {
-                            Swal.fire('Thất bại', 'Không thể xóa sản phẩm.', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('🔴 Lỗi xóa:', error);
-                        Swal.fire('Lỗi máy chủ', 'Vui lòng thử lại sau.', 'error');
-                    });
-            }
-        });
-    }
 </script>
 <script>
     function isLogined() {
@@ -392,19 +356,31 @@
 // xóa items
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const updateCartBtn = document.querySelector('.update-cart');
-        let deleteVisible = false; // Trạng thái hiển thị
+        const deleteButtons = document.querySelectorAll('.cart-delete-button');
 
-        updateCartBtn.addEventListener('click', function() {
-            const deleteButtons = document.querySelectorAll('.cart-delete-button');
-            deleteVisible = !deleteVisible; // Đảo trạng thái
+        deleteButtons.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn submit mặc định
 
-            deleteButtons.forEach(function(btn) {
-                btn.style.display = deleteVisible ? 'inline' : 'none';
+                Swal.fire({
+                    title: 'Bạn có chắc muốn xóa?',
+                    text: 'Sản phẩm sẽ bị xóa khỏi giỏ hàng!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Tìm form cha của nút
+                        const form = btn.closest('form');
+                        if (form) {
+                            form.submit();
+                        }
+                    }
+                });
             });
-
-            // (Tuỳ chọn) Đổi text nút để thông minh hơn
-            updateCartBtn.textContent = deleteVisible ? 'Update Cart' : 'Update Cart';
         });
     });
 </script>

@@ -345,7 +345,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
+                                    <button type="submit" value="submit" class="btn primary-btn skip-add-to-cart">Submit Now</button>
                                 </div>
                             </form>
                         </div>
@@ -472,7 +472,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="primary-btn">Submit Now</button>
+                                    <button type="submit" value="submit" class="primary-btn skip-add-to-cart">Submit Now</button>
                                 </div>
                             </form>
                         </div>
@@ -558,103 +558,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-/<script>
-    console.log("Login status: ", isLogined());
 
-    function isLogined() {
-        return @json(Auth::check());
-    }
-
-    function addToCart(productId) {
-        if (!isLogined()) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'You need to login',
-                text: 'Please login to add products to your cart.',
-                showCancelButton: true,
-                confirmButtonText: 'Login now',
-                cancelButtonText: 'Maybe later',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('account.login') }}";
-                }
-            });
-            return;
-        }
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    id: productId
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.success ? 'success' : 'error',
-                    title: data.success ? 'Product added' : 'Error',
-                    text: data.message,
-                    confirmButtonText: 'OK'
-                });
-            })
-            .catch(err => {
-                console.error("Error sending request:", err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'An error occurred',
-                    text: 'Unable to add product. Please try again later.',
-                });
-            });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Sự kiện click thêm sản phẩm
-        document.querySelectorAll('.primary-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                if (this.classList.contains('skip-add-to-cart')) return;
-                e.preventDefault();
-                const productId = this.dataset.id;
-                addToCart(productId);
-            });
-        });
-
-        // SweetAlert hiện khi thêm thành công qua session
-        @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Product has been added to the cart.',
-            confirmButtonText: 'OK'
-        });
-        @endif
-
-        // Alert chào mừng (chỉ hiển thị 1 lần)
-        if (!sessionStorage.getItem('welcomeShown')) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Welcome to our Shop',
-                text: 'You can now register an account to enjoy more features.',
-                confirmButtonText: 'Login or Register',
-                cancelButtonText: 'Maybe later',
-                showCancelButton: true,
-                customClass: {
-                    actions: 'swal2-actions-vertical'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/account';
-                }
-            });
-            sessionStorage.setItem('welcomeShown', 'true');
-        }
-    });
-</script>
 <!-- End related-product Area -->
 
 @endsection
@@ -678,5 +582,98 @@
 <script src="{{asset('user/js/main.js')}}"></script>
 
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+<script>
+    // Kiểm tra đăng nhập
+    function isLogined() {
+        return @json(Auth::check());
+    }
 
+    function showError(title, message) {
+        Swal.fire({
+            icon: 'error',
+            title,
+            text: message
+        });
+    }
+
+
+    function sendAddToCartRequest(productId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            showError('Error', 'Cannot find CSRF token. Please reload the page.');
+            return;
+        }
+        Swal.fire({
+            icon: 'info',
+            title: 'Adding product...',
+            text: 'Please wait...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        fetch('/shop/shoppingCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.success ? 'success' : 'error',
+                    title: data.success ? 'Product added' : 'Error',
+                    text: data.message
+                });
+            })
+            .catch(err => {
+                console.error("Error sending request:", err);
+                showError('System Error', 'Cannot add product. Please try again later.');
+            });
+    }
+
+    function addToCart(productId) {
+        if (!isLogined()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'You need to log in',
+                text: 'Please log in to add products to the cart.',
+                showCancelButton: true,
+                confirmButtonText: 'Log in now',
+                cancelButtonText: 'Later'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/account";
+                }
+            });
+            return;
+        }
+
+        sendAddToCartRequest(productId);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Login status:", isLogined());
+
+        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart)').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+                if (productId) {
+                    addToCart(productId);
+                } else {
+                    showError('Error', 'Cannot find product ID. Please try again.');
+                }
+            });
+        });
+
+    });
+</script>
 @endsection
