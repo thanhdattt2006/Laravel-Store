@@ -196,12 +196,11 @@
                                 <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
                                 @endforeach
                             </div>
-
                             <!-- Size -->
-                            <label for="">Size : </label>
+                            <label>Size : </label>
                             <li class="size">
-                                <div>
-                                    <select name="" id="">
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <select name="" id="" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
@@ -210,18 +209,7 @@
                             </li>
                         </ul>
                     </div>
-
-                    <!-- <form id="colorForm" method="GET" action="">
-                        <label for="color">Colors:</label>
-                        <select id="color" name="color_id" onchange="document.getElementById('colorForm').submit()">
-                            @foreach($colors as $color)
-                            <option value="{{ $color->id }}" {{ $color->id == $selectedColorId ? 'selected' : '' }}>
-                                {{ $color->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </form> -->
-
+                   
                     <br>
 
                     <div class="product_count">
@@ -260,13 +248,6 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                    aria-selected="false">Specification</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
                     aria-selected="false">Comments</a>
             </li>
@@ -276,95 +257,6 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes
-                    and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in
-                    Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to
-                    London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an
-                    officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a
-                    job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when
-                    showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a
-                    child’s painting set for her birthday and it was with this that she produced her first significant work, a
-                    half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly
-                    named ‘Hangover’ by Beryl’s husband and</p>
-                <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing
-                    more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and
-                    the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for
-                    more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a
-                    streamlined plan of cooking that is more efficient for one person creating less</p>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <h5>Width</h5>
-                                </td>
-                                <td>
-                                    <h5>128mm</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Height</h5>
-                                </td>
-                                <td>
-                                    <h5>508mm</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Depth</h5>
-                                </td>
-                                <td>
-                                    <h5>85mm</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Weight</h5>
-                                </td>
-                                <td>
-                                    <h5>52gm</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Quality checking</h5>
-                                </td>
-                                <td>
-                                    <h5>yes</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Freshness Duration</h5>
-                                </td>
-                                <td>
-                                    <h5>03days</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>When packeting</h5>
-                                </td>
-                                <td>
-                                    <h5>Without touch of hand</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Each Box contains</h5>
-                                </td>
-                                <td>
-                                    <h5>60pcs</h5>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
                     <div class="col-lg-6">
@@ -441,7 +333,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
+                                    <button type="submit" value="submit" class="btn primary-btn skip-add-to-cart">Submit Now</button>
                                 </div>
                             </form>
                         </div>
@@ -568,7 +460,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="primary-btn">Submit Now</button>
+                                    <button type="submit" value="submit" class="primary-btn skip-add-to-cart">Submit Now</button>
                                 </div>
                             </form>
                         </div>
@@ -598,9 +490,9 @@
                     @foreach ($products -> take(9) as $product)
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+                            <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
                             <div class="desc">
-                                <a href="#" class="title">{{$product->name}}</a>
+                                <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
                                 <div class="price">
                                     <h6 class="currency-format">{{$product->price}}</h6>
                                     <h6 class="l-through currency-format">{{$product->price}}</h6>
@@ -654,103 +546,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-/<script>
-		console.log("Login status: ", isLogined());
 
-		function isLogined() {
-			return @json(Auth::check());
-		}
-
-		function addToCart(productId) {
-			if (!isLogined()) {
-				Swal.fire({
-					icon: 'warning',
-					title: 'You need to login',
-					text: 'Please login to add products to your cart.',
-					showCancelButton: true,
-					confirmButtonText: 'Login now',
-					cancelButtonText: 'Maybe later',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = "{{ route('account.login') }}";
-					}
-				});
-				return;
-			}
-
-			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			fetch('/shop/shoppingCart', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-CSRF-TOKEN': csrfToken
-					},
-					body: JSON.stringify({
-						id: productId
-					})
-				})
-				.then(res => res.json())
-				.then(data => {
-					Swal.fire({
-						icon: data.success ? 'success' : 'error',
-						title: data.success ? 'Product added' : 'Error',
-						text: data.message,
-						confirmButtonText: 'OK'
-					});
-				})
-				.catch(err => {
-					console.error("Error sending request:", err);
-					Swal.fire({
-						icon: 'error',
-						title: 'An error occurred',
-						text: 'Unable to add product. Please try again later.',
-					});
-				});
-		}
-
-		document.addEventListener('DOMContentLoaded', function() {
-			// Sự kiện click thêm sản phẩm
-			document.querySelectorAll('.primary-btn').forEach(button => {
-				button.addEventListener('click', function(e) {
-					if (this.classList.contains('skip-add-to-cart')) return;
-					e.preventDefault();
-					const productId = this.dataset.id;
-					addToCart(productId);
-				});
-			});
-
-			// SweetAlert hiện khi thêm thành công qua session
-			@if(session('success'))
-			Swal.fire({
-				icon: 'success',
-				title: 'Success',
-				text: 'Product has been added to the cart.',
-				confirmButtonText: 'OK'
-			});
-			@endif
-
-			// Alert chào mừng (chỉ hiển thị 1 lần)
-			if (!sessionStorage.getItem('welcomeShown')) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Welcome to our Shop',
-					text: 'You can now register an account to enjoy more features.',
-					confirmButtonText: 'Login or Register',
-					cancelButtonText: 'Maybe later',
-					showCancelButton: true,
-					customClass: {
-						actions: 'swal2-actions-vertical'
-					}
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = '/account';
-					}
-				});
-				sessionStorage.setItem('welcomeShown', 'true');
-			}
-		});
-	</script>
 <!-- End related-product Area -->
 
 @endsection
@@ -774,5 +570,98 @@
 <script src="{{asset('user/js/main.js')}}"></script>
 
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+<script>
+    // Kiểm tra đăng nhập
+    function isLogined() {
+        return @json(Auth::check());
+    }
 
+    function showError(title, message) {
+        Swal.fire({
+            icon: 'error',
+            title,
+            text: message
+        });
+    }
+
+
+    function sendAddToCartRequest(productId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            showError('Error', 'Cannot find CSRF token. Please reload the page.');
+            return;
+        }
+        Swal.fire({
+            icon: 'info',
+            title: 'Adding product...',
+            text: 'Please wait...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        fetch('/shop/shoppingCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.success ? 'success' : 'error',
+                    title: data.success ? 'Product added' : 'Error',
+                    text: data.message
+                });
+            })
+            .catch(err => {
+                console.error("Error sending request:", err);
+                showError('System Error', 'Cannot add product. Please try again later.');
+            });
+    }
+
+    function addToCart(productId) {
+        if (!isLogined()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'You need to log in',
+                text: 'Please log in to add products to the cart.',
+                showCancelButton: true,
+                confirmButtonText: 'Log in now',
+                cancelButtonText: 'Later'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/account";
+                }
+            });
+            return;
+        }
+
+        sendAddToCartRequest(productId);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Login status:", isLogined());
+
+        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart)').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+                if (productId) {
+                    addToCart(productId);
+                } else {
+                    showError('Error', 'Cannot find product ID. Please try again.');
+                }
+            });
+        });
+
+    });
+</script>
 @endsection
