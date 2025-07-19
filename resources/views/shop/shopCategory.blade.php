@@ -141,7 +141,7 @@
 							{{ $productsfilter->links() }}
 						</div>
 					</div>
-					@els
+					@else
 					<div class="filter-bar d-flex flex-wrap align-items-center"><h4>Không có sản phẩm nào</h4></div>
 					@endif
 				</div>
