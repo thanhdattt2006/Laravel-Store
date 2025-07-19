@@ -210,7 +210,7 @@
 						<div class="single-product">
 							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
-								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+								<a href="{{url('/shop/productDetails')}}">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -226,7 +226,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+									<a href="/shop/compare" class="social-info">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
@@ -447,13 +447,37 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		// Kiểm tra đăng nhập
 		function isLogined() {
 			return @json(Auth::check());
 		}
 
-		function sendAddToCartRequest(productId) {
-			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+		function showError(title, message) {
+			Swal.fire({
+				icon: 'error',
+				title,
+				text: message
+			});
+		}
 
+
+		function sendAddToCartRequest(productId) {
+			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+			if (!csrfToken) {
+				console.error("CSRF token not found.");
+				showError('Error', 'Cannot find CSRF token. Please reload the page.');
+				return;
+			}
+			Swal.fire({
+				icon: 'info',
+				title: 'Adding product...',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			});
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -461,7 +485,7 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						id: productId
+						product_id: productId
 					})
 				})
 				.then(res => res.json())
@@ -469,17 +493,12 @@
 					Swal.fire({
 						icon: data.success ? 'success' : 'error',
 						title: data.success ? 'Product added' : 'Error',
-						text: data.message,
-						confirmButtonText: 'OK'
+						text: data.message
 					});
 				})
 				.catch(err => {
 					console.error("Error sending request:", err);
-					Swal.fire({
-						icon: 'error',
-						title: 'An error occurred',
-						text: 'Unable to add product. Please try again later.'
-					});
+					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
 
@@ -487,14 +506,14 @@
 			if (!isLogined()) {
 				Swal.fire({
 					icon: 'warning',
-					title: 'You need to login',
-					text: 'Please login to add products to your cart.',
+					title: 'You need to log in',
+					text: 'Please log in to add products to the cart.',
 					showCancelButton: true,
-					confirmButtonText: 'Login now',
-					cancelButtonText: 'Maybe later',
+					confirmButtonText: 'Log in now',
+					cancelButtonText: 'Later'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						window.location.href = "{{ route('account.login') }}";
+						window.location.href = "/account";
 					}
 				});
 				return;
@@ -506,52 +525,19 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			console.log("Login status:", isLogined());
 
-			// Gán sự kiện click vào nút thêm giỏ hàng
 			document.querySelectorAll('.ti-bag, .add-btn').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
-
 					e.preventDefault();
 
 					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
 					if (productId) {
 						addToCart(productId);
 					} else {
-						console.warn("Product ID not found in button.");
+						showError('Error', 'Cannot find product ID. Please try again.');
 					}
 				});
 			});
-
-			// Hiển thị thông báo thêm giỏ hàng thành công từ session 
-			@if(session('success'))
-			Swal.fire({
-				icon: 'success',
-				title: 'Success',
-				text: 'Product has been added to the cart.',
-				confirmButtonText: 'Go to cart',
-				cancelButtonText: 'Keep shopping',
-			});
-			@endif
-
-			// Hiện alert chào mừng cho khách chưa đăng nhập (once)
-			if (!isLogined() && !sessionStorage.getItem('welcomeShown')) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Welcome to our shop',
-					text: 'You can now register an account to enjoy more features.',
-					confirmButtonText: 'Login or Register',
-					cancelButtonText: 'Maybe later',
-					showCancelButton: true,
-					customClass: {
-						actions: 'swal2-actions-vertical'
-					}
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = '/account';
-					}
-				});
-				sessionStorage.setItem('welcomeShown', 'true');
-			}
 		});
 	</script>
 
