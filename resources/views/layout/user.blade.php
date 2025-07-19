@@ -34,7 +34,7 @@
 
     <!-- Element-CSS -->
     <link rel="stylesheet" href="{{asset('user')}}/css/elementCss/carousel.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -56,11 +56,39 @@
             border: none;
             cursor: pointer;
         }
+
+        #backToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 18px;
+            z-index: 1000;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #backToTopBtn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+        }
     </style>
 </head>
 
 <body>
-
+    <button id="backToTopBtn" title="Back to top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
     <!-- Start Header Area -->
     <header class="header_area sticky-header">
         @if (session('login_success'))
@@ -248,6 +276,26 @@
     </footer>
     <!-- End footer Area -->
     <!-- Optional JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 200) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 
     @yield('scripts')
 </body>
