@@ -29,7 +29,7 @@ class AccountController extends Controller
             if ($user->role_id == 1) {
                 return redirect('/admin/index')->with('okay', 'Logged in successfully as admin!');
             } elseif ($user->role_id == 2) {
-                return redirect('/home');
+                return redirect('/home')->with('login_success', true);
             } else {
                 Auth::logout();
                 return back()->withErrors(['login' => 'Account does not have access rights.']);

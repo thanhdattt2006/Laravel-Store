@@ -97,10 +97,6 @@ class ShopController extends Controller
         return view('shop/shopCategory')->with($data);
     }
 
-
-
-
-
     public function show($id)
     {
         $product = Product::with('cate', 'variant')->findOrFail($id);
@@ -129,4 +125,7 @@ class ShopController extends Controller
             ];
         return view('shop/productDetails')->with($data);
     }
+    
 }
+
+

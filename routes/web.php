@@ -12,7 +12,6 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
-use App\Models\Account;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,8 +69,12 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
 
     // Thêm vào giỏ hàng
-    Route::get('/shoppingCart', [CartController::class, 'index']);
+    Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
+    Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+    Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
+
 
 });
 
@@ -94,7 +97,7 @@ Route::group(['prefix' => 'aboutus'], function () {
 
 // Đăng ký route cho AccountController
 Route::group(['prefix' => 'account'], function () {
-    // 👇 Thêm name để dùng trong Blade
+    // Thêm name để dùng trong Blade
     Route::get('/', [AccountController::class, 'index'])->name('account.login');
     Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
     Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
