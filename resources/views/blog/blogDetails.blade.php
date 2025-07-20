@@ -20,17 +20,6 @@
 <!-- End Banner Area -->
 
 <div class="container py-5">
-    @if (session('success'))
-    <div class="alert alert-success text-center">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    @if (session('error'))
-    <div class="alert alert-danger text-center">
-        {{ session('error') }}
-    </div>
-    @endif
 
     @if ($blog)
     <div class="row justify-content-center">
@@ -43,17 +32,7 @@
                 {!! nl2br(e($blog->content)) !!}
             </div>
 
-            {{-- Hiển thị nút sửa / xóa nếu đã đăng nhập --}}
-            @if (session('account_id'))
-            <div class="d-flex justify-content-center gap-2">
-                <a href="{{ url('blog/edit/' . $blog->id) }}" class="btn btn-warning mr-2">Sửa bài viết</a>
-
-                <form action="{{ url('blog/delete/' . $blog->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này không?');">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">Xóa bài viết</button>
-                </form>
-            </div>
-            @endif
+            
         </div>
     </div>
     @else
