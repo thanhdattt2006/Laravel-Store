@@ -60,6 +60,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
+<<<<<<< HEAD
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
 
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
@@ -80,14 +81,26 @@ Route::group(['prefix' => 'shop'], function () {
 
 
 
+=======
+>>>>>>> 18dc108cb6685d122fa1649776c32abd69ac51d7
 });
-
-
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
-    Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
-});
+    Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
 
+    Route::get('/create', [BlogController::class, 'create']);
+    Route::post('/save', [BlogController::class, 'save']);
+
+    Route::get('/edit/{id}', [BlogController::class, 'edit']);
+    Route::post('/update/{id}', [BlogController::class, 'update']);
+
+    Route::get('/delete/{id}', [BlogController::class, 'delete']);
+});
+Route::group(['prefix' => 'page'], function () {
+    Route::get('/login', [PageController::class, 'login']);
+    Route::get('/tracking', [PageController::class, 'tracking']);
+    Route::get('/elementss', [PageController::class, 'elementss']);
+});
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
