@@ -32,25 +32,6 @@
     <h2 class="font-weight-bold">Never Done Challenging Convention</h2>
 </section>
 
-<!-- THÔNG BÁO -->
-<div class="container">
-    @if (session('success'))
-    <div class="alert alert-success text-center">
-        {{ session('success') }}
-    </div>
-    @elseif (session('error'))
-    <div class="alert alert-danger text-center">
-        {{ session('error') }}
-    </div>
-    @endif
-</div>
-
-<!-- NÚT THÊM BÀI VIẾT -->
-<div class="container pb-3">
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ url('blog/create') }}" class="btn btn-outline-dark">+ Thêm bài viết</a>
-    </div>
-</div>
 
 <!-- DANH SÁCH BLOG -->
 <div class="container pb-5">
