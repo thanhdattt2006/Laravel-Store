@@ -20,7 +20,6 @@
 <!-- End Banner Area -->
 
 <div class="container py-5">
-
     @if ($blog)
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -28,11 +27,48 @@
             <p class="text-muted mb-4">{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y') }}</p>
             <img src="{{ asset('user/blog/' . $blog->photo) }}" class="img-fluid rounded mb-4" alt="{{ $blog->title }}">
 
-            <div class="blog-content mb-4">
+            <div class="blog-content mb-5">
                 {!! nl2br(e($blog->content)) !!}
             </div>
 
-            
+            <!-- FORM GỬI BÌNH LUẬN -->
+            <div class="mt-5">
+                <h4 class="mb-3">Bình luận</h4>
+
+                @if (Auth::check())
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
+                    <form method="POST" action="{{ route('blog.comment', $blog->id) }}">
+                        @csrf
+                        <div class="form-group">
+                            <textarea name="comment" rows="3" class="form-control" placeholder="Nhập bình luận..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark mt-2">Gửi bình luận</button>
+                    </form>
+                @else
+                    <div class="alert alert-warning">
+                        Vui lòng <a href="{{ route('account.login') }}">đăng nhập</a> để bình luận.
+                    </div>
+                @endif
+            </div>
+
+            <!-- DANH SÁCH Bình Luận -->
+            <div class="mt-4">
+                @if (isset($comments) && $comments->count())
+                    @foreach ($comments as $cmt)
+                        <div class="border-bottom py-2">
+                            <strong>{{ $cmt->account->fullname }}</strong>
+                            <span class="text-muted"> - {{ $cmt->created_at->format('d/m/Y H:i') }}</span>
+                            <p class="mb-0">{{ $cmt->comment }}</p>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="text-muted">Chưa có bình luận nào.</p>
+                @endif
+            </div>
+
         </div>
     </div>
     @else
@@ -44,6 +80,8 @@
 </div>
 
 @endsection
+
+
 
 @section('scripts')
 <script>

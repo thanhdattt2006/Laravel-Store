@@ -65,7 +65,6 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
-
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
@@ -77,21 +76,16 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
-    // Route::get('/shoppingCart', [ShopController::class, 'show']);
-});
 
-   
+    // Route::get('/shoppingCart', [ShopController::class, 'show']);
+
+
+});
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
+    Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 
-    Route::get('/create', [BlogController::class, 'create']);
-    Route::post('/save', [BlogController::class, 'save']);
-
-    Route::get('/edit/{id}', [BlogController::class, 'edit']);
-    Route::post('/update/{id}', [BlogController::class, 'update']);
-
-    Route::get('/delete/{id}', [BlogController::class, 'delete']);
 });
 // Route::group(['prefix' => 'page'], function () {
 //     Route::get('/login', [PageController::class, 'login']);
@@ -115,7 +109,7 @@ Route::group(['prefix' => 'account'], function () {
     // Thêm name để dùng trong Blade
     Route::get('/', [AccountController::class, 'index'])->name('account.login');
     Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
-    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
+    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
