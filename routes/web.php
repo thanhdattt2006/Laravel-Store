@@ -77,13 +77,10 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
-
-
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-
-
-
 });
+
+   
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
