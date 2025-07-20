@@ -60,7 +60,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
-<<<<<<< HEAD
+
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
 
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
@@ -80,9 +80,6 @@ Route::group(['prefix' => 'shop'], function () {
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
 
 
-
-=======
->>>>>>> 18dc108cb6685d122fa1649776c32abd69ac51d7
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
@@ -96,11 +93,11 @@ Route::group(['prefix' => 'blog'], function () {
 
     Route::get('/delete/{id}', [BlogController::class, 'delete']);
 });
-Route::group(['prefix' => 'page'], function () {
-    Route::get('/login', [PageController::class, 'login']);
-    Route::get('/tracking', [PageController::class, 'tracking']);
-    Route::get('/elementss', [PageController::class, 'elementss']);
-});
+// Route::group(['prefix' => 'page'], function () {
+//     Route::get('/login', [PageController::class, 'login']);
+//     Route::get('/tracking', [PageController::class, 'tracking']);
+//     Route::get('/elementss', [PageController::class, 'elementss']);
+// });
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
