@@ -2,10 +2,11 @@
 <html lang="zxx" class="no-js">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="{{asset('user')}}/img/fav.png">
+    <link rel="shortcut icon" href="{{asset('user')}}/nike-img/logonike.png">
     <!-- Author Meta -->
     <meta name="author" content="CodePixar">
     <!-- Meta Description -->
@@ -15,7 +16,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Nike Shop</title>
     <!--
 		CSS
 		============================================= -->
@@ -30,19 +31,91 @@
     <link rel="stylesheet" href="{{asset('user')}}/css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="{{asset('user')}}/css/magnific-popup.css">
     <link rel="stylesheet" href="{{asset('user')}}/css/main.css">
+
+    <!-- Element-CSS -->
+    <link rel="stylesheet" href="{{asset('user')}}/css/elementCss/carousel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #backToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 18px;
+            z-index: 1000;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #backToTopBtn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
 </head>
 
 <body>
-
+    <button id="backToTopBtn" title="Back to top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
     <!-- Start Header Area -->
     <header class="header_area sticky-header">
+        @if (session('login_success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome back!',
+                    text: 'Hi, {{ Auth::user()->fullname }} 👋',
+                    confirmButtonText: 'Let\'s go'
+                });
+            });
+        </script>
+        @endif
+
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="{{url('home/index')}}"><img src="{{asset('user')}}/img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/nike-img/logonike.png" alt="" style="height: 50px; width: auto;"></a>
+<<<<<<< HEAD
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+=======
+                    <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+>>>>>>> 9a5eb3bc218376edd82d0090594a098ffea66146
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -50,6 +123,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
+<<<<<<< HEAD
                             <li class="nav-item active"><a class="nav-link" href="{{url('home/index')}}">Home</a></li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -64,23 +138,66 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('blog/index') }}">Blog</a>
+=======
+                            <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
+                            <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                    aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
+                                </ul>
+>>>>>>> 71f8c723847537773d3bd64a95609d2ae20b66fe
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                     aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/login')}}">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/tracking')}}">Tracking</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('page/elementss')}}">Elements</a></li>
+                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
+                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
+                                    <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="{{url('contact/index')}}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
+
+
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
                             <li class="nav-item">
                                 <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                             </li>
+                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
+                        </ul>
+
+                        <ul class="nav navbar-nav" style="margin-left: 22px;">
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);">
+                                        <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
+                                    </svg>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('account.login') }}">Log-in</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/confirmation')}}">Confirmation</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('/tracking')}}">Tracking</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('account/logout')}}">
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);">
+                                                    <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
+                                                    <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path>
+                                                </svg>
+                                            </span> Log-out</a></li>
+                                </ul>
+                            </li>
+
+
                         </ul>
                     </div>
                 </div>
@@ -88,8 +205,8 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container">
-                <form class="d-flex justify-content-between">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                <form class="d-flex justify-content-between" method="get" action="{{ url('/shop/search-by-keyword') }}">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" name="keyword" value="{{ isset($keyword) ? $keyword : '' }}">
                     <button type="submit" class="btn"></button>
                     <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
                 </form>
@@ -97,7 +214,6 @@
         </div>
     </header>
     <!-- End Header Area -->
-
 
     @yield('content')
     <!-- start footer Area -->
@@ -181,22 +297,29 @@
         </div>
     </footer>
     <!-- End footer Area -->
+    <!-- Optional JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
 
-    <script src="{{asset('user')}}/js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.{{asset('user')}}/js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
-    <script src="{{asset('user')}}/js/vendor/bootstrap.min.js"></script>
-    <script src="{{asset('user')}}/js/jquery.ajaxchimp.min.js"></script>
-    <script src="{{asset('user')}}/js/jquery.nice-select.min.js"></script>
-    <script src="{{asset('user')}}/js/jquery.sticky.js"></script>
-    <script src="{{asset('user')}}/js/nouislider.min.js"></script>
-    <script src="{{asset('user')}}/js/countdown.js"></script>
-    <script src="{{asset('user')}}/js/jquery.magnific-popup.min.js"></script>
-    <script src="{{asset('user')}}/js/owl.carousel.min.js"></script>
-    <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="{{asset('user')}}/js/gmaps.min.js"></script>
-    <script src="{{asset('user')}}/js/main.js"></script>
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 200) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    @yield('scripts')
 </body>
 
 </html>

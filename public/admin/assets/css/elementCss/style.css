@@ -1,0 +1,78 @@
+.tbody-td{
+    width: 13%;
+}
+
+.tbody-td img{
+    width: 100%;
+}
+
+.card-header .top{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* CSS for Add->slide/categories/products... */
+.conTainer{
+    background-color: #9dadd41c;
+    width: 800px;
+    min-width: 450px;
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+}
+
+.input[type="file"] {
+    display: none;
+}
+
+.label{
+    display: block;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    color: #1A2035;
+    font-size: 15px;
+    text-align: center;
+    width: 300px;
+    border-radius: 5px;
+    margin: auto;
+    padding: 18px 0px;
+    cursor: pointer;
+}
+
+.conTainer #num-of-files{
+    margin: 30px 0px 20px 0px;
+    text-align: center;
+}
+
+#images{
+    position: relative;
+    margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+figure{
+    width: 45%;
+}
+
+img{
+    width: 100%;
+}
+
+figcaption{
+    text-align: center;
+    font-size: 2.4vmin;
+    margin-top: 0.5vmin;
+}
+
+.description{
+    display: flex;
+}
+
+.description div .input-group{
+    margin-top: 30px;
+    width: 130%; 
+    height: 70px;
+}

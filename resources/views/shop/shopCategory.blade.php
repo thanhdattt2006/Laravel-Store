@@ -6,171 +6,79 @@
 	<div class="container">
 		<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 			<div class="col-first">
-				<h1>Shop Category page</h1>
+				<h1>Shop Category Page</h1>
 				<nav class="d-flex align-items-center">
-					<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+					<a href="#">Home<span class="lnr lnr-arrow-right"></span></a>
 					<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-					<a href="category.html">Fashon Category</a>
+					<a href="#">Shop Category</a>
+
 				</nav>
 			</div>
 		</div>
 	</div>
 </section>
 <!-- End Banner Area -->
-<div class="container">
+<<div class="container">
 	<div class="row">
 		<div class="col-xl-3 col-lg-4 col-md-5">
-			<div class="sidebar-categories">
-				<div class="head">Browse Categories</div>
-				<ul class="main-categories">
-					<li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
-								class="lnr lnr-arrow-right"></span>Fruits and Vegetables<span class="number">(53)</span></a>
-						<ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-
-					<li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
-								class="lnr lnr-arrow-right"></span>Meat and Fish<span class="number">(53)</span></a>
-						<ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#cooking" aria-expanded="false" aria-controls="cooking"><span
-								class="lnr lnr-arrow-right"></span>Cooking<span class="number">(53)</span></a>
-						<ul class="collapse" id="cooking" data-toggle="collapse" aria-expanded="false" aria-controls="cooking">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#beverages" aria-expanded="false" aria-controls="beverages"><span
-								class="lnr lnr-arrow-right"></span>Beverages<span class="number">(24)</span></a>
-						<ul class="collapse" id="beverages" data-toggle="collapse" aria-expanded="false" aria-controls="beverages">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#homeClean" aria-expanded="false" aria-controls="homeClean"><span
-								class="lnr lnr-arrow-right"></span>Home and Cleaning<span class="number">(53)</span></a>
-						<ul class="collapse" id="homeClean" data-toggle="collapse" aria-expanded="false" aria-controls="homeClean">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a href="#">Pest Control<span class="number">(24)</span></a></li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#officeProduct" aria-expanded="false" aria-controls="officeProduct"><span
-								class="lnr lnr-arrow-right"></span>Office Products<span class="number">(77)</span></a>
-						<ul class="collapse" id="officeProduct" data-toggle="collapse" aria-expanded="false" aria-controls="officeProduct">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#beauttyProduct" aria-expanded="false" aria-controls="beauttyProduct"><span
-								class="lnr lnr-arrow-right"></span>Beauty Products<span class="number">(65)</span></a>
-						<ul class="collapse" id="beauttyProduct" data-toggle="collapse" aria-expanded="false" aria-controls="beauttyProduct">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#healthProduct" aria-expanded="false" aria-controls="healthProduct"><span
-								class="lnr lnr-arrow-right"></span>Health Products<span class="number">(29)</span></a>
-						<ul class="collapse" id="healthProduct" data-toggle="collapse" aria-expanded="false" aria-controls="healthProduct">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a href="#">Pet Care<span class="number">(29)</span></a></li>
-					<li class="main-nav-list"><a data-toggle="collapse" href="#homeAppliance" aria-expanded="false" aria-controls="homeAppliance"><span
-								class="lnr lnr-arrow-right"></span>Home Appliances<span class="number">(15)</span></a>
-						<ul class="collapse" id="homeAppliance" data-toggle="collapse" aria-expanded="false" aria-controls="homeAppliance">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-					<li class="main-nav-list"><a class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
-							aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>Baby Care<span class="number">(48)</span></a>
-						<ul class="collapse" id="babyCare" data-toggle="collapse" aria-expanded="false" aria-controls="babyCare">
-							<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-							<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-							<li class="main-nav-list child"><a href="#" class="border-bottom-0">Meat<span class="number">(11)</span></a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			<div class="sidebar-filter mt-50">
-				<div class="top-filter-head">Product Filters</div>
-				<div class="common-filter">
-					<div class="head">Brands</div>
-					<form action="#">
-						<ul>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">Apple<span>(29)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Asus<span>(29)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="gionee" name="brand"><label for="gionee">Gionee<span>(19)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="micromax" name="brand"><label for="micromax">Micromax<span>(19)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="samsung" name="brand"><label for="samsung">Samsung<span>(19)</span></label></li>
-						</ul>
-					</form>
+			<form method="GET" action="{{ route('shop.category') }}">
+				<div class="sidebar-categories">
+					<div class="head">Categories</div>
+					@foreach ($cates as $cate)
+					<ul class="main-categories">
+						<li class="main-nav-list">
+							<label style='text-transform: capitalize;'>
+								<a class="page-item">
+									<input type="radio" class="pixel-radio" name="cate_id" value="{{ $cate->id }}"
+										{{ request('cate_id') == $cate->id ? 'checked' : '' }}>
+									{{ $cate->name }}
+								</a>
+							</label>
+						</li>
+					</ul>
+					@endforeach
 				</div>
-				<div class="common-filter">
-					<div class="head">Color</div>
-					<form action="#">
-						<ul>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">Black<span>(29)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="balckleather" name="color"><label for="balckleather">Black
-									Leather<span>(29)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="blackred" name="color"><label for="blackred">Black
-									with red<span>(19)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="gold" name="color"><label for="gold">Gold<span>(19)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="spacegrey" name="color"><label for="spacegrey">Spacegrey<span>(19)</span></label></li>
-						</ul>
-					</form>
-				</div>
-				<div class="common-filter">
-					<div class="head">Price</div>
-					<div class="price-range-area">
-						<div id="price-range"></div>
-						<div class="value-wrapper d-flex">
-							<div class="price">Price:</div>
-							<span>$</span>
-							<div id="lower-value"></div>
-							<div class="to">to</div>
-							<span>$</span>
-							<div id="upper-value"></div>
+				<div class="sidebar-filter mt-50">
+					<div class="top-filter-head">Color Filters</div>
+					<div class="common-filter">
+						<div class="sidebar-categories">
+							@foreach($colors as $color)
+							<ul class="main-categories">
+								<li class="main-nav-list">
+									<label style='text-transform: capitalize;'>
+										<a class="page-item">
+											<input type="radio" class="pixel-radio" name="color_id[]" value="{{ $color->id }}"
+												{{ is_array(request('color_id')) && in_array($color->id, request('color_id')) ? 'checked' : '' }}>
+											{{ $color->name }}
+										</a>
+									</label>
+								</li>
+							</ul>
+							@endforeach
 						</div>
 					</div>
 				</div>
-			</div>
+				<div class="sidebar-filter mt-50">
+					<div class="top-filter-head">Price</div>
+					<div class="common-filter">
+						<div class="sidebar-categories">
+							<select name="price_range" onchange="this.form.submit()">
+								<option value="0">-- Chọn giá --</option>
+								<option value="1000000-2000000" {{ request('price_range') == '1000000-2000000' ? 'selected' : '' }}>1.000.000đ - 2.000.000đ</option>
+								<option value="2000000-3000000" {{ request('price_range') == '2000000-3000000' ? 'selected' : '' }}>2.000.000đ - 3.000.000đ</option>
+								<option value="3000000-4000000" {{ request('price_range') == '3000000-4000000' ? 'selected' : '' }}>3.000.000đ - 4.000.000đ</option>
+								<option value="4000000-5000000" {{ request('price_range') == '4000000-5000000' ? 'selected' : '' }}>4.000.000đ - 5.000.000đ</option>
+								<option value="5000000-6000000" {{ request('price_range') == '5000000-6000000' ? 'selected' : '' }}>5.000.000đ - 6.000.000đ</option>
+								<option value="6000000-7000000" {{ request('price_range') == '6000000-7000000' ? 'selected' : '' }}>6.000.000đ - 7.000.000đ</option>
+								<option value="7000000-8000000" {{ request('price_range') == '7000000-8000000' ? 'selected' : '' }}>7.000.000đ - 8.000.000đ</option>
+								<option value="8000000-9000000" {{ request('price_range') == '8000000-9000000' ? 'selected' : '' }}>8.000.000đ - 9.000.000đ</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<br><br>
+				<button type="submit" class="btn">Filter</button>
+			</form>
 		</div>
 		<div class="col-xl-9 col-lg-8 col-md-7">
 			<!-- Start Filter Bar -->
@@ -178,25 +86,13 @@
 				<div class="sorting">
 					<select>
 						<option value="1">Default sorting</option>
-						<option value="1">Default sorting</option>
-						<option value="1">Default sorting</option>
+
 					</select>
 				</div>
 				<div class="sorting mr-auto">
 					<select>
-						<option value="1">Show 12</option>
-						<option value="1">Show 12</option>
-						<option value="1">Show 12</option>
+						<option value="1">Show 6</option>
 					</select>
-				</div>
-				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-					<a href="#">6</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
 				</div>
 			</div>
 			<!-- End Filter Bar -->
@@ -204,31 +100,33 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
+					@if(isset($productsfilter) && count($productsfilter))
+					@foreach($productsfilter as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p1.jpg" alt="">
+							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
 							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+									<h6>{{$product->name}}</h6>
+								</a>
 								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
+									<h6>{{$product->price}}</h6>
+									<h6 class="l-through">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
-
 									<a href="" class="social-info">
-										<span class="ti-bag"></span>
+										<span data-id="{{$product->id}}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -236,333 +134,178 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p2.jpg" alt="">
-							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
+					<br><br>
+					@endforeach
+					<div class="filter-bar d-flex flex-wrap align-items-center">
+						<div class="pagination">
+							{{ $productsfilter->links() }}
 						</div>
 					</div>
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p3.jpg" alt="">
-							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p4.jpg" alt="">
-							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p5.jpg" alt="">
-							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/img/product/p6.jpg" alt="">
-							<div class="product-details">
-								<h6>addidas New Hammer sole
-									for Sports person</h6>
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+					@else
+					<div class="filter-bar d-flex flex-wrap align-items-center"><h4>Không có sản phẩm nào</h4></div>
+					@endif
 				</div>
 			</section>
-			<!-- End Best Seller -->
-			<!-- Start Filter Bar -->
-			<div class="filter-bar d-flex flex-wrap align-items-center">
-				<div class="sorting mr-auto">
-					<select>
-						<option value="1">Show 12</option>
-						<option value="1">Show 12</option>
-						<option value="1">Show 12</option>
-					</select>
-				</div>
-				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-					<a href="#">6</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-				</div>
-			</div>
-			<!-- End Filter Bar -->
 		</div>
 	</div>
-</div>
-
-<!-- Start related-product Area -->
-<section class="related-product-area section_gap">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-6 text-center">
-				<div class="section-title">
-					<h1>Deals of the Week</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-						magna aliqua.</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-9">
-				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r1.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r2.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r3.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r5.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r6.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r7.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r9.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r10.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6">
-						<div class="single-related-product d-flex">
-							<a href="#"><img src="{{asset('user')}}/img/r11.jpg" alt=""></a>
-							<div class="desc">
-								<a href="#" class="title">Black lace Heels</a>
-								<div class="price">
-									<h6>$189.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="ctg-right">
-					<a href="#" target="_blank">
-						<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
-					</a>
-				</div>
-			</div>
-		</div>
 	</div>
-</section>
-<!-- End related-product Area -->
 
-@endsection
+	<!-- Start related-product Area -->
+	<section class="related-product-area section_gap">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<h1>Deals of the Week</h1>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+							magna aliqua.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="row">
+						@foreach ($products as $product)
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								<div class="desc">
+									<a href="#" class="title">{{$product->name}}</a>
+									<div class="price">
+										<h6>{{$product->price}}</h6>
+										<h6 class="l-through">{{$product->price}}</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						@endforeach
+					</div>
+				</div>
+				<div class="col-lg-2">
+					<div class="ctg-right">
+						<a href="#" target="_blank">
+							<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End related-product Area -->
+
+	@endsection
+
+	@section('scripts')
+	<script>
+		const ASSET_URL = "{{asset('user')}}"
+	</script>
+	<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		crossorigin="anonymous"></script>
+	<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+	<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+	<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+	<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+	<!--gmaps Js-->
+	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		// Kiểm tra đăng nhập
+		function isLogined() {
+			return @json(Auth::check());
+		}
+
+		function showError(title, message) {
+			Swal.fire({
+				icon: 'error',
+				title,
+				text: message
+			});
+		}
+
+
+		function sendAddToCartRequest(productId) {
+			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+			if (!csrfToken) {
+				console.error("CSRF token not found.");
+				showError('Error', 'Cannot find CSRF token. Please reload the page.');
+				return;
+			}
+			Swal.fire({
+				icon: 'info',
+				title: 'Adding product...',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			});
+			fetch('/shop/shoppingCart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': csrfToken
+					},
+					body: JSON.stringify({
+						product_id: productId
+					})
+				})
+				.then(res => res.json())
+				.then(data => {
+					Swal.fire({
+						icon: data.success ? 'success' : 'error',
+						title: data.success ? 'Product added' : 'Error',
+						text: data.message
+					});
+				})
+				.catch(err => {
+					console.error("Error sending request:", err);
+					showError('System Error', 'Cannot add product. Please try again later.');
+				});
+		}
+
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to log in',
+					text: 'Please log in to add products to the cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Log in now',
+					cancelButtonText: 'Later'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "/account";
+					}
+				});
+				return;
+			}
+
+			sendAddToCartRequest(productId);
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log("Login status:", isLogined());
+
+			document.querySelectorAll('.ti-bag, .add-btn').forEach(button => {
+				button.addEventListener('click', function(e) {
+					if (this.classList.contains('skip-add-to-cart')) return;
+					e.preventDefault();
+
+					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					if (productId) {
+						addToCart(productId);
+					} else {
+						showError('Error', 'Cannot find product ID. Please try again.');
+					}
+				});
+			});
+		});
+	</script>
+
+	@endsection
