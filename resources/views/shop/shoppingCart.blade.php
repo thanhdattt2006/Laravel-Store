@@ -101,7 +101,7 @@
                             </td>
                             <td>
                                 <h5 class="currency-format" id="item-total-{{ $item->id }}">
-                                    {{ $item->total }}
+                                    {{ $item->total }} VND
                                 </h5>
                             </td>
                             <td>
