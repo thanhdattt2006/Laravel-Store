@@ -60,8 +60,12 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
+
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
+
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
+
+
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
@@ -73,17 +77,30 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
+
+
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::get('/shop/shoppingCart', [CartController::class, 'showCart']);
+
+
+
 });
-
-
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
-    Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
-});
+    Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
 
+    Route::get('/create', [BlogController::class, 'create']);
+    Route::post('/save', [BlogController::class, 'save']);
+
+    Route::get('/edit/{id}', [BlogController::class, 'edit']);
+    Route::post('/update/{id}', [BlogController::class, 'update']);
+
+    Route::get('/delete/{id}', [BlogController::class, 'delete']);
+});
+// Route::group(['prefix' => 'page'], function () {
+//     Route::get('/login', [PageController::class, 'login']);
+//     Route::get('/tracking', [PageController::class, 'tracking']);
+//     Route::get('/elementss', [PageController::class, 'elementss']);
+// });
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);

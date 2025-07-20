@@ -109,39 +109,38 @@
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/nike-img/logonike.png" alt="" style="height: 50px; width: auto;"></a>
-
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav menu_nav ml-auto">
-                                <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
-                                <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Blog</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Pages</a>
-                                    <ul class="dropdown-menu">
-                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
-                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
-                                        <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
+                    <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
+                            <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                    aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                    aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
+                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
+                                    <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
 
 
 
