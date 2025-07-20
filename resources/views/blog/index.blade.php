@@ -30,7 +30,6 @@
 <!-- TIÊU ĐỀ DANH MỤC -->
 <section class="text-center mb-5">
     <h2 class="font-weight-bold">Never Done Challenging Convention</h2>
-    <p class="text-muted">Chúng tôi xây dựng danh tiếng bằng việc thách thức lối mòn. Bộ sưu tập Circa 72 tái hiện những đổi mới quá khứ cho thế hệ tương lai.</p>
 </section>
 
 <!-- THÔNG BÁO -->
