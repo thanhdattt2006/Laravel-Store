@@ -61,13 +61,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
-<<<<<<< HEAD
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
-=======
-    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);       
-    
->>>>>>> 9a5eb3bc218376edd82d0090594a098ffea66146
-
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
@@ -79,12 +73,9 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
-<<<<<<< HEAD
-=======
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-
-
->>>>>>> 9a5eb3bc218376edd82d0090594a098ffea66146
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::get('/shop/shoppingCart', [CartController::class, 'showCart']);
 });
 
 
@@ -110,7 +101,7 @@ Route::group(['prefix' => 'account'], function () {
     // Thêm name để dùng trong Blade
     Route::get('/', [AccountController::class, 'index'])->name('account.login');
     Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
-    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
+    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');

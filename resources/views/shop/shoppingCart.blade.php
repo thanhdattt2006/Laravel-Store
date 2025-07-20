@@ -51,7 +51,7 @@
                             </td>
                             <td>
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="size"  data-cart-item-id="{{ $item->id }}">
+                                    <select name="size" data-cart-item-id="{{ $item->id }}">
                                         @foreach($item->product->variant as $product_variant)
                                         <option value="{{ $product_variant->id }}"
                                             {{ $item->product_variant_id == $product_variant->id ? 'selected' : '' }}>
