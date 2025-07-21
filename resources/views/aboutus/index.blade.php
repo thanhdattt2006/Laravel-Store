@@ -86,8 +86,8 @@
 							</div>
 						</article>
 						@endforeach
-						<div class="filter-bar d-flex flex-wrap align-items-center">
-							<div class="pagination">
+						<div class="filter-bar d-flex flex-wrap align-items-center"  style="width: 400px; margin-left: 190px"> 
+							<div class="pagination" style="margin-left: 100px;">
 								{{ $titles->links() }}
 							</div>
 						</div>

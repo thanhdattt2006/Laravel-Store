@@ -85,7 +85,6 @@ Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
     Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
-
 });
 // Route::group(['prefix' => 'page'], function () {
 //     Route::get('/login', [PageController::class, 'login']);
@@ -109,10 +108,11 @@ Route::group(['prefix' => 'account'], function () {
     // Thêm name để dùng trong Blade
     Route::get('/', [AccountController::class, 'index'])->name('account.login');
     Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
-    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
+    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
+    Route::get('/userInfo', [AccountController::class, 'userInfo'])->middleware('auth');
 });
 
 

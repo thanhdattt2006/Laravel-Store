@@ -68,6 +68,15 @@ class AccountController extends Controller
         $user['password'] = Hash::make($user['password']);
         Account::create($user);
         return redirect('/account')->with('ok', 'Account created successfully! Now you can login.');
-        
+    }
+    public function userInfo()
+    {
+        $user = Auth::user(); // lấy user hiện tại
+        $roleId = $user->role_id;
+
+        // Lấy tất cả user cùng role (hoặc thay đổi tùy theo logic của bạn)
+        $users = Account::where('role_id', $roleId)->get();
+
+        return view('account/userInfo', compact('user', 'users'));
     }
 }

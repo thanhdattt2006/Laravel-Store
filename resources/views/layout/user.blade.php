@@ -167,6 +167,7 @@
                                         @guest
                                         <a class="dropdown-item" href="{{ route('account.login') }}">Log-in</a>
                                         @else
+                                        <a class="dropdown-item" href="{{ url('account/userInfo') }}">User Infomation</a>
                                         <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
                                         <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
                                         <a class="dropdown-item" href="{{ route('account.logout')  }}"
