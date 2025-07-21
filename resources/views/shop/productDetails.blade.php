@@ -200,7 +200,7 @@
                             <label>Size : </label>
                             <li class="size">
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="" id="" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
+                                    <select name="" id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
