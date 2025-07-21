@@ -12,6 +12,7 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,11 +66,14 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
-
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
     // Thêm vào giỏ hàng
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
@@ -77,21 +81,15 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
-    // Route::get('/shoppingCart', [ShopController::class, 'show']);
-});
 
-   
+    // Route::get('/shoppingCart', [ShopController::class, 'show']);
+
+
+});
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
-
-    Route::get('/create', [BlogController::class, 'create']);
-    Route::post('/save', [BlogController::class, 'save']);
-
-    Route::get('/edit/{id}', [BlogController::class, 'edit']);
-    Route::post('/update/{id}', [BlogController::class, 'update']);
-
-    Route::get('/delete/{id}', [BlogController::class, 'delete']);
+    Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 });
 // Route::group(['prefix' => 'page'], function () {
 //     Route::get('/login', [PageController::class, 'login']);
@@ -119,6 +117,7 @@ Route::group(['prefix' => 'account'], function () {
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
+    Route::get('/userInfo', [AccountController::class, 'userInfo'])->middleware('auth');
 });
 
 
