@@ -343,10 +343,7 @@
 								<div>
 									<h3><a href="{{ url('/shop/productDetails/' . $product->id) }}" style="color: orange;">{{$product->name}}</a></h3>
 								</div>
-								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href="{{ url('/shop/productDetails/' . $product->id) }}"><span data-id="{{ $product->id }}" class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
-								</div>
+								
 							</div>
 						</div>
 						@endforeach
