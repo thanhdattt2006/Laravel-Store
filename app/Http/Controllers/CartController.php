@@ -148,15 +148,5 @@ class CartController extends Controller
     return response()->json(['success' => true, 'message' => 'Size updated']);
 }
 
-<<<<<<< HEAD
-    public function show(){
-         $data =[
-             'products' => Product::get()
-         ];
-         return view('shop/shoppingCart')->with($data);
-     }
-
-=======
    
->>>>>>> 89ac27454ac3a7267284d259828dbdf05c429f1e
 }
