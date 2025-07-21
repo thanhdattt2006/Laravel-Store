@@ -81,7 +81,7 @@ class CartController extends Controller
     $cart = Cart::where('account_id', $user->id)->first();
 
     $cartItems = $cart
-        ? $cart->cartItems()->with('product')->orderByDesc('id')->get()
+        ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
         : collect(); // Giỏ trống vẫn trả về collection
 
     return view('shop.shoppingCart', compact('cartItems'));
@@ -148,6 +148,11 @@ class CartController extends Controller
     return response()->json(['success' => true, 'message' => 'Size updated']);
 }
 
-
+    // public function show(){
+    //     $data =[
+    //         'products' => Product::get()
+    //     ];
+    //     return view('shop/shoppingCart')->with($data);
+    // }
 
 }
