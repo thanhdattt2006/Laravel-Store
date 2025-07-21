@@ -87,7 +87,7 @@
 
 <body>
     <button id="backToTopBtn" title="Back to top">
-        <i class="fa fa-arrow-up"></i>
+        <i class="fa fa-arrow-up" style="color: orange;"></i>
     </button>
     <!-- Start Header Area -->
     <header class="header_area sticky-header">
@@ -112,6 +112,7 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
 
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -144,13 +145,44 @@
 
 
 
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="nav-item">
-                                    <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav menu_nav ml-auto">
+                                <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
+                                <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">Blog</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
+                                    </ul>
                                 </li>
-                                <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
-                            </ul>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">Pages</a>
+                                    <ul class="dropdown-menu">
+                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
+                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
+                                        <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
+
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            </li>
+                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
+                        </ul>
+
 
                             <div> @guest
                                 <a class="nav-link" href="{{ route('account.login') }}" id="userIcon">
