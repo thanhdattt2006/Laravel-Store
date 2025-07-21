@@ -12,6 +12,7 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,17 +62,17 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
-<<<<<<< HEAD
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
-=======
-    Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);       
     
->>>>>>> 9a5eb3bc218376edd82d0090594a098ffea66146
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
     // Thêm vào giỏ hàng
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
@@ -79,12 +80,8 @@ Route::group(['prefix' => 'shop'], function () {
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
-<<<<<<< HEAD
-=======
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
 
-
->>>>>>> 9a5eb3bc218376edd82d0090594a098ffea66146
 });
 
 
