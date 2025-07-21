@@ -109,10 +109,10 @@
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand logo_h" href="{{url('home')}}"><img src="{{asset('user')}}/nike-img/logonike.png" alt="" style="height: 50px; width: auto;"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -144,42 +144,44 @@
 
 
 
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item">
-                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-                            </li>
-                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
-                        </ul>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="nav-item">
+                                    <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                                </li>
+                                <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
+                            </ul>
 
-                        <ul class="nav navbar-nav" style="margin-left: 22px;">
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);">
-                                        <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
-                                    </svg>
-                                </a>
-                                <ul class="dropdown-menu">
+                            <ul class="nav navbar-nav" style="margin-left: 22px;">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" style="fill: rgba(255, 186, 0, 1);">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 
+                5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
+                1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
+                4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                        @guest
+                                        <a class="dropdown-item" href="{{ route('account.login') }}">Log-in</a>
+                                        @else
+                                        <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
+                                        <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
+                                        <a class="dropdown-item" href="{{ route('account.logout')  }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Log-out
+                                        </a>
+                                        <form id="logout-form" action="{{ route('account.logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                        @endguest
+                                    </div>
+                                </li>
+                            </ul>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('account.login') }}">Log-in</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('shop/confirmation')}}">Confirmation</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('/tracking')}}">Tracking</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('account/logout')}}">
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 186, 0, 1);">
-                                                    <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
-                                                    <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path>
-                                                </svg>
-                                            </span> Log-out</a></li>
-                                </ul>
-                            </li>
-
-
-                        </ul>
-                    </div>
+                        </div>
                 </div>
             </nav>
         </div>
