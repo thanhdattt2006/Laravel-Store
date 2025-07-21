@@ -123,13 +123,8 @@
                             <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
                             <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                    aria-expanded="false">Blog</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
-                                </ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('blog/index') }}">Blog</a>
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -144,13 +139,13 @@
 
 
 
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="nav-item">
-                                    <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-                                </li>
-                                <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
-                            </ul>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            </li>
+                            <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
+                        </ul>
 
                             <ul class="nav navbar-nav" style="margin-left: 22px;">
                                 <li class="nav-item dropdown">
