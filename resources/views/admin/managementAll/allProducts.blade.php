@@ -50,13 +50,22 @@
                           </tr>
                         </tfoot>
                         <tbody>
+                        @foreach($products as $product)
                           <tr>
-                            <td>Aiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>5.934.999</td>
-                            <td>Red, Black, purple</td>
+                            <td>{{$product->id}}</td>
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->cate->name}}</td>
+                              @foreach ($product->variant as $photo)
+                                @if ($photo->photos->isNotEmpty()) 
+                                  <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></td>
+                                  @break;
+                                @endif
+                              @endforeach
+                            <td class="currency-format">{{$product->price}}</td>
+                            <td>
+                              @foreach($product->variant as $product_variant)
+                                  <span>{{ $product_variant->colors->name}}, </span>
+                              @endforeach
                             <td>Active</td>
                             <td>
                               <div class="form-button-action">
@@ -69,235 +78,21 @@
                                 >
                                   <i class="fa fa-edit"></i>
                                 </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
+                               <a href="{{url('admin/deleteProduct/' . $product->id)}}" onclick="return confirm('Bạn có chắc muốn xoá?')">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-danger"
+                                    data-original-title="Remove"
+                                  >
+                                    <i class="fa fa-times"></i>
+                                  </button>
+                               </a>
                               </div>
                             </td>
                           </tr>
-                          <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>5.916.999</td>
-                            <td>purple, Red, Black</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>5.799.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <td>Edinburgh</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>5.444.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Airi Satou</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>3.43.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Brielle Williamson</td>
-                            <td>Integration Specialist</td>
-                            <td>New York</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/running-2-cam-5.png" alt=""></td>
-                            <td>7.999.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Herrod Chandler</td>
-                            <td>Sales Assistant</td>
-                            <td>San Francisco</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/img/category/c5.jpg" alt=""></td>
-                            <td>9.234.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Sonya Frost</td>
-                            <td>Software Engineer</td>
-                            <td>Edinburgh</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/basketballzion4-cam-7.png" alt=""></td>
-                            <td>8.231.999</td>
-                            <td>Red, Black, purple</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
+                        @endforeach
                         </tbody>
                       </table>
                     </div>
@@ -307,4 +102,8 @@
             </div>
           </div>
         </div>
+@endsection
+
+@section('scripts')
+  <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 @endsection

@@ -60,7 +60,7 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/21.png" alt="">
 								</div>
 							</div>
 						</div>

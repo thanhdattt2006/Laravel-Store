@@ -14,6 +14,12 @@ class Photo extends Model
 
     public $fillable = [
         'name',
+        'product_variant_id'
     ];
- 
+    
+     public function variant()
+    {
+        return $this->belongsTo(Product_variant::class, 'product_variant_id', 'id');
+    }
+
 }

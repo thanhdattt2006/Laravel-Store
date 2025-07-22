@@ -15,8 +15,9 @@ class Product extends Model
     public $fillable = [
         'name',
         'price',
+        'size',
         'description',
-        'photo',
+        // 'photo',
         'cate_id'
     ];
     public function cate()
@@ -26,8 +27,14 @@ class Product extends Model
     // Lấy tất cả biến thể của sản phẩm
     public function variant()
     {
-        return $this->hasMany(Product_variant::class, 'product_id');
+        return $this->hasMany(Product_variant::class, 'product_id', 'id');
     }
+
+    // public function photo()
+    // {
+    //     return $this->belongsToMany(Photo::class, 'product_id', 'colors_id');
+    // }
+
 
    
 }

@@ -38,16 +38,34 @@ Route::group(['prefix' => 'home'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
+    
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
+    //Slider
     Route::get('/addSlider', [AdminController::class, 'addSlider']);
     Route::get('/allSlider', [AdminController::class, 'allSlider']);
+    Route::get('/deleteSlider/{id}', [AdminController::class, 'deleteSlider']);
+
+    Route::post('/uploadImg', [AdminController::class, 'uploadImg']);
+    //Product
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
+    Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
+    // Route::get('/editProduct', [AdminController::class, 'editProduct']);
+    
+    Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
+    //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
     Route::get('/allCategories', [AdminController::class, 'allCategories']);
+    Route::get('/deleteCategory/{id}', [AdminController::class, 'deleteCategory']);
+    Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
+    
+    Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
+    Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
+    //order
     Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
-    Route::get('/customers', [AdminController::class, 'customers']);
+    //Accounts
+    Route::get('/accounts', [AdminController::class, 'accounts']);
 });
 
 Route::group(['prefix' => 'cate'], function () {

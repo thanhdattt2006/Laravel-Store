@@ -23,7 +23,22 @@ class Product_variant extends Model
     }
     public function photos()
     {
-        return $this->hasMany(Photo::class, 'product_variant_id');
+        return $this->hasMany(Photo::class, 'product_variant_id', 'id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+    // public function colors()
+    // {
+    //     return $this->belongTo(Colors::class, 'colors_id');
+    // }
+
+    public function colors()
+{
+    return $this->belongsTo(Colors::class,  'colors_id', 'id');
+}
+
 
 }

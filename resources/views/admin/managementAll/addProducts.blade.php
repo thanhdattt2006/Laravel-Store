@@ -1,7 +1,8 @@
 @extends('layout.admin')
 
 @section('content')
-<form action="" method="">
+<form action="{{url(('admin/saveProducts'))}}" method="post">
+    @csrf
     <div class="card">
         <div class="card-header">
             <div class="card-title">Add Product</div>
@@ -22,6 +23,7 @@
                             class="form-control input-full"
                             id="inlineinput"
                             placeholder="Name Product"
+                            name="name"
                         />
                         </div>
                     </div>
@@ -36,127 +38,112 @@
                                 type="number"
                                 class="form-control"
                                 aria-label="Amount (to the nearest dollar)" placeholder="Price product"
+                                name="price"
                             />
                             </div>
                         </div>
                     </div>
+                    <!-- Stock -->
+                    <!-- <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div><label
+                            for="inlineinput"
+                            class="col-md-3 col-form-label"
+                            >Stock</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                aria-label="Amount (to the nearest dollar)" placeholder="Price product"
+                                name="stock"
+                            />
+                            </div>
+                        </div>
+                    </div> -->
                     <!-- Category -->
-                    <div class="form-group">
-                        <label for="smallSelect">Category</label>
-                        <select
-                        class="form-select form-control-sm"
-                        id="smallSelect"
-                        >
-                        <option>Gym</option>
-                        <option>sport</option>
-                        <option>Football</option>
-                        <option>Pick-ca-ball</option>
-                        <option>swimming-shoes</option>
-                        </select>
-                    </div>
+                     <div class="form-group">
+                          <label class="form-label">Category</label>
+                          <div class="selectgroup selectgroup-pills">
+                            @foreach($cates as $cate)
+                            <label class="selectgroup-item">
+                              <input
+                                type="radio"
+                                name="cate_id"
+                                value="{{$cate->id}}"
+                                class="selectgroup-input"
+                              />
+                              <span class="selectgroup-button">{{$cate->name}}</span>
+                            </label>
+                            @endforeach
+                          </div>
+                        </div>
                     <!-- Color -->
                     <div class="form-group">
-                        <label class="form-label">Color Input</label>
+                        <label class="form-label">Color</label>
                         <div class="row gutters-xs">
+                          @foreach($colors as $color)
                             <div class="col-auto">
                                 <label class="colorinput">
                                 <input
-                                    name="color"
+                                    name="color_id[]"
                                     type="checkbox"
-                                    value="dark"
+                                    value="{{$color->id}}"
                                     class="colorinput-input"
                                 />
-                                <span class="colorinput-color bg-black"></span>
+                                <span class="colorinput-color" style="background-color: {{$color->name}};"></span>
                                 </label>
                             </div>
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color"
-                                    type="checkbox"
-                                    value="primary"
-                                    class="colorinput-input"
-                                />
-                                <span
-                                    class="colorinput-color bg-primary"
-                                ></span>
-                                </label>
-                            </div>
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color"
-                                    type="checkbox"
-                                    value="secondary"
-                                    class="colorinput-input"
-                                />
-                                <span
-                                    class="colorinput-color bg-secondary"
-                                ></span>
-                                </label>
-                            </div>
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color"
-                                    type="checkbox"
-                                    value="info"
-                                    class="colorinput-input"
-                                />
-                                <span class="colorinput-color bg-info"></span>
-                                </label>
-                            </div>
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color"
-                                    type="checkbox"
-                                    value="success"
-                                    class="colorinput-input"
-                                />
-                                <span
-                                    class="colorinput-color bg-success"
-                                ></span>
-                                </label>
-                            </div>
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color"
-                                    type="checkbox"
-                                    value="danger"
-                                    class="colorinput-input"
-                                />
-                                <span class="colorinput-color bg-danger"></span>
-                                </label>
-                            </div>
-                            <div class="col-auto">
-                            <label class="colorinput">
+                          @endforeach
+                        </div>
+                    </div>
+                    @for ($i = 0; $i < 2; $i++)
+                    <!-- Stock -->
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div><label
+                            for="inlineinput"
+                            class="col-md-3 col-form-label"
+                            >Stock</label>
                             <input
-                                name="color"
-                                type="checkbox"
-                                value="warning"
-                                class="colorinput-input"
+                                type="number"
+                                class="form-control"
+                                aria-label="Amount (to the nearest dollar)" placeholder="Price product"
+                                name="stock{{$i}}"
                             />
-                            <span
-                                class="colorinput-color bg-warning"
-                            ></span>
-                            </label>
                             </div>
                         </div>
                     </div>
+                    <!-- Color -->
+                    <!-- <div class="form-group">
+                        <label class="form-label">Color</label>
+                        <div class="row gutters-xs">
+                          @foreach($colors as $color)
+                            <div class="col-auto">
+                                <label class="colorinput">
+                                <input
+                                    name="color_id[]"
+                                    type="radio"
+                                    value="{{$color->id}}"
+                                    class="colorinput-input"
+                                />
+                                <span class="colorinput-color" style="background-color: {{$color->name}};"></span>
+                                </label>
+                            </div>
+                          @endforeach
+                        </div>
+                    </div> -->
                     <!-- Product-img -->
                     <div class="form-group conTainer">
-                        <input type="file" class="input" onchange="preview()" id="file-input" accept="image/png, image/jpeg" multiple>
-                        <label class="label" for="file-input" >
+                        <input type="file" name="photo_name{{$i}}[]" class="input" onchange="preview('{{$i}}')" id="file-input{{$i}}" accept="image/png, image/jpeg, image.jpg," multiple maxlength="8">
+                        <label class="label" for="file-input{{$i}}" >
                             <i class="fa-solid fa-cloud-arrow-up" style="color: #1a2035;"></i> &nbsp;
                             choose A Photo
                         </label>
-                        <p  id="num-of-files">No Photo chosen</p>
-                        <div id="images"></div>
+                        <p class="num-of-files" id="num-of-files{{$i}}">No Photo chosen</p>
+                        <div class="images" id="images{{$i}}"></div>
                     </div>
+                    @endfor
                     <!-- Action  -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Action</label><br />
                         <div class="d-flex">
                         <div class="form-check">
@@ -191,7 +178,7 @@
                             </label>
                         </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Description -->
@@ -201,6 +188,7 @@
                         <textarea
                         class="form-control"
                         aria-label="With textarea"
+                        name="description"
                         ></textarea>
                     </div>
                 </div>

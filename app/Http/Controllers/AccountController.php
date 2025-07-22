@@ -70,4 +70,5 @@ class AccountController extends Controller
         return redirect('/account')->with('ok', 'Account created successfully! Now you can login.');
         
     }
+
 }
