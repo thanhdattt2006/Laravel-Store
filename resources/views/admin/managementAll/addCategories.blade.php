@@ -1,6 +1,7 @@
 @extends('layout.admin')
 @section('content')
-<form action="" method="">
+<form action="{{url('admin/saveCategories')}}" method="post">
+  @csrf
                     <div class="card">
                       <div class="card-header">
                         <div class="card-title">Form Elements</div>
@@ -8,7 +9,7 @@
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md-6 col-lg-4">
-                            <!-- Name-slide -->
+                            <!-- Name-category -->
                             <div class="form-group form-inline">
                               <label
                                 for="inlineinput"
@@ -19,6 +20,7 @@
                                 <input
                                   type="text"
                                   class="form-control input-full"
+                                  name="name"
                                   id="inlineinput"
                                   placeholder="Name Category"
                                 />
@@ -26,7 +28,7 @@
                             </div>
                             
                             <!-- Action  -->
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                               <label>Action</label><br />
                               <div class="d-flex">
                                 <div class="form-check">
@@ -61,11 +63,11 @@
                                   </label>
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
                         </div>
                       </div>
                       <div class="card-action">
-                        <button class="btn btn-success">Add</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                         <button class="btn btn-danger">Cancel</button>
                       </div>
                     </div>

@@ -104,7 +104,12 @@
 					@foreach($productsfilter as $product)
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
-							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
+							@foreach ($product->variant as $photo)
+								@if ($photo->photos->isNotEmpty()) 
+									<img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}">
+									@break;
+								@endif
+							@endforeach
 							<div class="product-details">
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
@@ -168,7 +173,12 @@
 						@foreach ($products as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								@foreach ($product->variant as $photo)
+									@if ($photo->photos->isNotEmpty()) 
+										<a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
+										@break;
+									@endif
+								@endforeach
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">

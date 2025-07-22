@@ -60,7 +60,7 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/21.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -197,8 +197,7 @@
 						<div class="section-title">
 							<h1>Latest Products</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-								dolore
-								magna aliqua.</p>
+								dolore magna aliqua.</p>
 						</div>
 					</div>
 				</div>
@@ -208,7 +207,12 @@
 
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
+							 @foreach ($product->variant as $photo)
+                                @if ($photo->photos->isNotEmpty()) 
+								   <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+                                  @break;
+                                @endif
+                              @endforeach
 							<div class="product-details">
 								<a href="{{url('/shop/productDetails')}}">
 									<h6>{{$product->name}}</h6>
@@ -263,7 +267,12 @@
 					@foreach ($products -> take(9-17) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
+							@foreach ($product->variant as $photo)
+								@if ($photo->photos->isNotEmpty()) 
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+									@break;
+								@endif
+							@endforeach
 							<div class="product-details">
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}">
 									<h6>{{$product->name}}</h6>
@@ -334,7 +343,12 @@
 						<!-- single exclusive carousel -->
 						@foreach ($products -> take(16) as $product)
 						<div class="single-exclusive-slider">
-							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
+							@foreach ($product->variant as $photo)
+								@if ($photo->photos->isNotEmpty()) 
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+									@break;
+								@endif
+							@endforeach
 							<div class="product-details">
 								<div class="price">
 									<h6 class="currency-format">{{$product->price}}</h6>
@@ -396,7 +410,13 @@
 						@foreach ($products -> take(9) as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								@foreach ($product->variant as $photo)
+								@if ($photo->photos->isNotEmpty()) 
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
+									@break;
+								@endif
+							@endforeach
+								
 								<div class="desc">
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
 									<div class="price">
