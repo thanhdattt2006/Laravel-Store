@@ -208,9 +208,9 @@
 
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
-								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+								<a href="{{url('/shop/productDetails')}}">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -226,7 +226,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+									<a href="/shop/compare" class="social-info">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
@@ -260,12 +260,12 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products -> take(8) as $product)
+					@foreach ($products -> take(9-17) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">
@@ -327,24 +327,23 @@
 							</div>
 						</div>
 					</div>
-					<a href="" class="primary-btn">Shop Now</a>
+					<a href="{{url('/shop/shopCategory')}}" class="primary-btn">Shop Now</a>
 				</div>
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products -> take(8) as $product)
+						@foreach ($products -> take(16) as $product)
 						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt="">
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{$product->photo}}" alt=""></a>
 							<div class="product-details">
 								<div class="price">
 									<h6 class="currency-format">{{$product->price}}</h6>
 									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
-								<h4>{{$product->name}}</h4>
-								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span data-id="{{ $product->id }}" class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
+								<div>
+									<h3><a href="{{ url('/shop/productDetails/' . $product->id) }}" style="color: orange;">{{$product->name}}</a></h3>
 								</div>
+								
 							</div>
 						</div>
 						@endforeach
@@ -397,9 +396,9 @@
 						@foreach ($products -> take(9) as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
 								<div class="desc">
-									<a href="#" class="title">{{$product->name}}</a>
+									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
 									<div class="price">
 										<h6 class="currency-format">{{$product->price}}</h6>
 										<h6 class="l-through currency-format">{{$product->price}}</h6>
@@ -445,31 +444,37 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
-		console.log("Login status: ", isLogined());
-
+		// Kiểm tra đăng nhập
 		function isLogined() {
 			return @json(Auth::check());
 		}
 
-		function addToCart(productId) {
-			if (!isLogined()) {
-				Swal.fire({
-					icon: 'warning',
-					title: 'You need to login',
-					text: 'Please login to add products to your cart.',
-					showCancelButton: true,
-					confirmButtonText: 'Login now',
-					cancelButtonText: 'Maybe later',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = "{{ route('account.login') }}";
-					}
-				});
+		function showError(title, message) {
+			Swal.fire({
+				icon: 'error',
+				title,
+				text: message
+			});
+		}
+
+
+		function sendAddToCartRequest(productId) {
+			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+			if (!csrfToken) {
+				console.error("CSRF token not found.");
+				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
-
-			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+			Swal.fire({
+				icon: 'info',
+				title: 'Adding product...',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			});
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -477,7 +482,7 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						id: productId
+						product_id: productId
 					})
 				})
 				.then(res => res.json())
@@ -485,60 +490,51 @@
 					Swal.fire({
 						icon: data.success ? 'success' : 'error',
 						title: data.success ? 'Product added' : 'Error',
-						text: data.message,
-						confirmButtonText: 'OK'
+						text: data.message
 					});
 				})
 				.catch(err => {
 					console.error("Error sending request:", err);
-					Swal.fire({
-						icon: 'error',
-						title: 'An error occurred',
-						text: 'Unable to add product. Please try again later.',
-					});
+					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
 
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to log in',
+					text: 'Please log in to add products to the cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Log in now',
+					cancelButtonText: 'Later'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "/account";
+					}
+				});
+				return;
+			}
+
+			sendAddToCartRequest(productId);
+		}
+
 		document.addEventListener('DOMContentLoaded', function() {
-			// Sự kiện click thêm sản phẩm
-			document.querySelectorAll('.ti-bag', '.add-btn').forEach(button => {
+			console.log("Login status:", isLogined());
+
+			document.querySelectorAll('.ti-bag, .add-btn').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
 					e.preventDefault();
-					const productId = this.dataset.id;
-					addToCart(productId);
-				});
-			});
 
-			// SweetAlert hiện khi thêm thành công qua session
-			@if(session('success'))
-			Swal.fire({
-				icon: 'success',
-				title: 'Success',
-				text: 'Product has been added to the cart.',
-				confirmButtonText: 'OK'
-			});
-			@endif
-
-			// Alert chào mừng (chỉ hiển thị 1 lần)
-			if (!sessionStorage.getItem('welcomeShown')) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Welcome to our Shop',
-					text: 'You can now register an account to enjoy more features.',
-					confirmButtonText: 'Login or Register',
-					cancelButtonText: 'Maybe later',
-					showCancelButton: true,
-					customClass: {
-						actions: 'swal2-actions-vertical'
-					}
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = '/account';
+					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					if (productId) {
+						addToCart(productId);
+					} else {
+						showError('Error', 'Cannot find product ID. Please try again.');
 					}
 				});
-				sessionStorage.setItem('welcomeShown', 'true');
-			}
+			});
 		});
 	</script>
 

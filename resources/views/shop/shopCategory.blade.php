@@ -1,7 +1,6 @@
 @extends('layout.user')
 
 @section('content')
-<link rel="stylesheet" href="{{url('resources/css')}}/app.css">
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
 	<div class="container">
@@ -76,7 +75,7 @@
 							</select>
 						</div>
 					</div>
-				</div> 
+				</div>
 				<br><br>
 				<button type="submit" class="btn">Filter</button>
 			</form>
@@ -101,11 +100,8 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-
-
 					@if(isset($productsfilter) && count($productsfilter))
 					@foreach($productsfilter as $product)
-
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							<img src="{{asset('user')}}/nike-img/{{$product->photo}}">
@@ -119,7 +115,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span class="ti-bag"></span>
+										<span data-id="{{$product->id}}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -146,11 +142,7 @@
 						</div>
 					</div>
 					@else
-					<div class="filter-bar d-flex flex-wrap align-items-center">
-						<div class="pagination">
-							<h4>Không có sản phẩm nào</h4>
-						</div>
-					</div>
+					<div class="filter-bar d-flex flex-wrap align-items-center"><h4>Không có sản phẩm nào</h4></div>
 					@endif
 				</div>
 			</section>
@@ -222,31 +214,37 @@
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
-		console.log("Login status: ", isLogined());
-
+		// Kiểm tra đăng nhập
 		function isLogined() {
 			return @json(Auth::check());
 		}
 
-		function addToCart(productId) {
-			if (!isLogined()) {
-				Swal.fire({
-					icon: 'warning',
-					title: 'You need to login',
-					text: 'Please login to add products to your cart.',
-					showCancelButton: true,
-					confirmButtonText: 'Login now',
-					cancelButtonText: 'Maybe later',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = "{{ route('account.login') }}";
-					}
-				});
+		function showError(title, message) {
+			Swal.fire({
+				icon: 'error',
+				title,
+				text: message
+			});
+		}
+
+
+		function sendAddToCartRequest(productId) {
+			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+			if (!csrfToken) {
+				console.error("CSRF token not found.");
+				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
-
-			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+			Swal.fire({
+				icon: 'info',
+				title: 'Adding product...',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			});
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -254,7 +252,7 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						id: productId
+						product_id: productId
 					})
 				})
 				.then(res => res.json())
@@ -262,60 +260,52 @@
 					Swal.fire({
 						icon: data.success ? 'success' : 'error',
 						title: data.success ? 'Product added' : 'Error',
-						text: data.message,
-						confirmButtonText: 'OK'
+						text: data.message
 					});
 				})
 				.catch(err => {
 					console.error("Error sending request:", err);
-					Swal.fire({
-						icon: 'error',
-						title: 'An error occurred',
-						text: 'Unable to add product. Please try again later.',
-					});
+					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
 
+		function addToCart(productId) {
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'You need to log in',
+					text: 'Please log in to add products to the cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Log in now',
+					cancelButtonText: 'Later'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = "/account";
+					}
+				});
+				return;
+			}
+
+			sendAddToCartRequest(productId);
+		}
+
 		document.addEventListener('DOMContentLoaded', function() {
-			// Sự kiện click thêm sản phẩm
-			document.querySelectorAll('.ti-bag').forEach(button => {
+			console.log("Login status:", isLogined());
+
+			document.querySelectorAll('.ti-bag, .add-btn').forEach(button => {
 				button.addEventListener('click', function(e) {
 					if (this.classList.contains('skip-add-to-cart')) return;
 					e.preventDefault();
-					const productId = this.dataset.id;
-					addToCart(productId);
-				});
-			});
 
-			// SweetAlert hiện khi thêm thành công qua session
-			@if(session('success'))
-			Swal.fire({
-				icon: 'success',
-				title: 'Success',
-				text: 'Product has been added to the cart.',
-				confirmButtonText: 'OK'
-			});
-			@endif
-
-			// Alert chào mừng (chỉ hiển thị 1 lần)
-			if (!sessionStorage.getItem('welcomeShown')) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Welcome to our Shop',
-					text: 'You can now register an account to enjoy more features.',
-					confirmButtonText: 'Login or Register',
-					cancelButtonText: 'Maybe later',
-					showCancelButton: true,
-					customClass: {
-						actions: 'swal2-actions-vertical'
-					}
-				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href = '/account';
+					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					if (productId) {
+						addToCart(productId);
+					} else {
+						showError('Error', 'Cannot find product ID. Please try again.');
 					}
 				});
-				sessionStorage.setItem('welcomeShown', 'true');
-			}
+			});
 		});
 	</script>
+
 	@endsection

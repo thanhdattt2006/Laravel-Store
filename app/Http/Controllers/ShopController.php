@@ -14,12 +14,12 @@ class ShopController extends Controller
 {
     public function shopCategory(Request $request)
     {
-        // 1. Lọc ID sản phẩm theo màu nếu có
+        // Filter by Color
         $filteredProductIds = Product_variant::when($request->color_id, function ($query) use ($request) {
             $query->whereIn('colors_id', (array) $request->color_id);
         })->pluck('product_id')->unique();
 
-        // 2. Lọc sản phẩm theo ID đã lọc ở bước 1 + cate_id nếu có
+        // Filter by Category
         $query = Product::query();
 
         if ($request->filled('color_id') && $filteredProductIds->isNotEmpty()) {
@@ -30,7 +30,7 @@ class ShopController extends Controller
             $query->where('cate_id', $request->cate_id);
         }
 
-        //  Lọc theo khoảng giá từ select option
+        //  Filter by Price range
         if ($request->filled('price_range')) {
             $range = explode('-', $request->price_range);
             if (count($range) == 2) {
@@ -38,7 +38,7 @@ class ShopController extends Controller
             }
         }
 
-        // 3. Dữ liệu truyền ra view
+        // Show
         $data = [
             'productsfilter' => $query->paginate(6)->appends($request->all()),
             'products' => Product::paginate(6),
@@ -97,10 +97,6 @@ class ShopController extends Controller
         return view('shop/shopCategory')->with($data);
     }
 
-
-
-
-
     public function show($id)
     {
         $product = Product::with('cate', 'variant')->findOrFail($id);
@@ -129,4 +125,7 @@ class ShopController extends Controller
             ];
         return view('shop/productDetails')->with($data);
     }
+    
 }
+
+

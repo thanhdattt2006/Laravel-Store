@@ -12,7 +12,7 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
-use App\Models\Account;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,7 +79,9 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
+
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
+
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
@@ -87,25 +89,31 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
 
-
-
-
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
     // Thêm vào giỏ hàng
-    Route::get('/shoppingCart', [CartController::class, 'index']);
-    Route::get('/shoppingCart', [CartController::class, 'showCartPage'])->name('cart.show');
-    Route::get('/shoppingCart/{accountId}', [CartController::class, 'showCart']);
-    Route::post('/shoppingCart', [CartController::class, 'addToCart']);
-    
+    Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
+    Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
+    Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+    Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
+
+    // Route::get('/shoppingCart', [ShopController::class, 'show']);
+
 
 });
-
-
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
-    Route::get('/blogDetails', [BlogController::class, 'blogDetails']);
+    Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
+    Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 });
-
+// Route::group(['prefix' => 'page'], function () {
+//     Route::get('/login', [PageController::class, 'login']);
+//     Route::get('/tracking', [PageController::class, 'tracking']);
+//     Route::get('/elementss', [PageController::class, 'elementss']);
+// });
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
@@ -114,18 +122,20 @@ Route::group(['prefix' => 'contact'], function () {
 Route::group(['prefix' => 'aboutus'], function () {
     Route::get('/', [AboutUsController::class, 'index']);
     Route::get('/aboutus', [AboutUsController::class, 'index']);
+    Route::get('/aboutUsDetail/{id}', [AboutUsController::class, 'aboutUsDetail']);
 });
 
 
 // Đăng ký route cho AccountController
 Route::group(['prefix' => 'account'], function () {
-    // 👇 Thêm name để dùng trong Blade
+    // Thêm name để dùng trong Blade
     Route::get('/', [AccountController::class, 'index'])->name('account.login');
     Route::post('/login', [AccountController::class, 'login'])->name('account.doLogin');
-    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
+    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout'); // nếu chưa có thì thêm luôn
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
+    Route::get('/userInfo', [AccountController::class, 'userInfo'])->middleware('auth');
 });
 
 
