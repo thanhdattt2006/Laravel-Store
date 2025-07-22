@@ -173,7 +173,12 @@
 						@foreach ($products as $product)
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+								@foreach ($product->variant as $photo)
+									@if ($photo->photos->isNotEmpty()) 
+										<a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
+										@break;
+									@endif
+								@endforeach
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
 									<div class="price">
