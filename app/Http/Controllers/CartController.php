@@ -81,7 +81,7 @@ class CartController extends Controller
     $cart = Cart::where('account_id', $user->id)->first();
 
     $cartItems = $cart
-        ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
+        ? $cart->cartItems()->with(['product', 'product.variant.colors', 'product.variant.photos'])->orderByDesc('id')->get()
         : collect(); // Giỏ trống vẫn trả về collection
 
     return view('shop.shoppingCart', compact('cartItems'));
