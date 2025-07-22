@@ -162,29 +162,6 @@
                 5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
                 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
                 4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
-<<<<<<< HEAD
-                                        </svg>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                        @guest
-                                        <a class="dropdown-item" href="{{ route('account.login') }}">Log-in</a>
-                                        @else
-                                        <a class="dropdown-item" href="{{ url('account/userInfo') }}">User Infomation</a>
-                                        <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
-                                        <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
-                                        <a class="dropdown-item" href="{{ route('account.logout')  }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Log-out
-                                        </a>
-                                        <form id="logout-form" action="{{ route('account.logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                        @endguest
-                                    </div>
-                                </li>
-                            </ul>
-
-=======
                                 </svg>
                             </a>
                             @else
@@ -204,7 +181,6 @@
                                 </form>
                             </div>
                             @endguest
->>>>>>> 55896b222b90607d9bf1aa5057abb0cb7d793cb3
                         </div>
 
 
