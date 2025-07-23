@@ -24,13 +24,21 @@
                       <table
                         id="add-row"
                         class="display table table-striped table-hover"
-                      >
+                      ><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                      @if (session('success'))
+                          <div id="alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 alert alert-success">
+                              <span class="block sm:inline">{{ session('success') }}</span>
+                          </div>
+                      @elseif (session('error'))
+                          <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
+                             <span class="block sm:inline">{{ session('error') }}</span>
+                          </div>
+                      @endif
                         <thead>
                           <tr>
                             <th>Id</th>
                             <th>Name</th>
                             <th>Image</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -39,16 +47,15 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Iamge</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </tfoot>
                         <tbody>
+                        @foreach($photos as $photo)
                           <tr>
-                            <td>01</td>
-                            <td>nike new-trend 2025</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/banner/Banner.png" alt=""></td>
-                            <td>Active</td>
+                            <td>{{$photo->id}}</td>
+                            <td>{{$photo->name}}</td>
+                            <td class="tbody-td"><img src="{{asset('user')}}/banner/{{$photo->name}}" alt="{{$photo->name}}"></td>
                             <td>
                               <div class="form-button-action">
                                 <button
@@ -58,77 +65,23 @@
                                   class="btn btn-link btn-primary btn-lg"
                                   data-original-title="Edit Task"
                                 >
-                                  <i class="fa fa-edit"></i>
+                                <i class="fa fa-edit"></i>
                                 </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
+                                <a href="{{url('admin/deleteSlider/' . $photo->id)}}">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-danger"
+                                    data-original-title="Remove"
+                                  >
+                                    <i class="fa fa-times"></i>
+                                  </button>
+                                </a>
                               </div>
                             </td>
                           </tr>
-                          <tr>
-                            <td>02</td>
-                            <td>Nike-xyz</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/banner/Banner1.png" alt=""></td>
-                            <td>InActive</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>03</td>
-                            <td>Nike-abc</td>
-                            <td class="tbody-td"><img src="{{asset('user')}}/banner/Banner.png" alt=""></td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                       
+                        @endforeach
                         </tbody>
                       </table>
                     </div>
@@ -138,4 +91,8 @@
             </div>
           </div>
         </div>
+@endsection
+
+@section('scripts')
+  <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

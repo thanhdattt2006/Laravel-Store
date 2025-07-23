@@ -79,4 +79,5 @@ class AccountController extends Controller
 
         return view('account/userInfo', compact('user', 'users'));
     }
+
 }

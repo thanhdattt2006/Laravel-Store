@@ -41,87 +41,39 @@
                           </tr>
                         </tfoot>
                         <tbody>
+                        @foreach($cates as $cate)
                           <tr>
-                            <td>01</td>
-                            <td>Runnig</td>
+                            <td>{{$cate->id}}</td>
+                            <td>{{$cate->name}}</td>
                             <td>Active</td>
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
+                               <a href="{{url('admin/editCategory/' . $cate->id)}}">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-primary btn-lg"
+                                    data-original-title="Edit Task"
+                                  >
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                               </a>
+                               <a href="{{url('admin/deleteCategory/' . $cate->id)}}" onclick="return confirm('Bạn có chắc muốn xoá?')">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-danger"
+                                    data-original-title="Remove"
+                                  >
+                                    <i class="fa fa-times"></i>
+                                  </button>
+                               </a>
                               </div>
                             </td>
                           </tr>
-                          <tr>
-                            <td>02</td>
-                            <td>Gym</td>
-                            <td>InActive</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>03</td>
-                            <td>Football</td>
-                            <td>Active</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
+                          @endforeach
                         </tbody>
                       </table>
                     </div>
