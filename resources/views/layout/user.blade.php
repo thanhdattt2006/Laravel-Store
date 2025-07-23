@@ -112,40 +112,10 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-<<<<<<< HEAD
-
-=======
->>>>>>> 4c63cddf0076ede9db3a982c35d1ec39ed827b6e
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-<<<<<<< HEAD
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav menu_nav ml-auto">
-                                <li class="nav-item active"><a class="nav-link" href="{{url('home')}}">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{url('aboutus')}}">About Us</a></li>
-                                <li class="nav-item"><a href="{{url('shop/shopCategory')}}" class="nav-link">Shop</a></li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Blog</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/index')}}">Blog</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Pages</a>
-                                    <ul class="dropdown-menu">
-                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
-                                        <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
-                                        <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
-=======
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -174,7 +144,6 @@
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
->>>>>>> 4c63cddf0076ede9db3a982c35d1ec39ed827b6e
 
 
                         </ul>
@@ -193,29 +162,6 @@
                 5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
                 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
                 4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
-<<<<<<< HEAD
-                                        </svg>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                        @guest
-                                        <a class="dropdown-item" href="{{ route('account.login') }}">Log-in</a>
-                                        @else
-                                        <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Infomation</a>
-                                        <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
-                                        <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
-                                        <a class="dropdown-item" href="{{ route('account.logout')  }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Log-out
-                                        </a>
-                                        <form id="logout-form" action="{{ route('account.logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                        @endguest
-                                    </div>
-                                </li>
-                            </ul>
-
-=======
                                 </svg>
                             </a>
                             @else
@@ -235,7 +181,6 @@
                                 </form>
                             </div>
                             @endguest
->>>>>>> 4c63cddf0076ede9db3a982c35d1ec39ed827b6e
                         </div>
 
 

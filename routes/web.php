@@ -103,7 +103,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/cart/update-size', [CartController::class, 'updateSize']);
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-    Route::post('/shop/productDetails/{id}/comment', [ShopController::class, 'postComment'])->name('shop.comment')->middleware('auth');
+   
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
