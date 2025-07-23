@@ -8,6 +8,7 @@ use App\Models\Colors;
 use App\Models\Photo;
 use App\Models\Product;
 use App\Models\Product_variant;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -40,8 +41,8 @@ class ShopController extends Controller
 
         // Show
         $data = [
-            'productsfilter' => $query->paginate(6)->appends($request->all()),
-            'products' => Product::paginate(6),
+            'productsfilter' => $query->orderBy('id', 'desc')->paginate(6)->appends($request->all()),
+            'products' => Product::orderBy('id', 'desc')->paginate(6),
             'colors' => Colors::all(),
             'cates' => Cate::get(),
         ];
@@ -124,7 +125,9 @@ class ShopController extends Controller
             ];
         return view('shop/productDetails')->with($data);
     }
-    
+    public function cmt()
+    {
+        
+    }
+
 }
-
-

@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $colors = Colors::get();
 
-        $products = Product::with('variant.colors')->get();
+        $products = Product::orderBy('id', 'desc')->with('variant.colors')->get();
 
         $products->map(function ($product) {
             $firstVariant = $product->variant->first();

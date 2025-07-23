@@ -54,7 +54,7 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <h5>{{$user -> address}}</h5>
+                                    <h5 style="text-wrap-style: balance;">{{$user -> address}}</h5>
                                 </td>
                             </tr>
                             <tr>
@@ -79,9 +79,15 @@
                                 <td>
                                     <p>Password</p>
                                 </td>
+                                <td></td>
                                 <td>
-                                    <h5>{{$user -> password}}</h5>
+                                    <input type="password" value="{{ $user->password }}" readonly style="border: none; background: transparent;">
                                 </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a href="{{ route('account.edit') }}" class="primary-btn">Edit</a></td>
                             </tr>
                         </tbody>
                     </table>
