@@ -112,9 +112,9 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -164,25 +164,27 @@
                 4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
                                 </svg>
                             </a>
+                            @else
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->fullname }}
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                @guest
-                                <a class="dropdown-item" href="{{ route('account.login') }}">Log-in</a>
-                                @else
                                 <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Infomation</a>
                                 <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
                                 <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
-                                <a class="dropdown-item" href="{{ route('account.logout')  }}"
+                                <a class="dropdown-item" href="{{ route('account.logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Log-out
                                 </a>
                                 <form id="logout-form" action="{{ route('account.logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                                @endguest
                             </div>
-                            </li>
-                            </ul>
+                            @endguest
                         </div>
+
+
                     </div>
                 </div>
             </nav>
@@ -302,6 +304,8 @@
             });
         });
     </script>
+
     @yield('scripts')
 </body>
+
 </html>

@@ -264,7 +264,7 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products -> take(1-16) as $product)
+					@foreach ($products -> take(8) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)

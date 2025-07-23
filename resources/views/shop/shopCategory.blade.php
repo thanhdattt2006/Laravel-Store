@@ -63,7 +63,7 @@
 					<div class="common-filter">
 						<div class="sidebar-categories">
 							<select name="price_range" onchange="this.form.submit()">
-								<option value="0">-- Chọn giá --</option>
+								<option value="0">-- Select Price --</option>
 								<option value="1000000-2000000" {{ request('price_range') == '1000000-2000000' ? 'selected' : '' }}>1.000.000đ - 2.000.000đ</option>
 								<option value="2000000-3000000" {{ request('price_range') == '2000000-3000000' ? 'selected' : '' }}>2.000.000đ - 3.000.000đ</option>
 								<option value="3000000-4000000" {{ request('price_range') == '3000000-4000000' ? 'selected' : '' }}>3.000.000đ - 4.000.000đ</option>
