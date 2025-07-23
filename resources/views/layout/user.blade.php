@@ -303,5 +303,4 @@
 
     @yield('scripts')
 </body>
-
 </html>
