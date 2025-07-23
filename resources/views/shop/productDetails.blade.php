@@ -308,42 +308,32 @@
                                     commodo</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="review_box">
-                            <h4>Post a comment</h4>
-                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="btn primary-btn skip-add-to-cart">Submit Now</button>
-                                </div>
-                            </form>
+                        @auth
+                        <form id="review-form" action="#" method="POST">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="text" name="comment" placeholder="Enter a comment..." required>
+                            <button type="submit">Submit</button>
+                        </form>
+
+                        <div id="review-msg" style="color: green; margin-top: 10px;"></div>
+                        <ul id="review-list">
+                            {{-- Review sẽ thêm vào đây --}}
+                        </ul>
+                        @endauth
+
+
+                        @guest
+                        <div class="alert alert-warning">
+                            Vui lòng <a href="{{ route('account.login') }}">đăng nhập</a> để bình luận
                         </div>
+                        @endguest
+
+
+
                     </div>
+
                 </div>
             </div>
-
-        </div>
-    </div>
 </section>
 <!--================End Product Description Area =================-->
 
@@ -390,6 +380,71 @@
 </section>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('review-form');
+        if (!form) return;
+
+        // Tránh gắn lại sự kiện nếu trang render lại
+        if (form.dataset.bound === 'true') return;
+        form.dataset.bound = 'true';
+
+        const msgBox = document.getElementById('review-msg');
+        let isSubmitting = false;
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Chặn submit mặc định
+
+            if (isSubmitting) return;
+            isSubmitting = true;
+            msgBox.innerHTML = '';
+
+            const data = {
+                product_id: form.querySelector('[name="product_id"]').value,
+                comment: form.querySelector('[name="comment"]').value,
+            };
+
+            try {
+                const response = await fetch("{{ route('product.review') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Có lỗi xảy ra');
+                }
+
+                msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                form.reset();
+
+            } catch (error) {
+                console.error('Lỗi:', error);
+                const msg = error.message.toLowerCase();
+                if (msg.includes('đăng nhập') || msg.includes('login')) {
+                    window.location.href = "{{ route('account.login') }}";
+                } else {
+                    msgBox.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+                }
+            } finally {
+                isSubmitting = false;
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<script>
     // color-picker
 
     // waitng DOM complete loading
@@ -423,7 +478,29 @@
 
 
 <!-- End related-product Area -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#review-form').on('submit', function(e) {
+        e.preventDefault(); // không reload trang
 
+        let form = $(this);
+        let url = "{{ route('product.review') }}";
+        let data = form.serialize(); // lấy toàn bộ input
+
+        $.post(url, data, function(response) {
+            $('#review-success').text('Đã gửi bình luận!');
+            let commentText = form.find('input[name="cmt"]').val();
+
+            // Thêm bình luận mới vào danh sách
+            $('#review-list').prepend(`<li>${commentText}</li>`);
+
+            // Reset ô nhập
+            form[0].reset();
+        }).fail(function(xhr) {
+            $('#review-success').text('Lỗi khi gửi bình luận!');
+        });
+    });
+</script>
 @endsection
 
 @section('scripts')
@@ -557,4 +634,5 @@
         }
     });
 </script>
+
 @endsection

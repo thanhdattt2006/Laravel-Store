@@ -26,6 +26,7 @@ class AccountController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            session(['account_id' => $user->id]);
             if ($user->role_id == 1) {
                 return redirect('/admin/index')->with('okay', 'Logged in successfully as admin!');
             } elseif ($user->role_id == 2) {
@@ -104,7 +105,7 @@ class AccountController extends Controller
         $user->phone = $request->phone;
         $user->username = $request->username;
         $user->password = $request->password;
-         
+
         $user->save();
 
         return redirect()->route('account.userInfo')->with('success', 'Successful!');

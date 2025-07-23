@@ -9,7 +9,11 @@ use App\Models\Photo;
 use App\Models\Product;
 use App\Models\Product_variant;
 use App\Models\Review;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
@@ -125,9 +129,26 @@ class ShopController extends Controller
             ];
         return view('shop/productDetails')->with($data);
     }
-    public function cmt()
-    {
-        
-    }
 
+
+    public function storeReview(Request $request)
+    {
+        $accountId = session('account_id'); // ✅ Lấy từ session
+        if (!$accountId) {
+            return response()->json(['message' => 'Bạn chưa đăng nhập.'], 401);
+        }
+
+        $product_id = $request->input('product_id');
+        $comment = $request->input('comment');
+
+        $review = new Review();
+        $review->account_id = $accountId;
+        $review->product_id = $product_id;
+        $review->comment = $comment;
+        $review->created_at = now();
+        $review->updated_at = now();
+        $review->save();
+
+        return response()->json(['message' => 'Bình luận đã được gửi thành công!']);
+    }
 }

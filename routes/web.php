@@ -106,7 +106,10 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/cart/update-color', [CartController::class, 'updateColor'])->name('cart.updateColor');
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-   
+   Route::post('/review/store', [ShopController::class, 'storeReview'])
+    ->name('product.review');
+
+
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
