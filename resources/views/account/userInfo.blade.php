@@ -81,7 +81,7 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <h5>123</h5>
+                                    <input type="password" value="{{ $user->password }}" readonly style="border: none; background: transparent;">
                                 </td>
                             </tr>
                             <tr>

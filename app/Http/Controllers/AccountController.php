@@ -93,6 +93,7 @@ class AccountController extends Controller
             'address' => 'required|string|max:255',
             'phone'    => 'required|string|max:15',
             'username' => 'required|string|max:50',
+
         ]);
 
         $user = auth()->user();

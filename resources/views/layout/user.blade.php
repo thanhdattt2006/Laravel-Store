@@ -134,15 +134,6 @@
                                     <li class="nav-item"><a class="nav-link" href="{{url('blog/blogDetails')}}">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                    aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu">
-                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('/login')}}">Login</a></li> -->
-                                    <!-- <li class="nav-item"><a class="nav-link" href="{{url('tracking')}}">Tracking</a></li> -->
-                                    <li class="nav-item"><a class="nav-link" href="{{url('/elements')}}">Elements</a></li>
-                                </ul>
-                            </li>
                             <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
 
 
@@ -170,6 +161,7 @@
                                 {{ Auth::user()->fullname }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Infomation</a>
                                 <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
                                 <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
                                 <a class="dropdown-item" href="{{ route('account.logout') }}"
@@ -306,5 +298,4 @@
 
     @yield('scripts')
 </body>
-
 </html>

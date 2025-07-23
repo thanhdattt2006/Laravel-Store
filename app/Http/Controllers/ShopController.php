@@ -41,8 +41,8 @@ class ShopController extends Controller
 
         // Show
         $data = [
-            'productsfilter' => $query->paginate(6)->appends($request->all()),
-            'products' => Product::paginate(6),
+            'productsfilter' => $query->orderBy('id', 'desc')->paginate(6)->appends($request->all()),
+            'products' => Product::orderBy('id', 'desc')->paginate(6),
             'colors' => Colors::all(),
             'cates' => Cate::get(),
         ];
