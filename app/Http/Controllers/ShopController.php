@@ -8,6 +8,7 @@ use App\Models\Colors;
 use App\Models\Photo;
 use App\Models\Product;
 use App\Models\Product_variant;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -124,7 +125,9 @@ class ShopController extends Controller
             ];
         return view('shop/productDetails')->with($data);
     }
-    
+    public function cmt()
+    {
+        
+    }
+
 }
-
-

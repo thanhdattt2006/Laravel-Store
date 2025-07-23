@@ -38,7 +38,7 @@ Route::group(['prefix' => 'home'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    
+
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
     //Slider
@@ -52,14 +52,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
     // Route::get('/editProduct', [AdminController::class, 'editProduct']);
-    
+
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
     Route::get('/allCategories', [AdminController::class, 'allCategories']);
     Route::get('/deleteCategory/{id}', [AdminController::class, 'deleteCategory']);
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
-    
+
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
-    
+
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
 
@@ -103,8 +103,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/cart/update-size', [CartController::class, 'updateSize']);
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-
-
+    Route::post('/shop/productDetails/{id}/comment', [ShopController::class, 'postComment'])->name('shop.comment')->middleware('auth');
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
