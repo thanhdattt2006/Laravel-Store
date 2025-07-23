@@ -38,7 +38,7 @@ Route::group(['prefix' => 'home'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    
+
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
     //Slider
@@ -52,14 +52,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
     // Route::get('/editProduct', [AdminController::class, 'editProduct']);
-    
+
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
     Route::get('/allCategories', [AdminController::class, 'allCategories']);
     Route::get('/deleteCategory/{id}', [AdminController::class, 'deleteCategory']);
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
-    
+
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
-    
+
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
 
@@ -111,11 +111,7 @@ Route::group(['prefix' => 'blog'], function () {
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
     Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 });
-// Route::group(['prefix' => 'page'], function () {
-//     Route::get('/login', [PageController::class, 'login']);
-//     Route::get('/tracking', [PageController::class, 'tracking']);
-//     Route::get('/elementss', [PageController::class, 'elementss']);
-// });
+
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
@@ -137,11 +133,11 @@ Route::group(['prefix' => 'account'], function () {
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
-    Route::get('/userInfo', [AccountController::class, 'userInfo'])->middleware('auth');
+    Route::get('/userInfo', [AccountController::class, 'userInfo'])->name('account.userInfo')->middleware('auth');
+
+    Route::get('/edit', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
+    Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
 });
-
-
-
 
 // Trang chỉ admin được vào
 Route::middleware(['auth', 'role:1'])->group(function () {

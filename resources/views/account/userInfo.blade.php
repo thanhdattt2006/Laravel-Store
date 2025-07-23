@@ -84,6 +84,11 @@
                                     <h5>123</h5>
                                 </td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a href="{{ route('account.edit') }}" class="primary-btn">Edit</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
