@@ -204,53 +204,48 @@
 				<div class="row">
 					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
-					@php
-					$firstVariant = $product->variant->first();
-					$colorId = $firstVariant?->colors_id ?? null;
-					@endphp
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							 @foreach ($product->variant as $photo)
-                                @if ($photo->photos->isNotEmpty()) 
-								   <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
-                                  @break;
-                                @endif
-                              @endforeach
-							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
-									<h6>{{$product->name}}</h6>
-								</a>
-								<div class="price">
-									<h6 class="currency-format">{{$product->price}}</h6>
-									<h6 class="l-through currency-format">{{$product -> price }}</h6>
-								</div>
-								<div class="prd-bottom">
-									<a href="" class="social-info">
-										<span data-id="{{ $product->id }}" data-color="{{ $colorId }}" class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
+						@php
+							$firstVariant = $product->variant->first();
+							$colorId = $firstVariant?->colors_id ?? null;
+						@endphp
+						<div class="col-lg-3 col-md-6">
+							<div class="single-product">
+								@foreach ($product->variant as $photo)
+									@if ($photo->photos->isNotEmpty()) 
+										<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+										@break;
+									@endif
+								@endforeach
+								<div class="product-details">
+									<a href="{{url('/shop/productDetails')}}">
+										<h6>{{$product->name}}</h6>
 									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="/shop/compare" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
-									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
-
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
+									<div class="price">
+										<h6 class="currency-format">{{$product->price}}</h6>
+										<h6 class="l-through currency-format">{{$product -> price }}</h6>
+									</div>
+									<div class="prd-bottom">
+										<a href="" class="social-info">
+											<span data-id="{{ $product->id }}" data-color="{{ $colorId }}" class="ti-bag"></span>
+											<p class="hover-text">add to bag</p>
+										</a>
+										<a href="" class="social-info">
+											<span class="lnr lnr-heart"></span>
+											<p class="hover-text">Wishlist</p>
+										</a>
+										<a href="/shop/compare" class="social-info">
+											<span class="lnr lnr-sync"></span>
+											<p class="hover-text">compare</p>
+										</a>
+										<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+											<span class="lnr lnr-move"></span>
+											<p class="hover-text">view more</p>
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-
 					@endforeach
-
-
-
 				</div>
 			</div>
 		</div>
@@ -444,10 +439,9 @@
 			</div>
 		</div>
 	</section>
-
-
 	<!-- End related-product Area -->
 	@endsection
+
 	@section('scripts')
 	<script>
 		const ASSET_URL = "{{asset('user')}}"
@@ -566,5 +560,4 @@
 			});
 		});
 	</script>
-
 	@endsection
