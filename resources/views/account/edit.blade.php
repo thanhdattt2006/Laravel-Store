@@ -65,7 +65,7 @@
                                     </td>
                                     <td></td>
                                     <td>
-                                        <input type="password" name="password" value="{{ $user->password }}" class="form-control">
+                                        <input type="text" name="password" value="{{ $user->password }}" class="form-control">
                                     </td>
                                 </tr>
                                 <tr>
