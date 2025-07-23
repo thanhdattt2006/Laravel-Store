@@ -110,11 +110,7 @@ Route::group(['prefix' => 'blog'], function () {
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
     Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 });
-// Route::group(['prefix' => 'page'], function () {
-//     Route::get('/login', [PageController::class, 'login']);
-//     Route::get('/tracking', [PageController::class, 'tracking']);
-//     Route::get('/elementss', [PageController::class, 'elementss']);
-// });
+
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
@@ -136,11 +132,11 @@ Route::group(['prefix' => 'account'], function () {
 
     Route::get('/register', [AccountController::class, 'register'])->name('account.register');
     Route::post('/register', [AccountController::class, 'registerHandle'])->name('account.doRegister');
-    Route::get('/userInfo', [AccountController::class, 'userInfo'])->middleware('auth');
+    Route::get('/userInfo', [AccountController::class, 'userInfo'])->name('account.userInfo')->middleware('auth');
+
+    Route::get('/edit', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
+    Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
 });
-
-
-
 
 // Trang chỉ admin được vào
 Route::middleware(['auth', 'role:1'])->group(function () {
