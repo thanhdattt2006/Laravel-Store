@@ -54,7 +54,7 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <h5>{{$user -> address}}</h5>
+                                    <h5 style="text-wrap-style: balance;">{{$user -> address}}</h5>
                                 </td>
                             </tr>
                             <tr>
@@ -79,8 +79,9 @@
                                 <td>
                                     <p>Password</p>
                                 </td>
+                                <td></td>
                                 <td>
-                                    <h5>{{$user -> password}}</h5>
+                                    <h5>123</h5>
                                 </td>
                             </tr>
                         </tbody>

@@ -341,7 +341,7 @@
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products -> take(16) as $product)
+						@foreach ($products -> take(16-28) as $product)
 						<div class="single-exclusive-slider">
 							@foreach ($product->variant as $photo)
 								@if ($photo->photos->isNotEmpty()) 
