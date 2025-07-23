@@ -3,6 +3,12 @@
 @section('content')
 
 <!-- Start Banner Area -->
+<style>
+    .color-item.selected-color {
+        border: 2px solid black;
+        opacity: 1 !important;
+    }
+</style>
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -190,17 +196,15 @@
                     <div class="container-color">
                         <ul class="color-list">
                             <label for="">Color: </label>
-                            <div id="colorForm" method="GET" action="">
-                                <input type="hidden" name="color_id" id="colorIdInput">
-                                @foreach($colors as $color)
-                                <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
-                                @endforeach
-                            </div>
-                            <!-- Size -->
+                            <input type="hidden" name="color_id" id="colorIdInput">
+                            @foreach($colors as $color)
+                            <button type="button" class="color-item" data-id="{{ $color->id }}" style="background:{{ $color->name }}; opacity:0.8;"></button>
+                            @endforeach
+
                             <label>Size : </label>
                             <li class="size">
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="" id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
+                                    <select id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
@@ -209,7 +213,7 @@
                             </li>
                         </ul>
                     </div>
-                   
+
                     <br>
 
                     <div class="product_count">
@@ -583,85 +587,103 @@
             text: message
         });
     }
+</script>
 
 
-    function sendAddToCartRequest(productId) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            showError('Error', 'Cannot find CSRF token. Please reload the page.');
-            return;
-        }
-        Swal.fire({
-            icon: 'info',
-            title: 'Adding product...',
-            text: 'Please wait...',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.success ? 'success' : 'error',
-                    title: data.success ? 'Product added' : 'Error',
-                    text: data.message
-                });
-            })
-            .catch(err => {
-                console.error("Error sending request:", err);
-                showError('System Error', 'Cannot add product. Please try again later.');
-            });
-    }
 
-    function addToCart(productId) {
-        if (!isLogined()) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'You need to log in',
-                text: 'Please log in to add products to the cart.',
-                showCancelButton: true,
-                confirmButtonText: 'Log in now',
-                cancelButtonText: 'Later'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/account";
-                }
-            });
-            return;
-        }
-
-        sendAddToCartRequest(productId);
-    }
-
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("Login status:", isLogined());
+        const colorButtons = document.querySelectorAll('.color-item');
+        const colorIdInput = document.getElementById('colorIdInput');
 
-        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart)').forEach(button => {
+        colorButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                colorButtons.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                colorIdInput.value = this.dataset.id;
+            });
+        });
+
+        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart), #add-to-cart-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
-                if (productId) {
-                    addToCart(productId);
-                } else {
-                    showError('Error', 'Cannot find product ID. Please try again.');
+                const colorId = document.getElementById('colorIdInput')?.value || null;
+                const size = document.getElementById('size')?.value || 36;
+                const quantity = document.getElementById('qty')?.value || 1;
+
+                console.log("Product:", productId, "Color:", colorId, "Size:", size, "Quantity:", quantity);
+
+                if (!colorId) {
+                    Swal.fire('Warning', 'Please select a color.', 'warning');
+                    return;
                 }
+
+                addToCart(productId, colorId, size, quantity);
             });
         });
 
+        function addToCart(productId, colorId, size, quantity) {
+            if (!isLogined()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You need to log in',
+                    text: 'Please log in to add products to the cart.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Log in now',
+                    cancelButtonText: 'Later'
+                }).then(result => {
+                    if (result.isConfirmed) window.location.href = "/account";
+                });
+                return;
+            }
+            sendAddToCartRequest(productId, colorId, size, quantity); // ✅ Thêm quantity ở đây
+        }
+
+        function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (!csrfToken) {
+                console.error("Missing CSRF token");
+                showError('Error', 'CSRF token not found. Please reload.');
+                return;
+            }
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Adding product...',
+                text: 'Please wait…',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            fetch('/shop/shoppingCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        color_id: colorId,
+                        size: size,
+                        quantity: quantity
+                    }) // ✅ quantity
+                })
+                .then(r => r.json())
+                .then(data => {
+                    Swal.fire({
+                        icon: data.success ? 'success' : 'error',
+                        title: data.success ? 'Added' : 'Error',
+                        text: data.message
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    showError('System Error', 'Cannot add product. Please try later.');
+                });
+        }
     });
 </script>
 @endsection

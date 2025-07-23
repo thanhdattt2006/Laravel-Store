@@ -204,7 +204,10 @@
 				<div class="row">
 					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
-
+					@php
+					$firstVariant = $product->variant->first();
+					$colorId = $firstVariant?->colors_id ?? null;
+					@endphp
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							 @foreach ($product->variant as $photo)
@@ -223,7 +226,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span data-id="{{ $product->id }}" class="ti-bag"></span>
+										<span data-id="{{ $product->id }}" data-color="{{ $colorId }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="" class="social-info">
@@ -245,6 +248,8 @@
 					</div>
 
 					@endforeach
+
+
 
 				</div>
 			</div>
@@ -357,7 +362,7 @@
 								<div>
 									<h3><a href="{{ url('/shop/productDetails/' . $product->id) }}" style="color: orange;">{{$product->name}}</a></h3>
 								</div>
-								
+
 							</div>
 						</div>
 						@endforeach
@@ -478,23 +483,23 @@
 		}
 
 
-		function sendAddToCartRequest(productId) {
+		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 			if (!csrfToken) {
 				console.error("CSRF token not found.");
 				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
+
 			Swal.fire({
 				icon: 'info',
 				title: 'Adding product...',
 				text: 'Please wait...',
 				allowOutsideClick: false,
 				showConfirmButton: false,
-				didOpen: () => {
-					Swal.showLoading();
-				}
+				didOpen: () => Swal.showLoading()
 			});
+
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -502,7 +507,8 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						product_id: productId
+						product_id: productId,
+						color_id: colorId
 					})
 				})
 				.then(res => res.json())
@@ -518,6 +524,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 		function addToCart(productId) {
 			if (!isLogined()) {
@@ -548,8 +555,10 @@
 					e.preventDefault();
 
 					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					const colorId = this.dataset.color || this.closest('[data-color]')?.dataset.color;
+
 					if (productId) {
-						addToCart(productId);
+						sendAddToCartRequest(productId, colorId); // ✅ phải truyền cả colorId
 					} else {
 						showError('Error', 'Cannot find product ID. Please try again.');
 					}
