@@ -25,7 +25,7 @@ class Product_variant extends Model
     {
         return $this->hasMany(Photo::class, 'product_variant_id');
     }
-    public function colors()
+   public function colors()
 {
     return $this->belongsTo(Colors::class, 'colors_id');
 }

@@ -61,6 +61,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
     Route::get('/confirmation', [ShopController::class, 'confirmation']);
+    
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
 
@@ -76,11 +77,12 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
     // Thêm vào giỏ hàng
+    Route::get('/productCheckout', [CartController::class, 'payment']);
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shoppingCart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-    Route::post('/cart/update-size', [ShopController::class, 'updateSize']);
+    Route::post('/cart/update-size', [CartController::class, 'updateSize']);
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
 

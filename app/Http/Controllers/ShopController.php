@@ -121,7 +121,6 @@ class ShopController extends Controller
                 'selectedColorId' => $selectedColorId,
                 'product_variant' =>  $product_variant,
                 'products' => Product::get(),
-
             ];
         return view('shop/productDetails')->with($data);
     }
