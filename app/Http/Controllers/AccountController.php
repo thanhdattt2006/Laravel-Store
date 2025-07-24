@@ -94,7 +94,7 @@ class AccountController extends Controller
             'address' => 'required|string|max:255',
             'phone'    => 'required|string|max:15',
             'username' => 'required|string|max:50',
-
+            'new_password' => 'nullable|string|min:4|confirmed', // thêm xác thực password
         ]);
 
         $user = auth()->user();
@@ -104,10 +104,13 @@ class AccountController extends Controller
         $user->address = $request->address;
         $user->phone = $request->phone;
         $user->username = $request->username;
-        $user->password = $request->password;
+
+        if ($request->filled('new_password')) {
+            $user->password = Hash::make($request->new_password); // ĐỔI password
+        }
 
         $user->save();
 
-        return redirect()->route('account.userInfo')->with('success', 'Successful!');
+        return redirect()->route('account.userInfo')->with('success', 'Cập nhật thành công!');
     }
 }

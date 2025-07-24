@@ -240,16 +240,6 @@ class CartController extends Controller
     }
 
 
-
-    public function payment()
-    {
-        $data = [
-            'payments' => Payment::pluck('name')
-        ];
-        return view('shop/productCheckout')->with($data);
-    }
-
-
     // mã giảm giá
     public function applyVoucher(Request $request)
     {
@@ -283,5 +273,42 @@ class CartController extends Controller
             'subtotal' => number_format($discounted, 0, ',', '.') . ' đ',
             'voucher_id' => $voucher->id
         ]);
+    }
+    public function showCheckOut(Request $request)
+    {
+        if (!auth()->check()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'loggedIn' => false,
+                    'message' => 'Bạn cần đăng nhập để xem giỏ hàng.'
+                ], 401);
+            }
+
+            return redirect()->route('account.login')->with('error', 'Vui lòng đăng nhập.');
+        }
+
+        $user = auth()->user();
+        $cart = Cart::where('account_id', $user->id)->first();
+
+        $cartItems = $cart
+            ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
+            : collect();
+
+        $subtotal = $cartItems->sum(function ($item) {
+            return $item->quantity * $item->product->price;
+        });
+
+        $payments = Payment::get(); // Lấy danh sách phương thức thanh toán
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'loggedIn' => true,
+                'subtotal' => $subtotal,
+                'cartItems' => $cartItems,
+                'payments' => $payments
+            ]);
+        }
+
+        return view('shop.productCheckout', compact('cartItems', 'subtotal', 'payments'));
     }
 }

@@ -58,15 +58,14 @@
                             </td>
                             <td>
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="size" class="color-select" data-cart-item-id="{{ $item->id }}">
+                                    <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
                                         @foreach($item->product->variant as $product_variant)
-                                        <option value="{{ $product_variant->id }}"
-                                            {{ $item->product_variant_id == $product_variant->id ? 'selected' : '' }}>
+                                        <option value="{{ $product_variant->colors_id }}"
+                                            {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
                                             {{ $product_variant->colors->name }}
                                         </option>
                                         @endforeach
                                     </select>
-
                                 </div>
 
                             </td>
@@ -332,12 +331,12 @@
         if (!window.isLogined) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Bạn chưa đăng nhập',
-                text: 'Vui lòng đăng nhập hoặc đăng ký để sử dụng giỏ hàng.',
+                title: 'You have not logged in',
+                text: 'Please log in or register to use the cart.',
                 showDenyButton: true,
-                confirmButtonText: 'Đăng nhập',
-                denyButtonText: 'Đăng ký',
-                cancelButtonText: 'Để sau',
+                confirmButtonText: 'Log in',
+                denyButtonText: 'Register',
+                cancelButtonText: 'Later',
                 showCancelButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -468,7 +467,7 @@
 </script>
 
 
-<!-- đổi màu -->
+<!-- update color -->
 <script>
     document.querySelectorAll('.color-select').forEach(select => {
         select.addEventListener('change', function() {

@@ -98,6 +98,7 @@ Route::group(['prefix' => 'shop'], function () {
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
     Route::get('/productCheckout', [CartController::class, 'payment']);
+    Route::get('/productCheckout', [CartController::class, 'showCheckOut']);
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shop/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');

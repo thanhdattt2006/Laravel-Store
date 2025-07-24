@@ -86,24 +86,24 @@
                     </form>
                 </div>
                 <div class="col-lg-4">
-                    <div class="order_box">
+                    <div class="order_box" style="width: 400px;">
                         <h2>Your Order</h2>
                         <ul class="list">
-                            <li><a href="#">Product <span>Total</span></a></li>
-                            <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
+                            <li><a  style="cursor:pointer">Product <span>Total</span></a></li>
+                            @foreach ($cartItems as $item)
+                            <li><a>{{ Str::limit($item->product->name, 20) }}<span class="middle" style="gap: 5px;">x{{$item->quantity}}</span> <span class="last">{{ number_format($item->total, 0, ',', '.') }} VND</span></a></li>
+                            @endforeach
                         </ul>
                         <ul class="list list_2">
-                            <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                            <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                            <li><a href="#">Total <span>$2210.00</span></a></li>
+                            <li><a  style="cursor:pointer">Subtotal <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
+                            <li><a  style="cursor:pointer">Shipping <span>Free ship</span></a></li>
+                            <li><a  style="cursor:pointer">Total <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
                         </ul>
-                        @foreach ($payments as $index => $payment)
+                        @foreach ($payments as $payment)
                         <div class="payment_item">
                             <div class="radion_btn">
-                                <input type="radio" id="payment-{{ $index }}" name="payment_method" value="{{ $payment }}">
-                                <label for="payment-{{ $index }}">{{ $payment }}</label>
+                                <input type="radio" id="payment{{$payment->id}}" name="payment_method" value="{{ $payment->name }}">
+                                <label for="payment{{$payment->id}}">{{ $payment->name }}</label>
                                 <div class="check"></div>
                             </div>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consectetur quasi perspiciatis earum eum vitae molestiae hic neque, amet deleniti?</p>
@@ -113,9 +113,9 @@
                         <div class="creat_account">
                             <input type="checkbox" id="f-option4" name="selector">
                             <label for="f-option4">I’ve read and accept the </label>
-                            <a href="#">terms & conditions*</a>
+                            <a  style="cursor:pointer">terms & conditions*</a>
                         </div>
-                        <a class="primary-btn" href="#">Proceed to Paypal</a>
+                        <a class="primary-btn"  style="cursor:pointer">Proceed to Paypal</a>
                     </div>
                 </div>
             </div>

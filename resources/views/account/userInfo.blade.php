@@ -76,15 +76,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <p>Password</p>
-                                </td>
-                                <td></td>
-                                <td>
-                                    <input type="password" value="{{ $user->password }}" readonly style="border: none; background: transparent;">
-                                </td>
-                            </tr>
-                            <tr>
                                 <td></td>
                                 <td></td>
                                 <td><a href="{{ route('account.edit') }}" class="primary-btn">Edit</a></td>
