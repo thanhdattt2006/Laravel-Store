@@ -109,10 +109,10 @@
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)
-								@if ($photo->photos->isNotEmpty()) 
-									<img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}">
-									@break;
-								@endif
+							@if ($photo->photos->isNotEmpty())
+							<img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}">
+							@break;
+							@endif
 							@endforeach
 							<div class="product-details">
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
@@ -127,14 +127,16 @@
 										<span data-id="{{$product->id}}" data-color="{{ $colorId }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="{{ route('compare.add', $product->id) }}" class="social-info">
+
+									<a href="#" class="social-info add-to-compare" data-id="{{ $product->id }}">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
+
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
@@ -180,10 +182,10 @@
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
 								@foreach ($product->variant as $photo)
-									@if ($photo->photos->isNotEmpty()) 
-										<a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
-										@break;
-									@endif
+								@if ($photo->photos->isNotEmpty())
+								<a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
+								@break;
+								@endif
 								@endforeach
 								<div class="desc">
 									<a href="#" class="title">{{$product->name}}</a>
@@ -327,5 +329,78 @@
 			});
 		});
 	</script>
+
+	<!-- alert them san pham compare -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('.add-to-compare').forEach(btn => {
+				btn.addEventListener('click', function(e) {
+					e.preventDefault();
+					const productId = this.dataset.id;
+
+					fetch('/shop/compare/' + productId)
+						.then(response => response.json())
+						.then(data => {
+							Swal.fire({
+								icon: data.success ? 'success' : 'info',
+								title: data.success ? 'Product added' : 'Notification!',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
+						})
+						.catch(err => {
+							Swal.fire({
+								icon: 'error',
+								title: 'Connection error!',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
+						});
+				});
+			});
+		});
+	</script>
+
+	<!-- alert them san pham wishlist -->
+	<script>
+		$(document).ready(function() {
+			$('.add-to-wishlist').click(function(e) {
+				e.preventDefault();
+				if (!checkLoginAndAlert()) return;
+
+				var productId = $(this).data('id');
+				$.ajax({
+					url: "{{ route('wishlist.ajaxAdd') }}",
+					type: 'POST',
+					data: {
+						product_id: productId,
+						_token: '{{ csrf_token() }}'
+					},
+					success: function(response) {
+						if (response.success) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Product added',
+								text: response.message,
+								confirmButtonText: 'OK'
+							});
+						} else {
+							Swal.fire({
+								icon: 'info',
+								title: 'Notification!',
+								text: response.message,
+								confirmButtonText: 'OK'
+							});
+						}
+					},
+					error: function() {
+						showError('Error!', 'Cannot add the product to the wishlist.');
+					}
+				});
+			});
+		});
+	</script>
+
 
 	@endsection

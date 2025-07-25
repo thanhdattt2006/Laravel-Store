@@ -89,13 +89,17 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
 
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::get('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::group(['prefix' => 'wishlist', 'middleware' => 'auth'], function () {
+        Route::get('/', [WishlistController::class, 'index'])->name('wishlist.index');
+        Route::get('/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+        Route::delete('/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    });
+    Route::post('/wishlist/ajax-add', [WishlistController::class, 'ajaxAdd'])->name('wishlist.ajaxAdd');
 
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
@@ -110,7 +114,6 @@ Route::group(['prefix' => 'shop'], function () {
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
    Route::post('/review/store', [ShopController::class, 'storeReview'])
     ->name('product.review');
-
 
 });
 Route::group(['prefix' => 'blog'], function () {
