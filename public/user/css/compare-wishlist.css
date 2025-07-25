@@ -33,11 +33,122 @@
     border-radius: 50%;
 }
 
-
-.compare-card .single-product{
-    margin-bottom: 0px;
-}
-
 .compare-card .single-product .prd-bottom{
-    margin-top: 10px;
+    margin-top: 50px;
 }
+
+/* Canh giữa nút X trong thẻ th */
+th form {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px; /* cách chữ Product 1 một xíu */
+}
+th button {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: red;
+}
+
+/* Table tổng quát */
+.compare-table {
+    width: 1140px;
+    margin: 40px auto;             /* giống wishlist: cách top & bottom */
+    border-collapse: collapse;
+    border: 1px solid #ccc;        /* border ngoài xám nhạt */
+}
+
+/* Border xám nhạt cho tất cả ô */
+.compare-table th,
+.compare-table td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+}
+
+/* Dòng tiêu đề: Product 1, Product 2... */
+.compare-table tr:first-child th {
+    text-align: center;
+    color: orange;
+    font-weight: bold;
+}
+
+/* Nút X căn giữa với chữ Product */
+.compare-table tr:first-child th form {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+}
+
+/* Cột đầu tiên (Photo, Name...) */
+.compare-table td:first-child {
+    color: orange;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Tiêu đề cột đầu tiên (Photo, Name, Price...) */
+.compare-table td:first-child,
+.compare-table tr:not(:first-child) td:first-child,
+.compare-table tr:not(:first-child) th:first-child {
+    color: orange;
+    text-align: center;    /* canh giữa */
+    font-weight: 600;
+}
+
+
+/* Fix width table */
+.container .overflow-x-auto table {
+    width: 1140px;
+    margin: 0 auto;
+    border: 1px solid #ccc; /* viền ngoài xám nhạt */
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ccc; /* viền từng ô xám nhạt */
+}
+
+thead th {
+    color: orange;
+    font-weight: bold;
+}
+
+
+/* Căn giữa tất cả cell theo chiều dọc */
+.container .overflow-x-auto table td,
+.container .overflow-x-auto table th {
+    vertical-align: middle;
+}
+
+/* Tăng chiều cao tối thiểu của row (tuỳ chỉnh nếu quá dư) */
+.container .overflow-x-auto table tr {
+    height: 80px; /* hoặc 70px tuỳ */
+}
+
+/* Căn giữa icon trong cột Action */
+.compare-card .prd-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap: 8px;  */
+}
+
+/* Đảm bảo nút X cũng align giữa cùng hàng */
+.compare-card form {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Đảm bảo nút X không to quá */
+.compare-card form button {
+    font-size: 30px;    /* nhỏ lại chút, tuỳ chỉnh */
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+

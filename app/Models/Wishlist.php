@@ -18,7 +18,11 @@ class Wishlist extends Model
         'created_at',
         'updated_at'
     ];
-    // App\Models\Wishlist.php
+     protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
