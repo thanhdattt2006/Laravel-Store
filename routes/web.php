@@ -114,6 +114,8 @@ Route::group(['prefix' => 'shop'], function () {
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
    Route::post('/review/store', [ShopController::class, 'storeReview'])
     ->name('product.review');
+    Route::get('/productDetails', [ShopController::class, 'cmt']);
+
 
 });
 Route::group(['prefix' => 'blog'], function () {

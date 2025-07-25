@@ -262,54 +262,24 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="comment_list">
+                            @foreach($review as $re)
                             <div class="review_item">
                                 <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-1.png" alt="">
-                                    </div>
+
                                     <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
+
+                                        <h4>{{ $re->account->fullname ?? 'Tài khoản ẩn' }}</h4>
+                                        <h5>{{ $re->created_at->format('d/m/Y H:i') }}</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
+                                <p>{{ $re->comment }}</p>
                             </div>
-                            <div class="review_item reply">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-3.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
+                            @endforeach
                         </div>
                         @auth
                         <form id="review-form" action="#" method="POST">
+
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="text" name="comment" placeholder="Enter a comment..." required>
                             <button type="submit">Submit</button>
@@ -392,7 +362,7 @@
         let isSubmitting = false;
 
         form.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Chặn submit mặc định
+            e.preventDefault();
 
             if (isSubmitting) return;
             isSubmitting = true;
@@ -423,6 +393,25 @@
                 msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
                 form.reset();
 
+                // ✅ Thêm bình luận mới vào đầu danh sách
+                const commentHTML = `
+                    <div class="review_item">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4>${result.review.fullname}</h4>
+                                <h5>${result.review.created_at}</h5>
+                                <a class="reply_btn" href="#">Reply</a>
+                            </div>
+                        </div>
+                        <p>${result.review.comment}</p>
+                    </div>
+                `;
+
+                const commentList = document.querySelector('.comment_list');
+                if (commentList) {
+                    commentList.insertAdjacentHTML('afterbegin', commentHTML);
+                }
+
             } catch (error) {
                 console.error('Lỗi:', error);
                 const msg = error.message.toLowerCase();
@@ -437,6 +426,7 @@
         });
     });
 </script>
+
 
 
 
