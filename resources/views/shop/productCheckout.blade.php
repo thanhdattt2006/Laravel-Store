@@ -1,6 +1,74 @@
 @extends('layout.user')
 
 @section('content')
+<!-- css -->
+<style>
+    .custom-select-box {
+        max-width: 750px;
+        position: relative;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 18px 0px;
+    }
+
+    .custom-selected {
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-selected:hover {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .25);
+    }
+
+    .custom-selected-text {
+        flex-grow: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .custom-arrow {
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .custom-options {
+        position: absolute;
+        width: 100%;
+        top: calc(100% + 4px);
+        left: 0;
+        background: white;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        display: none;
+    }
+
+    .custom-option {
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .custom-option:hover {
+        background-color: #f1f1f1;
+    }
+
+    .custom-option.selected {
+        background-color: #e9f5ff;
+        font-weight: bold;
+    }
+</style>
+
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
@@ -29,9 +97,7 @@
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your fullname">
                         </div>
-                        <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="company" name="company" placeholder="Company name">
-                        </div>
+
                         <div class="col-md-6 form-group p_star">
                             <input type="text" class="form-control" id="number" name="number" placeholder="Phone number">
 
@@ -40,41 +106,7 @@
                             <input type="text" class="form-control" id="email" name="compemailany" placeholder="Email address">
 
                         </div>
-                        <div class="col-md-12 form-group p_star">
-                            <select class="country_select">
-                                <option value="vietnam">Vietnam</option>
-                                <option value="india">India</option>
-                                <option value="russia">Russia</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add1" name="add1">
-                            <span class="placeholder" data-placeholder="Address line 01"></span>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add2" name="add2">
-                            <span class="placeholder" data-placeholder="Address line 02"></span>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="city" name="city">
-                            <span class="placeholder" data-placeholder="Town/City"></span>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <select class="country_select">
-                                <option value="1">District</option>
-                                <option value="2">District</option>
-                                <option value="4">District</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option2" name="selector">
-                                <label for="f-option2">Create an account?</label>
-                            </div>
-                        </div>
+
                         <div class="col-md-12 form-group">
                             <div class="creat_account">
                                 <h3>Shipping Details</h3>
@@ -84,20 +116,52 @@
                             <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
                         </div>
                     </form>
+                    <div class="cupon_area">
+                        <div class="check_title">
+                            <h2>Have a coupon? Choose your voucher here</h2>
+                        </div>
+                        <div class="custom-select-box">
+
+                            <!-- dropdown chọn voucher -->
+                            <div class="custom-select-box">
+                                <div class="custom-selected">
+                                    <span class="custom-selected-text">Choose your discount voucher</span>
+                                    <span class="custom-arrow">&#9662;</span>
+                                </div>
+                                <div class="custom-options">
+                                    <div class="custom-option"
+                                        data-discount="0"
+                                        data-value="0">
+                                        I dont want to use voucher right now!
+                                    </div>
+                                    @foreach($vouchers as $voucher)
+                                    <div class="custom-option"
+                                        data-discount="{{ $voucher->discount_value }}"
+                                        data-value="{{ $voucher->id }}">
+                                        {{ $voucher->code_name }}
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="order_box" style="width: 400px;">
+                    <div class="order_box">
                         <h2>Your Order</h2>
                         <ul class="list">
-                            <li><a  style="cursor:pointer">Product <span>Total</span></a></li>
+                            <li><a style="cursor:pointer">Product <span>Total</span></a></li>
                             @foreach ($cartItems as $item)
-                            <li><a>{{ Str::limit($item->product->name, 20) }}<span class="middle" style="gap: 5px;">x{{$item->quantity}}</span> <span class="last">{{ number_format($item->total, 0, ',', '.') }} VND</span></a></li>
+                            <li><a>{{ Str::limit($item->product->name, 12) }}<span class="middle" style="margin-left: 25px;">x{{$item->quantity}}</span> <span class="last">{{ number_format($item->total, 0, ',', '.') }} VND</span></a></li>
                             @endforeach
                         </ul>
                         <ul class="list list_2">
-                            <li><a  style="cursor:pointer">Subtotal <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
-                            <li><a  style="cursor:pointer">Shipping <span>Free ship</span></a></li>
-                            <li><a  style="cursor:pointer">Total <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
+                            <li><a style="cursor:pointer">Subtotal <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
+                            <li><a style="cursor:pointer">Shipping <span>Free ship</span></a></li>
+                            <li><a style="cursor:pointer">Discount <span class="discount-amount">- 0%</span></a></li>
+                            <li><a style="cursor:pointer">Total <span class="grand-price">{{ number_format($grand_price, 0, ',', '.') }} VND</span></a></li>
                         </ul>
                         @foreach ($payments as $payment)
                         <div class="payment_item">
@@ -106,16 +170,16 @@
                                 <label for="payment{{$payment->id}}">{{ $payment->name }}</label>
                                 <div class="check"></div>
                             </div>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consectetur quasi perspiciatis earum eum vitae molestiae hic neque, amet deleniti?</p>
+
                         </div>
                         @endforeach
 
                         <div class="creat_account">
                             <input type="checkbox" id="f-option4" name="selector">
                             <label for="f-option4">I’ve read and accept the </label>
-                            <a  style="cursor:pointer">terms & conditions*</a>
+                            <a style="cursor:pointer">terms & conditions*</a>
                         </div>
-                        <a class="primary-btn"  style="cursor:pointer">Proceed to Paypal</a>
+                        <a class="primary-btn" style="cursor:pointer">Proceed to Paypal</a>
                     </div>
                 </div>
             </div>
@@ -143,5 +207,73 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
+
+<!-- js cho dropdown -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const selectBox = document.querySelector(".custom-select-box");
+        const selected = selectBox.querySelector(".custom-selected");
+        const selectedText = selected.querySelector(".custom-selected-text");
+        const options = selectBox.querySelector(".custom-options");
+        const optionItems = options.querySelectorAll(".custom-option");
+
+        const subtotal = parseInt("{{ $subtotal }}"); // Lấy subtotal từ PHP
+
+        selected.addEventListener("click", () => {
+            const isOpen = options.style.display === "block";
+            options.style.display = isOpen ? "none" : "block";
+            selected.classList.toggle("open");
+        });
+
+        optionItems.forEach(option => {
+            option.addEventListener("click", () => {
+                // Highlight selected
+                optionItems.forEach(o => o.classList.remove("selected"));
+                option.classList.add("selected");
+
+                const discountPercent = parseFloat(option.dataset.discount || 0);
+                const voucherId = option.dataset.value;
+
+                const discountAmount = Math.round((subtotal * discountPercent) / 100);
+                const grandPrice = subtotal - discountAmount;
+
+                // Update UI
+                selectedText.textContent = option.textContent;
+                selected.dataset.discount = discountPercent;
+                selected.dataset.value = voucherId;
+                options.style.display = "none";
+                selected.classList.remove("open");
+
+                // Update giá tiền hiển thị
+                const discountAmountEl = document.querySelector(".discount-amount");
+                const grandPriceEl = document.querySelector(".grand-price");
+
+                if (discountAmountEl && grandPriceEl) {
+                    discountAmountEl.textContent = `- ${discountPercent}% (-${discountAmount.toLocaleString()} VND)`;
+                    grandPriceEl.textContent = `${grandPrice.toLocaleString()} VND`;
+                }
+
+                // Debug ra console
+                console.log("[Voucher Selected]");
+                console.log("→ ID:", voucherId);
+                console.log("→ Discount %:", discountPercent);
+                console.log("→ Subtotal:", subtotal);
+                console.log("→ Discount amount:", discountAmount);
+                console.log("→ Grand price:", grandPrice);
+            });
+        });
+
+        // Đóng nếu click ra ngoài
+        document.addEventListener("click", (e) => {
+            if (!selectBox.contains(e.target)) {
+                options.style.display = "none";
+                selected.classList.remove("open");
+            }
+        });
+    });
+</script>
+
+
 
 @endsection

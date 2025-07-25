@@ -12,8 +12,10 @@ use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Cart;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -97,7 +99,6 @@ Route::group(['prefix' => 'shop'], function () {
 
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-    Route::get('/productCheckout', [CartController::class, 'payment']);
     Route::get('/productCheckout', [CartController::class, 'showCheckOut']);
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');

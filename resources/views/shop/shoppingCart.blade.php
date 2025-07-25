@@ -57,21 +57,22 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
-                                        @foreach($item->product->variant as $product_variant)
-                                        <option value="{{ $product_variant->colors_id }}"
-                                            {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
-                                            {{ $product_variant->colors->name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
+                                <div style="display: inline; align-items: center; justify-content: center;">
+                                        <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
+                                            @foreach($item->product->variant as $product_variant)
+                                            <option value="{{ $product_variant->colors_id }}"
+                                                {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
+                                                {{ $product_variant->colors->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                 </div>
 
                             </td>
 
                             <td>
                                 <div>
+                                    
                                     <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}" {{ $item->size == $i ? 'selected' : '' }}>
@@ -234,8 +235,6 @@
 
 @section('scripts')
 <script>
-</script>
-<script>
     const ASSET_URL = "{{asset('user')}}"
 </script>
 <script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
@@ -243,7 +242,7 @@
     crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<!-- <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script> -->
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
 <script src="{{asset('user/js/nouislider.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
@@ -251,7 +250,7 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // ✅ Cập nhật số lượng khi thay đổi (input tay)

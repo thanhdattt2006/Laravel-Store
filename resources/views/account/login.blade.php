@@ -190,6 +190,7 @@
 <script src="{{asset('user/js/main.js')}}"></script>
 <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const toggle = document.getElementById('toggle-password');
