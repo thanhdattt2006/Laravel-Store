@@ -63,7 +63,7 @@
 					<div class="common-filter">
 						<div class="sidebar-categories">
 							<select name="price_range" onchange="this.form.submit()">
-								<option value="0">-- Chọn giá --</option>
+								<option value="0">-- Select Price --</option>
 								<option value="1000000-2000000" {{ request('price_range') == '1000000-2000000' ? 'selected' : '' }}>1.000.000đ - 2.000.000đ</option>
 								<option value="2000000-3000000" {{ request('price_range') == '2000000-3000000' ? 'selected' : '' }}>2.000.000đ - 3.000.000đ</option>
 								<option value="3000000-4000000" {{ request('price_range') == '3000000-4000000' ? 'selected' : '' }}>3.000.000đ - 4.000.000đ</option>
@@ -102,6 +102,10 @@
 					<!-- single product -->
 					@if(isset($productsfilter) && count($productsfilter))
 					@foreach($productsfilter as $product)
+					@php
+					$firstVariant = $product->variant->first();
+					$colorId = $firstVariant?->colors_id ?? null;
+					@endphp
 					<div class="col-lg-4 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)
@@ -120,7 +124,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span data-id="{{$product->id}}" class="ti-bag"></span>
+										<span data-id="{{$product->id}}" data-color="{{ $colorId }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
@@ -242,23 +246,23 @@
 		}
 
 
-		function sendAddToCartRequest(productId) {
+		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 			if (!csrfToken) {
 				console.error("CSRF token not found.");
 				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
+
 			Swal.fire({
 				icon: 'info',
 				title: 'Adding product...',
 				text: 'Please wait...',
 				allowOutsideClick: false,
 				showConfirmButton: false,
-				didOpen: () => {
-					Swal.showLoading();
-				}
+				didOpen: () => Swal.showLoading()
 			});
+
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -266,7 +270,8 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						product_id: productId
+						product_id: productId,
+						color_id: colorId
 					})
 				})
 				.then(res => res.json())
@@ -282,6 +287,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 		function addToCart(productId) {
 			if (!isLogined()) {
@@ -312,8 +318,10 @@
 					e.preventDefault();
 
 					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					const colorId = this.dataset.color || this.closest('[data-color]')?.dataset.color;
+
 					if (productId) {
-						addToCart(productId);
+						sendAddToCartRequest(productId, colorId); // ✅ phải truyền cả colorId
 					} else {
 						showError('Error', 'Cannot find product ID. Please try again.');
 					}

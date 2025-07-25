@@ -204,7 +204,10 @@
 				<div class="row">
 					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
-
+					@php
+					$firstVariant = $product->variant->first();
+					$colorId = $firstVariant?->colors_id ?? null; 
+					@endphp
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)
@@ -223,7 +226,7 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span data-id="{{ $product->id }}" class="ti-bag"></span>
+										<span data-id="{{ $product->id }}" data-color="{{ $colorId }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
 									<a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
@@ -237,7 +240,6 @@
 										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
-
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -245,9 +247,7 @@
 							</div>
 						</div>
 					</div>
-
 					@endforeach
-
 				</div>
 			</div>
 		</div>
@@ -266,7 +266,7 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products -> take(9-17) as $product)
+					@foreach ($products->slice(8, 8) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)
@@ -348,7 +348,7 @@
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products -> take(16) as $product)
+						@foreach ($products -> take(1-16) as $product)
 						<div class="single-exclusive-slider">
 							@foreach ($product->variant as $photo)
 							@if ($photo->photos->isNotEmpty())
@@ -446,10 +446,9 @@
 			</div>
 		</div>
 	</section>
-
-
 	<!-- End related-product Area -->
 	@endsection
+
 	@section('scripts')
 	<script>
 		const ASSET_URL = "{{asset('user')}}"
@@ -485,23 +484,23 @@
 		}
 
 
-		function sendAddToCartRequest(productId) {
+		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 			if (!csrfToken) {
 				console.error("CSRF token not found.");
 				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
+
 			Swal.fire({
 				icon: 'info',
 				title: 'Adding product...',
 				text: 'Please wait...',
 				allowOutsideClick: false,
 				showConfirmButton: false,
-				didOpen: () => {
-					Swal.showLoading();
-				}
+				didOpen: () => Swal.showLoading()
 			});
+
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -509,7 +508,8 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						product_id: productId
+						product_id: productId,
+						color_id: colorId
 					})
 				})
 				.then(res => res.json())
@@ -525,6 +525,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 		function addToCart(productId) {
 			if (!isLogined()) {
@@ -555,8 +556,10 @@
 					e.preventDefault();
 
 					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					const colorId = this.dataset.color || this.closest('[data-color]')?.dataset.color;
+
 					if (productId) {
-						addToCart(productId);
+						sendAddToCartRequest(productId, colorId); // ✅ phải truyền cả colorId
 					} else {
 						showError('Error', 'Cannot find product ID. Please try again.');
 					}

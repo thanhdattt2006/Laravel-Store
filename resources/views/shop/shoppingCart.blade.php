@@ -42,7 +42,14 @@
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo  ) }}" alt="{{ $item->product->name }}">
+                                        @foreach ($item->product->variant as $photo)
+                                        @if ($photo->photos->isNotEmpty())
+                                        <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
+                                        <!-- <a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a> -->
+                                        @break;
+                                        @endif
+                                        @endforeach
+                                        <!-- <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo  ) }}" alt="{{ $item->product->name }}"> -->
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $item->product->name }}</p>
@@ -51,10 +58,10 @@
                             </td>
                             <td>
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="size" data-cart-item-id="{{ $item->id }}">
+                                    <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
                                         @foreach($item->product->variant as $product_variant)
-                                        <option value="{{ $product_variant->id }}"
-                                            {{ $item->product_variant_id == $product_variant->id ? 'selected' : '' }}>
+                                        <option value="{{ $product_variant->colors_id }}"
+                                            {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
                                             {{ $product_variant->colors->name }}
                                         </option>
                                         @endforeach
@@ -65,13 +72,14 @@
 
                             <td>
                                 <div>
-                                    <select name="size" data-cart-item-id="{{ $item->id }}">
+                                    <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}" {{ $item->size == $i ? 'selected' : '' }}>
                                             {{ $i }}
                                             </option>
                                             @endfor
                                     </select>
+
 
                                 </div>
                             </td>
@@ -105,13 +113,14 @@
                                 </h5>
                             </td>
                             <td>
-                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="cart-delete-form" data-id="{{ $item->id }}" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-link cart-delete-button" style="padding:0; border:none; background:none; color:red;">
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </form>
+
                             </td>
                         </tr>
 
@@ -131,22 +140,22 @@
 
                         <tr class="bottom_button">
                             <td>
-                                <a class="gray_btn update-cart">Update Cart</a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-
+                                <a class="gray_btn" href="#">Update Cart</a>
                             </td>
                             <td>
 
                             </td>
+                            <td>
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
-                                    <a class="gray_btn" href="#">Close Coupon</a>
+                                    <input type="text" id="coupon-code" placeholder="Coupon Code">
+                                    <a class="primary-btn" href="#" id="apply-voucher-btn">Apply</a>
+                                    <a class="gray_btn" href="#" id="close-voucher-btn">Close Coupon</a>
                                 </div>
                             </td>
                         </tr>
@@ -164,7 +173,7 @@
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5 id="total-cart" class="currency-format">0</h5>
+                                <h5 id="subtotal" class="currency-format">{{ number_format($subtotal, 0, ',', '.') }}</h5>
                             </td>
                         </tr>
                         <tr class="shipping_area">
@@ -178,29 +187,15 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <h5>Shipping</h5>
+
                             </td>
                             <td>
                                 <div class="shipping_box">
                                     <ul class="list">
-                                        <li><a href="#">Flat Rate: $5.00</a></li>
-                                        <li><a href="#">Free Shipping</a></li>
-                                        <li><a href="#">Flat Rate: $10.00</a></li>
-                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
+
+                                        <li class="active"><a>Free ship</a></li>
                                     </ul>
-                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                    <select class="shipping_select">
-                                        <option value="1">Bangladesh</option>
-                                        <option value="2">India</option>
-                                        <option value="4">Pakistan</option>
-                                    </select>
-                                    <select class="shipping_select">
-                                        <option value="1">Select a State</option>
-                                        <option value="2">Select a State</option>
-                                        <option value="4">Select a State</option>
-                                    </select>
-                                    <input type="text" placeholder="Postcode/Zipcode">
-                                    <a class="gray_btn" href="#">Update Details</a>
+
                                 </div>
                             </td>
                         </tr>
@@ -248,7 +243,7 @@
     crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<!-- <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script> -->
 <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
 <script src="{{asset('user/js/nouislider.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
@@ -297,8 +292,12 @@
                 }
 
                 if (data.success) {
-                    document.getElementById('item-total-' + id).innerText = formatCurrency(data.total);
-                    document.getElementById('total-cart').innerText = formatCurrency(data.totalCart);
+                    document.getElementById('item-total-' + id).innerText = formatCurrency(data.total) + ' VND';
+
+                    // ✅ Sửa dòng này: chỉ update nếu tồn tại
+                    if (document.getElementById('subtotal')) {
+                        document.getElementById('subtotal').innerText = formatCurrency(data.subtotal) + ' VND';
+                    }
                 } else {
                     alert('Lỗi cập nhật: ' + data.message);
                 }
@@ -306,11 +305,22 @@
             .catch(err => {
                 alert('Lỗi kết nối: ' + err.message);
             });
+
     }
 
 
 
     // ✅ Xóa sản phẩm khỏi giỏ hàng
+</script>
+<script>
+    function updateSubtotal(subtotalValue) {
+        const subtotalEl = document.getElementById('subtotal');
+        if (subtotalEl) {
+            subtotalEl.innerText = subtotalValue.toLocaleString() + ' VND';
+        } else {
+            console.warn('⚠️ Không tìm thấy phần tử #subtotal');
+        }
+    }
 </script>
 <script>
     function isLogined() {
@@ -321,12 +331,12 @@
         if (!window.isLogined) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Bạn chưa đăng nhập',
-                text: 'Vui lòng đăng nhập hoặc đăng ký để sử dụng giỏ hàng.',
+                title: 'You have not logged in',
+                text: 'Please log in or register to use the cart.',
                 showDenyButton: true,
-                confirmButtonText: 'Đăng nhập',
-                denyButtonText: 'Đăng ký',
-                cancelButtonText: 'Để sau',
+                confirmButtonText: 'Log in',
+                denyButtonText: 'Register',
+                cancelButtonText: 'Later',
                 showCancelButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -361,50 +371,75 @@
                 });
             } else {
                 // Hiển thị cart nếu muốn render trên frontend
+                updateSubtotal(data.subtotal); // ✅ Cập nhật subtotal
                 console.log('Cart Data:', data);
             }
         })
 </script>
 
-// xóa items
+<!-- // xóa items -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const deleteButtons = document.querySelectorAll('.cart-delete-button');
+        document.querySelectorAll('.cart-delete-form').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Chặn hành vi submit mặc định
 
-        deleteButtons.forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn submit mặc định
+                const itemId = form.dataset.id;
 
                 Swal.fire({
-                    title: 'Bạn có chắc muốn xóa?',
-                    text: 'Sản phẩm sẽ bị xóa khỏi giỏ hàng!',
+                    title: 'Are you sure you want to delete this item?',
+                    text: 'This product will be removed from your cart.',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Xóa',
-                    cancelButtonText: 'Hủy'
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Tìm form cha của nút
-                        const form = btn.closest('form');
-                        if (form) {
-                            form.submit();
-                        }
+                        fetch(form.action, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                    'Accept': 'application/json',
+                                }
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Xoá dòng trong bảng (table row)
+                                    const row = document.getElementById(`cart-item-${itemId}`);
+                                    if (row) row.remove();
+
+                                    Swal.fire('Done!', data.message, 'success');
+                                } else {
+                                    Swal.fire('Error!', data.message, 'error');
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                Swal.fire('Error!', 'Cant delete product!', 'error');
+                            });
                     }
                 });
             });
         });
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('select[name="size"]').forEach(select => {
-            select.addEventListener('change', function() {
-                const cartItemId = this.dataset.cartItemId;
-                const size = this.value;
 
-                fetch('/cart/update-size', {
+
+<!-- update size -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.cart-size-select').forEach(select => {
+            select.addEventListener('change', async () => {
+                const cartItemId = select.dataset.cartItemId;
+                const size = select.value;
+
+                try {
+                    console.log('🧪 Sending size update...', cartItemId, size);
+
+                    const res = await fetch('/shop/cart/update-size', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -412,22 +447,87 @@
                         },
                         body: JSON.stringify({
                             cart_item_id: cartItemId,
-                            size: size
+                            size
                         })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            console.log("✅ Cập nhật size thành công");
-                        } else {
-                            alert("❌ Lỗi: " + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Lỗi hệ thống:", error);
                     });
+
+                    const data = await res.json();
+
+                    if (data.success) {
+                        console.log("✅ Cập nhật size thành công");
+                    } else {
+                        alert("❌ Lỗi: " + data.message);
+                    }
+                } catch (err) {
+                    console.error("❌ JS Error:", err);
+                }
             });
         });
+    });
+</script>
+
+
+<!-- update color -->
+<script>
+    document.querySelectorAll('.color-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const cartItemId = this.dataset.cartItemId;
+            const colorId = this.value;
+
+            fetch('/shop/cart/update-color', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        cart_item_id: cartItemId,
+                        color_id: colorId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Lỗi:', error));
+        });
+    });
+</script>
+
+<!-- voucher -->
+
+<script>
+    document.getElementById('apply-voucher-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const code = document.getElementById('coupon-code').value;
+
+        fetch(`shop/checkout/apply-voucher?keyword=${encodeURIComponent(code)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('subtotal').innerText = data.subtotal;
+
+                    // Lưu voucher_id vào input ẩn để gửi khi đặt hàng
+                    if (!document.getElementById('voucher-id')) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'voucher_discount_id';
+                        input.id = 'voucher-id';
+                        input.value = data.voucher_id;
+                        document.querySelector('form').appendChild(input);
+                    } else {
+                        document.getElementById('voucher-id').value = data.voucher_id;
+                    }
+
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            });
     });
 </script>
 
