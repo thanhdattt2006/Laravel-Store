@@ -28,4 +28,8 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class);
     }
+    public function voucher()
+{
+    return $this->belongsTo(Voucher::class);
+}
 }

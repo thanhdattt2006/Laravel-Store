@@ -136,7 +136,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{{url('/contact')}}">Contact</a></li>
-
+                            <li class="nav-item"><a class="nav-link" href="{{ route('compare.index') }}">Compare list</a></li>
 
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -144,6 +144,11 @@
                                 <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                             </li>
                             <li class="nav-item"><a href="{{url('shop/shoppingCart')}}" class="cart"><span class="ti-bag skip-add-to-cart" onload="checkLoginAndAlert();"></span></a></li>
+                            <li class="nav-item">
+                                <a href="{{ route('wishlist.index') }}">
+                                    <i class="fa fa-heart" style="color: red;"></i>
+                                </a>
+                            </li>
                         </ul>
 
 
@@ -151,9 +156,9 @@
                             <a class="nav-link" href="{{ route('account.login') }}" id="userIcon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" style="fill: rgba(255, 186, 0, 1);">
                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 
-                5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
-                1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
-                4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
+                                        5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
+                                        1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
+                                        4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
                                 </svg>
                             </a>
                             @else
@@ -295,6 +300,77 @@
             });
         });
     </script>
+
+    <!-- kiểm tra đăng nhập trang wishlist -->
+    <script>
+        function isLogined() {
+            return @json(Auth::check());
+        }
+
+        function showError(title, message) {
+            Swal.fire({
+                icon: 'error',
+                title,
+                text: message
+            });
+        }
+    </script>
+
+    <!-- check đăng nhập wishlist -->
+    <script>
+        function checkLoginAndAlert() {
+            if (!isLogined()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You need to log in',
+                    text: 'Please log in to add products to wishlist.',
+                    confirmButtonText: 'Log in now',
+                    showCancelButton: true,
+                    cancelButtonText: 'Later'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('account.login') }}";
+                    }
+                });
+                return false; // Ngăn không cho chạy link
+            }
+            return true; // đã login thì cho chạy link
+        }
+    </script>
+
+    <!-- alert wishlist -->
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: @json(session('success')),
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
+
+    @if(session('info'))
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Notification!',
+            text: @json(session('info')),
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: @json(session('error')),
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
 
     @yield('scripts')
 </body>

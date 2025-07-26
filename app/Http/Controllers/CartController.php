@@ -231,7 +231,7 @@ class CartController extends Controller
                 'message' => 'Đã cập nhật màu sản phẩm thành công.'
             ]);
         } catch (\Throwable $e) {
-            \Log::error('Lỗi updateColor: ' . $e->getMessage());
+           
             return response()->json([
                 'success' => false,
                 'message' => 'Đã xảy ra lỗi: ' . $e->getMessage()
@@ -240,56 +240,11 @@ class CartController extends Controller
     }
 
 
-    // mã giảm giá
-    public function applyVoucher(Request $request)
-    {
-        $code = $request->input('keyword');
-        $voucher = Voucher::where('code_name', $code)->first();
 
-        if (!$voucher) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid voucher code.'
-            ]);
-        }
-
-        // Check nếu voucher chỉ được dùng 1 lần (giả sử là global)
-        $isUsed = Order::where('voucher_discount_id', $voucher->id)->exists();
-        if ($isUsed) {
-            return response()->json([
-                'success' => false,
-                'message' => 'This voucher has already been used.'
-            ]);
-        }
-
-        // Giả sử bạn có $subtotal truyền vào (hoặc lấy lại từ session)
-        $subtotal = session('subtotal') ?? 0; // <-- bạn gán subtotal vào session trước đó
-
-        $discounted = $subtotal * (1 - $voucher->discount_percent / 100);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Voucher applied successfully.',
-            'subtotal' => number_format($discounted, 0, ',', '.') . ' đ',
-            'voucher_id' => $voucher->id
-        ]);
-    }
     public function showCheckOut(Request $request)
     {
-        if (!auth()->check()) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'loggedIn' => false,
-                    'message' => 'Bạn cần đăng nhập để xem giỏ hàng.'
-                ], 401);
-            }
-
-            return redirect()->route('account.login')->with('error', 'Vui lòng đăng nhập.');
-        }
-
         $user = auth()->user();
         $cart = Cart::where('account_id', $user->id)->first();
-
         $cartItems = $cart
             ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
             : collect();
@@ -298,17 +253,56 @@ class CartController extends Controller
             return $item->quantity * $item->product->price;
         });
 
-        $payments = Payment::get(); // Lấy danh sách phương thức thanh toán
+        // Xử lý voucher
+        $discount = 0;
+        $voucher = null;
+        $voucherMessage = null;
+        $grand_price = $subtotal; // Mặc định grand_price bằng subtotal
+        if ($request->has('code_name')) {
+            $request->validate([
+                'code_name' => 'nullable|string|max:255',
+            ]);
+            $voucher = Voucher::where('code_name', $request->input('code_name'))
+                ->where('stock', '>', 0)
+                ->first();
+
+            if ($voucher) {
+                $discount = $voucher->discount_value;
+                $grand_price = $subtotal - $discount;
+                $voucherMessage = 'Áp dụng voucher thành công!';
+                session(['voucher_id' => $voucher->id]); // Lưu voucher_id vào session
+            } else {
+                $voucherMessage = 'Mã voucher không hợp lệ hoặc đã hết lượt sử dụng';
+                session()->forget('voucher_id');
+            }
+        }
+
+        $payments = Payment::get();
+        $vouchers = Voucher::where('stock', '>', 0)->get(); // Chỉ lấy voucher còn stock
 
         if ($request->expectsJson()) {
             return response()->json([
                 'loggedIn' => true,
                 'subtotal' => $subtotal,
+                'discount' => $discount,
+                'grand_price' => $grand_price,
                 'cartItems' => $cartItems,
-                'payments' => $payments
+                'payments' => $payments,
+                'voucher' => $voucher ? $voucher->only(['id', 'code_name', 'discount_value']) : null,
+                'voucher_message' => $voucherMessage,
+                'vouchers' => $vouchers,
             ]);
         }
 
-        return view('shop.productCheckout', compact('cartItems', 'subtotal', 'payments'));
+        return view('shop.productCheckout', [
+            'cartItems' => $cartItems,
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'grand_price' => $grand_price,
+            'payments' => $payments,
+            'voucher' => $voucher,
+            'voucherMessage' => $voucherMessage,
+            'vouchers' => $vouchers,
+        ]);
     }
 }

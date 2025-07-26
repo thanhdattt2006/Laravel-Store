@@ -10,10 +10,13 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Cart;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,8 +55,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
+<<<<<<< HEAD
+    Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
+    
+    Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
+=======
     // Route::get('/editProduct', [AdminController::class, 'editProduct']);
 
+>>>>>>> 1708be8fb484729232d0b1f97ff3ae7606c0adce
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
@@ -79,7 +88,8 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
-    Route::get('/confirmation', [ShopController::class, 'confirmation']);
+    Route::get('/confirmation', [ShopController::class, 'confirmation'])->name('shop.confirmation');
+
 
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
@@ -87,18 +97,21 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
+    
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
 
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::get('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::group(['prefix' => 'wishlist', 'middleware' => 'auth'], function () {
+        Route::get('/', [WishlistController::class, 'index'])->name('wishlist.index');
+        Route::get('/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+        Route::delete('/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    });
+    Route::post('/wishlist/ajax-add', [WishlistController::class, 'ajaxAdd'])->name('wishlist.ajaxAdd');
 
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-    Route::get('/productCheckout', [CartController::class, 'payment']);
-    Route::get('/productCheckout', [CartController::class, 'showCheckOut']);
+    
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shop/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -106,9 +119,15 @@ Route::group(['prefix' => 'shop'], function () {
     Route::post('/cart/update-size', [CartController::class, 'updateSize']);
     Route::post('/cart/update-color', [CartController::class, 'updateColor'])->name('cart.updateColor');
 
+    //order
+    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('/productCheckout', [OrderController::class, 'showCheckOut']);
+
+
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
    Route::post('/review/store', [ShopController::class, 'storeReview'])
     ->name('product.review');
+    Route::get('/productDetails', [ShopController::class, 'cmt']);
 
 
 });

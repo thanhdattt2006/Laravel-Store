@@ -25,6 +25,15 @@
                         id="add-row"
                         class="display table table-striped table-hover"
                       >
+                      @if (session('success'))
+                          <div id="alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 alert alert-success">
+                              <span class="block sm:inline">{{ session('success') }}</span>
+                          </div>
+                      @elseif (session('error'))
+                        <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                      @endif
                         <thead>
                           <tr>
                             <th>Id</th>
@@ -69,16 +78,18 @@
                             <td>Active</td>
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                               <a href="{{url('admin/deleteProduct/' . $product->id)}}" onclick="return confirm('Bạn có chắc muốn xoá?')">
+                                <a href="{{url('admin/editProduct/' . $product->id)}}">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-primary btn-lg"
+                                    data-original-title="Edit Task"
+                                  >
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                                </a>
+                               <a href="{{url('admin/deleteProduct/' . $product->id)}}" onclick="return confirm('Are you sure to delete?')">
                                   <button
                                     type="button"
                                     data-bs-toggle="tooltip"
@@ -106,4 +117,5 @@
 
 @section('scripts')
   <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+  <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

@@ -43,13 +43,19 @@
                                 <div class="media">
                                     <div class="d-flex">
                                         @foreach ($item->product->variant as $photo)
+<<<<<<< HEAD
+                                            @if ($photo->photos->isNotEmpty()) 
+                                                <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
+                                                @break;
+                                            @endif
+=======
                                         @if ($photo->photos->isNotEmpty())
                                         <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
                                         <!-- <a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a> -->
                                         @break;
                                         @endif
+>>>>>>> 1708be8fb484729232d0b1f97ff3ae7606c0adce
                                         @endforeach
-                                        <!-- <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo  ) }}" alt="{{ $item->product->name }}"> -->
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $item->product->name }}</p>
@@ -57,7 +63,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="display: flex; align-items: center; justify-content: center;">
+                                <div style="display: inline; align-items: center; justify-content: center;">
                                     <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
                                         @foreach($item->product->variant as $product_variant)
                                         <option value="{{ $product_variant->colors_id }}"
@@ -72,6 +78,7 @@
 
                             <td>
                                 <div>
+
                                     <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}" {{ $item->size == $i ? 'selected' : '' }}>
@@ -84,7 +91,8 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 class="currency-format">{{ $item->product->price }}</h5>
+                                <h5 class="currency-format">{{ number_format($item->product->price, 0, ',', '.') }} VND
+                                </h5>
                             </td>
                             <td>
                                 <div class="product_count">
@@ -109,7 +117,7 @@
                             </td>
                             <td>
                                 <h5 class="currency-format" id="item-total-{{ $item->id }}">
-                                    {{ $item->total }} VND
+                                    {{ number_format($item->total, 0, ',', '.') }} VND
                                 </h5>
                             </td>
                             <td>
@@ -234,8 +242,6 @@
 
 @section('scripts')
 <script>
-</script>
-<script>
     const ASSET_URL = "{{asset('user')}}"
 </script>
 <script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
@@ -243,7 +249,7 @@
     crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<!-- <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script> -->
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
 <script src="{{asset('user/js/nouislider.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
@@ -251,7 +257,7 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // ✅ Cập nhật số lượng khi thay đổi (input tay)
@@ -310,7 +316,7 @@
 
 
 
-    // ✅ Xóa sản phẩm khỏi giỏ hàng
+
 </script>
 <script>
     function updateSubtotal(subtotalValue) {
