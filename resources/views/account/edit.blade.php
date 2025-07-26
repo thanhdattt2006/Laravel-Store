@@ -9,6 +9,7 @@
                     <h2>My Information</h2>
                     <form action="{{ route('account.update') }}" id="userForm" method="POST">
                         @csrf
+                        @method('PUT')
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
@@ -34,9 +35,16 @@
                                     </tr>
                                     <tr>
                                         <td>
+                                            <p>Current password</p>
+                                        </td>
+                                        <td>
+                                            <input type="password" name="current_password" id="current_password" class="form-control">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <p>New password</p>
                                         </td>
-                                        
                                         <td>
                                             <input type="password" name="new_password" id="new_password" class="form-control">
                                         </td>
@@ -45,7 +53,7 @@
                                         <td>
                                             <p>Confirm password</p>
                                         </td>
-                                        
+
                                         <td>
                                             <input type="password" name="new_password_confirmation" id="confirm_password" class="form-control">
                                         </td>
@@ -73,10 +81,29 @@
 
 @section('scripts')
 <script>
+    const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById('userForm');
         const newPasswordInput = document.getElementById('new_password');
         const confirmPasswordInput = document.getElementById('confirm_password');
+        const currentPasswordInput = document.getElementById('current_password');
 
         const toggle = document.getElementById('togglePassword');
         if (toggle) {
@@ -84,19 +111,57 @@
                 const type = this.checked ? 'text' : 'password';
                 newPasswordInput.type = type;
                 confirmPasswordInput.type = type;
+                currentPasswordInput.type = type;
             });
         }
 
         form.addEventListener('submit', function(e) {
             const newPassword = newPasswordInput.value;
             const confirmPassword = confirmPasswordInput.value;
+            const currentPassword = currentPasswordInput.value;
 
             console.log("New password:", newPassword);
             console.log("Confirm password:", confirmPassword);
+            console.log("Current password:", currentPassword);
 
             if (newPassword !== '' && newPassword !== confirmPassword) {
                 e.preventDefault();
-                alert('Mật khẩu xác nhận không khớp!');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Mật khẩu xác nhận không khớp!',
+                    confirmButtonText: 'OK'
+                });
+            } else if (newPassword === currentPassword) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Mật khẩu mới bị trùng với mật khẩu cũ!',
+                    confirmButtonText: 'OK'
+                });
+            } 
+            else if (currentPassword === '') {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Vui lòng nhập mật khẩu hiện tại!',
+                    confirmButtonText: 'OK'
+                });
+            } 
+            else {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Thay đổi mật khẩu thành công!',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.querySelector('#userForm').submit();
+                    }
+                });
             }
         });
     });

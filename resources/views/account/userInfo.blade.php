@@ -32,7 +32,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">FullName</th>
-                                <th scope="col"></th>
+                                <th scope="col">|</th>
                                 <th scope="col">
                                     <h5>{{$user -> fullname}}</h5>
                                 </th>
@@ -43,7 +43,7 @@
                                 <td>
                                     <p>Birthday</p>
                                 </td>
-                                <td></td>
+                                <td>|</td>
                                 <td>
                                     <h5>{{$user -> birthday}}</h5>
                                 </td>
@@ -52,7 +52,7 @@
                                 <td>
                                     <p>Address</p>
                                 </td>
-                                <td></td>
+                                <td>|</td>
                                 <td>
                                     <h5 style="text-wrap-style: balance;">{{$user -> address}}</h5>
                                 </td>
@@ -61,7 +61,7 @@
                                 <td>
                                     <p>Phone</p>
                                 </td>
-                                <td></td>
+                                <td>|</td>
                                 <td>
                                     <h5>{{$user -> phone}}</h5>
                                 </td>
@@ -70,7 +70,7 @@
                                 <td>
                                     <p>Username</p>
                                 </td>
-                                <td></td>
+                                <td>|</td>
                                 <td>
                                     <h5>{{$user -> username}}</h5>
                                 </td>

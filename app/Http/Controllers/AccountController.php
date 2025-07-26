@@ -92,11 +92,12 @@ class AccountController extends Controller
             'fullname' => 'required|string|max:255',
             'birthday' => 'required|date',
             'address' => 'required|string|max:255',
-            'phone'    => 'required|string|max:15',
+            'phone' => 'required|string|max:15',
             'username' => 'required|string|max:50',
-            'new_password' => 'nullable|string|min:4|confirmed', // thêm xác thực password
+            'new_password' => 'nullable|string|min:3|confirmed',
+            'current_password' => 'required',
         ]);
-
+        /** @var \App\Models\Account $user */
         $user = auth()->user();
 
         $user->fullname = $request->fullname;
@@ -106,7 +107,12 @@ class AccountController extends Controller
         $user->username = $request->username;
 
         if ($request->filled('new_password')) {
-            $user->password = Hash::make($request->new_password); // ĐỔI password
+            // Kiểm tra mật khẩu hiện tại
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->with('error', 'Mật khẩu hiện tại không đúng!');
+            }
+
+            $user->password = Hash::make($request->new_password);
         }
 
         $user->save();
