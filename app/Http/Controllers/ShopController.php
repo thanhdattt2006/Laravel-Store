@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Cart;
 use App\Models\Cate;
 use App\Models\Colors;
@@ -105,6 +106,8 @@ class ShopController extends Controller
     public function show($id)
     {
         $product = Product::with('cate', 'variant')->findOrFail($id);
+        $reviews = Review::where('product_id', $id)->get();
+
         $product_variant = Product_variant::where('product_id', $id)->get();
         $variantIds = Product_variant::where('product_id', $id)->pluck('id');
         $photos = Photo::whereIn('product_variant_id', $variantIds)->get();
@@ -126,29 +129,40 @@ class ShopController extends Controller
                 'selectedColorId' => $selectedColorId,
                 'product_variant' =>  $product_variant,
                 'products' => Product::get(),
+                'review' => $reviews
             ];
         return view('shop/productDetails')->with($data);
     }
 
 
-    public function storeReview(Request $request)
-    {
-        $accountId = session('account_id'); // ✅ Lấy từ session
-        if (!$accountId) {
-            return response()->json(['message' => 'Bạn chưa đăng nhập.'], 401);
-        }
-
-        $product_id = $request->input('product_id');
-        $comment = $request->input('comment');
-
-        $review = new Review();
-        $review->account_id = $accountId;
-        $review->product_id = $product_id;
-        $review->comment = $comment;
-        $review->created_at = now();
-        $review->updated_at = now();
-        $review->save();
-
-        return response()->json(['message' => 'Bình luận đã được gửi thành công!']);
+   public function storeReview(Request $request)
+{
+    $accountId = session('account_id');
+    if (!$accountId) {
+        return response()->json(['message' => 'Bạn chưa đăng nhập.'], 401);
     }
+
+    $account = Account::find($accountId);
+    if (!$account) {
+        return response()->json(['message' => 'Tài khoản không tồn tại.'], 404);
+    }
+
+    $review = new Review();
+    $review->account_id = $accountId;
+    $review->product_id = $request->input('product_id');
+    $review->comment = $request->input('comment');
+    $review->created_at = now();
+    $review->updated_at = now();
+    $review->save();
+
+    return response()->json([
+        'message' => 'Bình luận đã được gửi thành công!',
+        'review' => [
+            'fullname' => $account->fullname,
+            'created_at' => now()->format('d/m/Y H:i'),
+            'comment' => $review->comment,
+        ]
+    ]);
+}
+
 }
