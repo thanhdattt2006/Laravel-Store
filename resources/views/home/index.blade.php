@@ -206,7 +206,7 @@
 					@foreach ($products -> take(8) as $product)
 					@php
 					$firstVariant = $product->variant->first();
-					$colorId = $firstVariant?->colors_id ?? null; 
+					$colorId = $firstVariant?->colors_id ?? null;
 					@endphp
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
@@ -486,6 +486,24 @@
 
 		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+			// Check login
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Login Required',
+					text: 'You need to login or register to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login / Register',
+					cancelButtonText: 'Maybe later'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account/login'; // hoặc route tương ứng
+					}
+				});
+				return;
+			}
+
 			if (!csrfToken) {
 				console.error("CSRF token not found.");
 				showError('Error', 'Cannot find CSRF token. Please reload the page.');
@@ -525,6 +543,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 
 		function addToCart(productId) {

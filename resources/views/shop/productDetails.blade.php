@@ -579,8 +579,8 @@
                     title: 'You need to log in',
                     text: 'Please log in to add products to the cart.',
                     showCancelButton: true,
-                    confirmButtonText: 'Log in now',
-                    cancelButtonText: 'Later'
+                    confirmButtonText: 'Login / Register',
+                    cancelButtonText: 'Maybe later'
                 }).then(result => {
                     if (result.isConfirmed) window.location.href = "/account";
                 });

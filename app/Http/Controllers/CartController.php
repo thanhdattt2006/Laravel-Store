@@ -231,7 +231,7 @@ class CartController extends Controller
                 'message' => 'Đã cập nhật màu sản phẩm thành công.'
             ]);
         } catch (\Throwable $e) {
-            \Log::error('Lỗi updateColor: ' . $e->getMessage());
+           
             return response()->json([
                 'success' => false,
                 'message' => 'Đã xảy ra lỗi: ' . $e->getMessage()

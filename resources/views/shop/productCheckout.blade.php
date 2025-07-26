@@ -88,39 +88,41 @@
 <!--================Checkout Area =================-->
 <section class="checkout_area section_gap">
     <div class="container">
-
-        <div class="billing_details">
-            <div class="row">
-                <div class="col-lg-8">
-                    <h3>Bill Details</h3>
-                    <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                        <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your fullname">
-                        </div>
-
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="number" name="number" placeholder="Phone number">
-
-                        </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="email" name="compemailany" placeholder="Email address">
-
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <div class="creat_account">
-                                <h3>Shipping Details</h3>
-                                <input type="checkbox" id="f-option3" name="selector">
-                                <label for="f-option3">Ship to a different address?</label>
+        <form action="{{ route('checkout.store') }}" method="post">
+            @csrf
+            <div class="billing_details">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Bill Details</h3>
+                        <div class="row contact_form">
+                            <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your name">
                             </div>
-                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="number" name="number" placeholder="Phone number">
+
+
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account">
+                                    <h3>Shipping Details</h3>
+                                    <input type="checkbox" id="f-option3" name="selector">
+                                    <label for="f-option3">Ship to a different address?</label>
+                                </div>
+                                <textarea class="form-control" name="note" id="note" rows="1" style="height: 128px;" placeholder="Order Notes"></textarea>
+                            </div>
                         </div>
-                    </form>
-                    <div class="cupon_area">
-                        <div class="check_title">
-                            <h2>Have a coupon? Choose your voucher here</h2>
-                        </div>
-                        <div class="custom-select-box">
+                        <div class="cupon_area">
+                            <div class="check_title">
+                                <h2>Have a coupon? Choose your voucher here</h2>
+                            </div>
+
 
                             <!-- dropdown chọn voucher -->
                             <div class="custom-select-box">
@@ -144,46 +146,61 @@
                                 </div>
                             </div>
 
-                        </div>
 
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="order_box">
-                        <h2>Your Order</h2>
-                        <ul class="list">
-                            <li><a style="cursor:pointer">Product <span>Total</span></a></li>
-                            @foreach ($cartItems as $item)
-                            <li><a>{{ Str::limit($item->product->name, 12) }}<span class="middle" style="margin-left: 25px;">x{{$item->quantity}}</span> <span class="last">{{ number_format($item->total, 0, ',', '.') }} VND</span></a></li>
-                            @endforeach
-                        </ul>
-                        <ul class="list list_2">
-                            <li><a style="cursor:pointer">Subtotal <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
-                            <li><a style="cursor:pointer">Shipping <span>Free ship</span></a></li>
-                            <li><a style="cursor:pointer">Discount <span class="discount-amount">- 0%</span></a></li>
-                            <li><a style="cursor:pointer">Total <span class="grand-price">{{ number_format($grand_price, 0, ',', '.') }} VND</span></a></li>
-                        </ul>
-                        @foreach ($payments as $payment)
-                        <div class="payment_item">
-                            <div class="radion_btn">
-                                <input type="radio" id="payment{{$payment->id}}" name="payment_method" value="{{ $payment->name }}">
-                                <label for="payment{{$payment->id}}">{{ $payment->name }}</label>
-                                <div class="check"></div>
+                    <div class="col-lg-4">
+                        <div class="order_box">
+                            <h2>Your Order</h2>
+                            <ul class="list">
+                                <li><a style="cursor:pointer">Product <span>Total</span></a></li>
+                                @foreach ($cartItems as $item)
+                                <li>
+                                    <a>
+                                        <input type="hidden" name="product_id[]" value="{{$item->product->id}}">
+                                        <input type="hidden" name="product_name[]" value="{{ $item->product->name }}">
+                                        {{ Str::limit($item->product->name, 12) }}
+                                        <span class="middle" style="margin-left: 25px;">
+                                            <input type="hidden" name="product_quantity[]" value="{{ $item->quantity }}">
+                                            x{{ $item->quantity }}
+                                        </span>
+                                        <span class="last">
+                                            <input type="hidden" name="total[]" value="{{ $item->total }}">
+                                            {{ number_format($item->total, 0, ',', '.') }} VND
+                                        </span>
+                                    </a>
+                                </li>
+                                @endforeach
+
+                            </ul>
+                            <ul class="list list_2">
+                                <li><a style="cursor:pointer">Subtotal <input type="hidden" name="subtotal" value="{{ $subtotal }}"> <span>{{ number_format($subtotal, 0, ',', '.') }} VND</span></a></li>
+                                <li><a style="cursor:pointer">Shipping <span>Free ship</span></a></li>
+                                <li><a style="cursor:pointer">Discount <input type="hidden" name="voucher" value="0"> <span class="discount-amount">- 0%</span></a></li>
+                                <li><a style="cursor:pointer">Grand Price<input type="hidden" name="grand_price" value="{{ $grand_price }}"> <span class="grand-price">{{ number_format($grand_price, 0, ',', '.') }} VND</span></a></li>
+                            </ul>
+                            @foreach ($payments as $payment)
+                            <div class="payment_item">
+                                <div class="radion_btn">
+                                    <input type="radio" id="payment{{$payment->id}}" name="payment" value="{{ $payment->name }}">
+                                    <label for="payment{{$payment->id}}">{{ $payment->name }}</label>
+                                    <div class="check"></div>
+                                </div>
+
                             </div>
+                            @endforeach
 
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option4" name="selector">
+                                <label for="f-option4">I have read and accept the </label>
+                                <a style="cursor:pointer" required>terms & conditions*</a>
+                            </div>
+                            <button type="submit" class="primary-btn">Buy</button>
                         </div>
-                        @endforeach
-
-                        <div class="creat_account">
-                            <input type="checkbox" id="f-option4" name="selector">
-                            <label for="f-option4">I’ve read and accept the </label>
-                            <a style="cursor:pointer">terms & conditions*</a>
-                        </div>
-                        <a class="primary-btn" style="cursor:pointer">Proceed to Paypal</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </section>
 <!--================End Checkout Area =================-->
@@ -207,6 +224,7 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- js cho dropdown -->
 
@@ -252,6 +270,10 @@
                 if (discountAmountEl && grandPriceEl) {
                     discountAmountEl.textContent = `- ${discountPercent}% (-${discountAmount.toLocaleString()} VND)`;
                     grandPriceEl.textContent = `${grandPrice.toLocaleString()} VND`;
+
+                    // Gán giá trị vào input hidden
+                    document.querySelector('input[name="voucher"]').value = voucherId;
+                    document.querySelector('input[name="grand_price"]').value = grandPrice;
                 }
 
                 // Debug ra console

@@ -58,21 +58,21 @@
                             </td>
                             <td>
                                 <div style="display: inline; align-items: center; justify-content: center;">
-                                        <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
-                                            @foreach($item->product->variant as $product_variant)
-                                            <option value="{{ $product_variant->colors_id }}"
-                                                {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
-                                                {{ $product_variant->colors->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <select name="color" class="color-select" data-cart-item-id="{{ $item->id }}">
+                                        @foreach($item->product->variant as $product_variant)
+                                        <option value="{{ $product_variant->colors_id }}"
+                                            {{ $item->color_id == $product_variant->color_id ? 'selected' : '' }}>
+                                            {{ $product_variant->colors->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                             </td>
 
                             <td>
                                 <div>
-                                    
+
                                     <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}" {{ $item->size == $i ? 'selected' : '' }}>
@@ -85,7 +85,8 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 class="currency-format">{{ $item->product->price }}</h5>
+                                <h5 class="currency-format">{{ number_format($item->product->price, 0, ',', '.') }} VND
+                                </h5>
                             </td>
                             <td>
                                 <div class="product_count">
@@ -110,7 +111,7 @@
                             </td>
                             <td>
                                 <h5 class="currency-format" id="item-total-{{ $item->id }}">
-                                    {{ $item->total }} VND
+                                    {{ number_format($item->total, 0, ',', '.') }} VND
                                 </h5>
                             </td>
                             <td>
@@ -309,7 +310,7 @@
 
 
 
-    // ✅ Xóa sản phẩm khỏi giỏ hàng
+
 </script>
 <script>
     function updateSubtotal(subtotalValue) {

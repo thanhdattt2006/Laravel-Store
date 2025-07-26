@@ -10,6 +10,7 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElementsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\VoucherController;
@@ -81,7 +82,8 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
-    Route::get('/confirmation', [ShopController::class, 'confirmation']);
+    Route::get('/confirmation', [ShopController::class, 'confirmation'])->name('shop.confirmation');
+
 
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
@@ -103,13 +105,18 @@ Route::group(['prefix' => 'shop'], function () {
 
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-    Route::get('/productCheckout', [CartController::class, 'showCheckOut']);
+    
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shop/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::post('/cart/update-size', [CartController::class, 'updateSize']);
     Route::post('/cart/update-color', [CartController::class, 'updateColor'])->name('cart.updateColor');
+
+    //order
+    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('/productCheckout', [OrderController::class, 'showCheckOut']);
+
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
    Route::post('/review/store', [ShopController::class, 'storeReview'])
