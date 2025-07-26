@@ -5795,4 +5795,7 @@ label {
     opacity: 1 !important;
     visibility: visible;
 }
-
+/* icon wishlist navbar */
+.navbar-nav.navbar-right .nav-item a i.fa-heart {
+    margin-top: 33px;
+}

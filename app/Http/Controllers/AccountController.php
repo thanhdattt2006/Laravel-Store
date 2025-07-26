@@ -26,6 +26,7 @@ class AccountController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            session(['account_id' => $user->id]);
             if ($user->role_id == 1) {
                 return redirect('/admin/index')->with('okay', 'Logged in successfully as admin!');
             } elseif ($user->role_id == 2) {
@@ -71,13 +72,45 @@ class AccountController extends Controller
     }
     public function userInfo()
     {
-        $user = Auth::user(); // lấy user hiện tại
+        $user = Auth::user();
         $roleId = $user->role_id;
 
-        // Lấy tất cả user cùng role (hoặc thay đổi tùy theo logic của bạn)
+
         $users = Account::where('role_id', $roleId)->get();
 
         return view('account/userInfo', compact('user', 'users'));
     }
+    public function edit()
+    {
+        $user = auth()->user();
+        return view('account.edit', compact('user'));
+    }
 
+    public function update(Request $request)
+    {
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'birthday' => 'required|date',
+            'address' => 'required|string|max:255',
+            'phone'    => 'required|string|max:15',
+            'username' => 'required|string|max:50',
+            'new_password' => 'nullable|string|min:4|confirmed', // thêm xác thực password
+        ]);
+
+        $user = auth()->user();
+
+        $user->fullname = $request->fullname;
+        $user->birthday = $request->birthday;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->username = $request->username;
+
+        if ($request->filled('new_password')) {
+            $user->password = Hash::make($request->new_password); // ĐỔI password
+        }
+
+        $user->save();
+
+        return redirect()->route('account.userInfo')->with('success', 'Cập nhật thành công!');
+    }
 }

@@ -204,15 +204,18 @@
 				<div class="row">
 					<!-- single product -->
 					@foreach ($products -> take(8) as $product)
-
+					@php
+					$firstVariant = $product->variant->first();
+					$colorId = $firstVariant?->colors_id ?? null;
+					@endphp
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-							 @foreach ($product->variant as $photo)
-                                @if ($photo->photos->isNotEmpty()) 
-								   <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
-                                  @break;
-                                @endif
-                              @endforeach
+							@foreach ($product->variant as $photo)
+							@if ($photo->photos->isNotEmpty())
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+							@break;
+							@endif
+							@endforeach
 							<div class="product-details">
 								<a href="{{url('/shop/productDetails')}}">
 									<h6>{{$product->name}}</h6>
@@ -223,19 +226,20 @@
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
-										<span data-id="{{ $product->id }}" class="ti-bag"></span>
+										<span data-id="{{ $product->id }}" data-color="{{ $colorId }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="/shop/compare" class="social-info">
+
+									</a>
+									<a href="#" class="social-info add-to-compare" data-id="{{ $product->id }}">
 										<span class="lnr lnr-sync"></span>
 										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
-
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -243,9 +247,7 @@
 							</div>
 						</div>
 					</div>
-
 					@endforeach
-
 				</div>
 			</div>
 		</div>
@@ -264,14 +266,14 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					@foreach ($products -> take(9-17) as $product)
+					@foreach ($products->slice(8, 8) as $product)
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							@foreach ($product->variant as $photo)
-								@if ($photo->photos->isNotEmpty()) 
-									<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
-									@break;
-								@endif
+							@if ($photo->photos->isNotEmpty())
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+							@break;
+							@endif
 							@endforeach
 							<div class="product-details">
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}">
@@ -286,9 +288,14 @@
 										<span data-id="{{ $product->id }}" class="ti-bag"></span>
 										<p class="hover-text">add to bag</p>
 									</a>
-									<a href="" class="social-info">
+									<a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
+									</a>
+
+									<a href="#" class="social-info add-to-compare" data-id="{{ $product->id }}">
+										<span class="lnr lnr-sync"></span>
+										<p class="hover-text">compare</p>
 									</a>
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -341,13 +348,13 @@
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
-						@foreach ($products -> take(16) as $product)
+						@foreach ($products -> take(1-16) as $product)
 						<div class="single-exclusive-slider">
 							@foreach ($product->variant as $photo)
-								@if ($photo->photos->isNotEmpty()) 
-									<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
-									@break;
-								@endif
+							@if ($photo->photos->isNotEmpty())
+							<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img class="img-fluid" src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></a>
+							@break;
+							@endif
 							@endforeach
 							<div class="product-details">
 								<div class="price">
@@ -357,7 +364,7 @@
 								<div>
 									<h3><a href="{{ url('/shop/productDetails/' . $product->id) }}" style="color: orange;">{{$product->name}}</a></h3>
 								</div>
-								
+
 							</div>
 						</div>
 						@endforeach
@@ -411,12 +418,12 @@
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
 								@foreach ($product->variant as $photo)
-								@if ($photo->photos->isNotEmpty()) 
+								@if ($photo->photos->isNotEmpty())
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
-									@break;
+								@break;
 								@endif
-							@endforeach
-								
+								@endforeach
+
 								<div class="desc">
 									<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
 									<div class="price">
@@ -439,10 +446,9 @@
 			</div>
 		</div>
 	</section>
-
-
 	<!-- End related-product Area -->
 	@endsection
+
 	@section('scripts')
 	<script>
 		const ASSET_URL = "{{asset('user')}}"
@@ -478,23 +484,41 @@
 		}
 
 
-		function sendAddToCartRequest(productId) {
+		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+			// Check login
+			if (!isLogined()) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Login Required',
+					text: 'You need to login or register to add products to your cart.',
+					showCancelButton: true,
+					confirmButtonText: 'Login / Register',
+					cancelButtonText: 'Maybe later'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = '/account/login'; // hoặc route tương ứng
+					}
+				});
+				return;
+			}
+
 			if (!csrfToken) {
 				console.error("CSRF token not found.");
 				showError('Error', 'Cannot find CSRF token. Please reload the page.');
 				return;
 			}
+
 			Swal.fire({
 				icon: 'info',
 				title: 'Adding product...',
 				text: 'Please wait...',
 				allowOutsideClick: false,
 				showConfirmButton: false,
-				didOpen: () => {
-					Swal.showLoading();
-				}
+				didOpen: () => Swal.showLoading()
 			});
+
 			fetch('/shop/shoppingCart', {
 					method: 'POST',
 					headers: {
@@ -502,7 +526,8 @@
 						'X-CSRF-TOKEN': csrfToken
 					},
 					body: JSON.stringify({
-						product_id: productId
+						product_id: productId,
+						color_id: colorId
 					})
 				})
 				.then(res => res.json())
@@ -518,6 +543,8 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
+
 
 		function addToCart(productId) {
 			if (!isLogined()) {
@@ -548,8 +575,10 @@
 					e.preventDefault();
 
 					const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
+					const colorId = this.dataset.color || this.closest('[data-color]')?.dataset.color;
+
 					if (productId) {
-						addToCart(productId);
+						sendAddToCartRequest(productId, colorId); // ✅ phải truyền cả colorId
 					} else {
 						showError('Error', 'Cannot find product ID. Please try again.');
 					}
@@ -558,4 +587,76 @@
 		});
 	</script>
 
+
+	<!-- alert them san pham compare -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('.add-to-compare').forEach(btn => {
+				btn.addEventListener('click', function(e) {
+					e.preventDefault();
+					const productId = this.dataset.id;
+
+					fetch('/shop/compare/' + productId)
+						.then(response => response.json())
+						.then(data => {
+							Swal.fire({
+								icon: data.success ? 'success' : 'info',
+								title: data.success ? 'Product added' : 'Notification!',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
+						})
+						.catch(err => {
+							Swal.fire({
+								icon: 'error',
+								title: 'Connection error!',
+								text: data.message,
+								confirmButtonText: 'OK'
+							});
+						});
+				});
+			});
+		});
+	</script>
+
+	<!-- alert them san pham wishlist -->
+	<script>
+		$(document).ready(function() {
+			$('.add-to-wishlist').click(function(e) {
+				e.preventDefault();
+				if (!checkLoginAndAlert()) return;
+
+				var productId = $(this).data('id');
+				$.ajax({
+					url: "{{ route('wishlist.ajaxAdd') }}",
+					type: 'POST',
+					data: {
+						product_id: productId,
+						_token: '{{ csrf_token() }}'
+					},
+					success: function(response) {
+						if (response.success) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Product added',
+								text: response.message,
+								confirmButtonText: 'OK'
+							});
+						} else {
+							Swal.fire({
+								icon: 'info',
+								title: 'Notification!',
+								text: response.message,
+								confirmButtonText: 'OK'
+							});
+						}
+					},
+					error: function() {
+						showError('Error!', 'Cannot add the product to the wishlist.');
+					}
+				});
+			});
+		});
+	</script>
 	@endsection

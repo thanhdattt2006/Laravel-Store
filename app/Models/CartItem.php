@@ -17,7 +17,8 @@ class CartItem extends Model
         'cart_id',
         'quantity',
         'total',
-        'size'
+        'size',
+        'color_id'
     ];
     public function product()
     {
@@ -27,4 +28,8 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class);
     }
+    public function voucher()
+{
+    return $this->belongsTo(Voucher::class);
+}
 }

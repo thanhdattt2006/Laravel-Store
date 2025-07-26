@@ -3,6 +3,12 @@
 @section('content')
 
 <!-- Start Banner Area -->
+<style>
+    .color-item.selected-color {
+        border: 2px solid black;
+        opacity: 1 !important;
+    }
+</style>
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -190,17 +196,15 @@
                     <div class="container-color">
                         <ul class="color-list">
                             <label for="">Color: </label>
-                            <div id="colorForm" method="GET" action="">
-                                <input type="hidden" name="color_id" id="colorIdInput">
-                                @foreach($colors as $color)
-                                <button class="color-item" data-id="{{ $color->id }}" style="background:<?= $color->name ?>; opacity:0.8;"></button>
-                                @endforeach
-                            </div>
-                            <!-- Size -->
+                            <input type="hidden" name="color_id" id="colorIdInput">
+                            @foreach($colors as $color)
+                            <button type="button" class="color-item" data-id="{{ $color->id }}" style="background:{{ $color->name }}; opacity:0.8;"></button>
+                            @endforeach
+
                             <label>Size : </label>
                             <li class="size">
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <select name="" id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
+                                    <select id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
                                         @for ($i = 36; $i <= 46; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
@@ -209,7 +213,7 @@
                             </li>
                         </ul>
                     </div>
-                   
+
                     <br>
 
                     <div class="product_count">
@@ -246,229 +250,60 @@
 <!--================Product Description Area =================-->
 <section class="product_description_area">
     <div class="container">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs active" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
                     aria-selected="false">Comments</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
-                    aria-selected="false">Reviews</a>
-            </li>
+
         </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="tab-content " id="myTabContent">
+            <div class="tab-pane fade  show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="comment_list">
+                            @foreach($review as $re)
                             <div class="review_item">
                                 <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-1.png" alt="">
-                                    </div>
+
                                     <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
+
+                                        <h4>{{ $re->account->fullname ?? 'Tài khoản ẩn' }}</h4>
+                                        <h5>{{ $re->created_at->format('d/m/Y H:i') }}</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
+                                <p>{{ $re->comment }}</p>
                             </div>
-                            <div class="review_item reply">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-3.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
+                            @endforeach
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="review_box">
-                            <h4>Post a comment</h4>
-                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="btn primary-btn skip-add-to-cart">Submit Now</button>
-                                </div>
-                            </form>
+                        @auth
+                        <form id="review-form" action="#" method="POST">
+
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="text" name="comment" placeholder="Enter a comment..." required>
+                            <button type="submit">Submit</button>
+                        </form>
+
+                        <div id="review-msg" style="color: green; margin-top: 10px;"></div>
+                        <ul id="review-list">
+                            {{-- Review sẽ thêm vào đây --}}
+                        </ul>
+                        @endauth
+
+
+                        @guest
+                        <div class="alert alert-warning">
+                            Vui lòng <a href="{{ route('account.login') }}">đăng nhập</a> để bình luận
                         </div>
+                        @endguest
+
+
+
                     </div>
+
                 </div>
             </div>
-            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row total_rate">
-                            <div class="col-6">
-                                <div class="box_total">
-                                    <h5>Overall</h5>
-                                    <h4>4.0</h4>
-                                    <h6>(03 Reviews)</h6>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="rating_list">
-                                    <h3>Based on 3 Reviews</h3>
-                                    <ul class="list">
-                                        <li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                    class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                    class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                    class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                    class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                    class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review_list">
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-1.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{asset('user')}}/img/product/review-3.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="review_box">
-                            <h4>Add a Review</h4>
-                            <p>Your Rating:</p>
-                            <ul class="list">
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                            <p>Outstanding</p>
-                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="primary-btn skip-add-to-cart">Submit Now</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 <!--================End Product Description Area =================-->
 
@@ -515,6 +350,91 @@
 </section>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('review-form');
+        if (!form) return;
+
+        // Tránh gắn lại sự kiện nếu trang render lại
+        if (form.dataset.bound === 'true') return;
+        form.dataset.bound = 'true';
+
+        const msgBox = document.getElementById('review-msg');
+        let isSubmitting = false;
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (isSubmitting) return;
+            isSubmitting = true;
+            msgBox.innerHTML = '';
+
+            const data = {
+                product_id: form.querySelector('[name="product_id"]').value,
+                comment: form.querySelector('[name="comment"]').value,
+            };
+
+            try {
+                const response = await fetch("{{ route('product.review') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Có lỗi xảy ra');
+                }
+
+                msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                form.reset();
+
+                // ✅ Thêm bình luận mới vào đầu danh sách
+                const commentHTML = `
+                    <div class="review_item">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4>${result.review.fullname}</h4>
+                                <h5>${result.review.created_at}</h5>
+                                <a class="reply_btn" href="#">Reply</a>
+                            </div>
+                        </div>
+                        <p>${result.review.comment}</p>
+                    </div>
+                `;
+
+                const commentList = document.querySelector('.comment_list');
+                if (commentList) {
+                    commentList.insertAdjacentHTML('afterbegin', commentHTML);
+                }
+
+            } catch (error) {
+                console.error('Lỗi:', error);
+                const msg = error.message.toLowerCase();
+                if (msg.includes('đăng nhập') || msg.includes('login')) {
+                    window.location.href = "{{ route('account.login') }}";
+                } else {
+                    msgBox.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+                }
+            } finally {
+                isSubmitting = false;
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+<script>
     // color-picker
 
     // waitng DOM complete loading
@@ -548,7 +468,29 @@
 
 
 <!-- End related-product Area -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#review-form').on('submit', function(e) {
+        e.preventDefault(); // không reload trang
 
+        let form = $(this);
+        let url = "{{ route('product.review') }}";
+        let data = form.serialize(); // lấy toàn bộ input
+
+        $.post(url, data, function(response) {
+            $('#review-success').text('Đã gửi bình luận!');
+            let commentText = form.find('input[name="cmt"]').val();
+
+            // Thêm bình luận mới vào danh sách
+            $('#review-list').prepend(`<li>${commentText}</li>`);
+
+            // Reset ô nhập
+            form[0].reset();
+        }).fail(function(xhr) {
+            $('#review-success').text('Lỗi khi gửi bình luận!');
+        });
+    });
+</script>
 @endsection
 
 @section('scripts')
@@ -583,85 +525,104 @@
             text: message
         });
     }
+</script>
 
 
-    function sendAddToCartRequest(productId) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            showError('Error', 'Cannot find CSRF token. Please reload the page.');
-            return;
-        }
-        Swal.fire({
-            icon: 'info',
-            title: 'Adding product...',
-            text: 'Please wait...',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.success ? 'success' : 'error',
-                    title: data.success ? 'Product added' : 'Error',
-                    text: data.message
-                });
-            })
-            .catch(err => {
-                console.error("Error sending request:", err);
-                showError('System Error', 'Cannot add product. Please try again later.');
-            });
-    }
 
-    function addToCart(productId) {
-        if (!isLogined()) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'You need to log in',
-                text: 'Please log in to add products to the cart.',
-                showCancelButton: true,
-                confirmButtonText: 'Log in now',
-                cancelButtonText: 'Later'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/account";
-                }
-            });
-            return;
-        }
-
-        sendAddToCartRequest(productId);
-    }
-
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("Login status:", isLogined());
+        const colorButtons = document.querySelectorAll('.color-item');
+        const colorIdInput = document.getElementById('colorIdInput');
 
-        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart)').forEach(button => {
+        colorButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                colorButtons.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                colorIdInput.value = this.dataset.id;
+            });
+        });
+
+        document.querySelectorAll('.primary-btn:not(.skip-add-to-cart), #add-to-cart-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 const productId = this.dataset.id || this.closest('[data-id]')?.dataset.id;
-                if (productId) {
-                    addToCart(productId);
-                } else {
-                    showError('Error', 'Cannot find product ID. Please try again.');
+                const colorId = document.getElementById('colorIdInput')?.value || null;
+                const size = document.getElementById('size')?.value || 36;
+                const quantity = document.getElementById('qty')?.value || 1;
+
+                console.log("Product:", productId, "Color:", colorId, "Size:", size, "Quantity:", quantity);
+
+                if (!colorId) {
+                    Swal.fire('Warning', 'Please select a color.', 'warning');
+                    return;
                 }
+
+                addToCart(productId, colorId, size, quantity);
             });
         });
 
+        function addToCart(productId, colorId, size, quantity) {
+            if (!isLogined()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You need to log in',
+                    text: 'Please log in to add products to the cart.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login / Register',
+                    cancelButtonText: 'Maybe later'
+                }).then(result => {
+                    if (result.isConfirmed) window.location.href = "/account";
+                });
+                return;
+            }
+            sendAddToCartRequest(productId, colorId, size, quantity); // ✅ Thêm quantity ở đây
+        }
+
+        function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (!csrfToken) {
+                console.error("Missing CSRF token");
+                showError('Error', 'CSRF token not found. Please reload.');
+                return;
+            }
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Adding product...',
+                text: 'Please wait…',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            fetch('/shop/shoppingCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        color_id: colorId,
+                        size: size,
+                        quantity: quantity
+                    }) // ✅ quantity
+                })
+                .then(r => r.json())
+                .then(data => {
+                    Swal.fire({
+                        icon: data.success ? 'success' : 'error',
+                        title: data.success ? 'Added' : 'Error',
+                        text: data.message
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    showError('System Error', 'Cannot add product. Please try later.');
+                });
+        }
     });
 </script>
+
 @endsection
