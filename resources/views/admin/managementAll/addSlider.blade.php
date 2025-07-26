@@ -7,6 +7,11 @@
                       <div class="card-header">
                         <div class="card-title">Form Elements</div>
                       </div>
+                      @if (session('error'))
+                        <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                      @endif
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md-6 col-lg-4">
@@ -54,5 +59,6 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
     <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection 

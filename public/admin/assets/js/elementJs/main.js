@@ -62,3 +62,17 @@ setTimeout(() => {
         setTimeout(() => alert.remove(), 500); // xóa hẳn khỏi DOM sau khi mờ đi
     }
 }, 3000); // 3000 ms = 3 giây
+
+
+//Limit price and Stock
+function limitInput(input) {
+    if (input.value.length > 9) {
+        input.value = input.value.slice(0, 9); // giới hạn 3 chữ số
+    }
+}
+
+function limitInput2(input) {
+    if (input.value.length > 3) {
+        input.value = input.value.slice(0, 3); // giới hạn 3 chữ số
+    }
+}

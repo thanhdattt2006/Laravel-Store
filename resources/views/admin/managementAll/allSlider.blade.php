@@ -24,7 +24,7 @@
                       <table
                         id="add-row"
                         class="display table table-striped table-hover"
-                      ><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                      >
                       @if (session('success'))
                           <div id="alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 alert alert-success">
                               <span class="block sm:inline">{{ session('success') }}</span>
@@ -67,7 +67,7 @@
                                 >
                                 <i class="fa fa-edit"></i>
                                 </button>
-                                <a href="{{url('admin/deleteSlider/' . $photo->id)}}">
+                                <a href="{{url('admin/deleteSlider/' . $photo->id)}}" onclick="return confirm('Are you sure to delete?')">
                                   <button
                                     type="button"
                                     data-bs-toggle="tooltip"

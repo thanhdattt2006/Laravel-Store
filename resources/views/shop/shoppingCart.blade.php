@@ -45,11 +45,9 @@
                                         @foreach ($item->product->variant as $photo)
                                             @if ($photo->photos->isNotEmpty()) 
                                                 <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
-                                                <!-- <a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a> -->
                                                 @break;
                                             @endif
                                         @endforeach
-                                        <!-- <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo  ) }}" alt="{{ $item->product->name }}"> -->
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $item->product->name }}</p>
