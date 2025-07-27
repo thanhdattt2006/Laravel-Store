@@ -258,10 +258,17 @@
 
         </ul>
         <div class="tab-content " id="myTabContent">
+
+
             <div class="tab-pane fade  show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <h4 id="average-rating" style="position: sticky; top: 0; background: white; z-index: 99; font-size: 24px; font-weight: bold; color: #f39c12;">
+                    Average rating: ({{ number_format($averageRating, 1) }}/5)
+                </h4>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="comment_list">
+
+
                             @foreach($review as $re)
                             <div class="review_item">
                                 <div class="media">
@@ -316,6 +323,8 @@
                 </div>
             </div>
         </div>
+
+    </div>
 </section>
 <!--================End Product Description Area =================-->
 
@@ -370,12 +379,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('review-form');
+        const msgBox = document.getElementById('review-msg');
+        const avgRatingBox = document.getElementById('average-rating');
+
         if (!form) return;
 
         if (form.dataset.bound === 'true') return;
         form.dataset.bound = 'true';
 
-        const msgBox = document.getElementById('review-msg');
         let isSubmitting = false;
 
         form.addEventListener('submit', async function(e) {
@@ -411,7 +422,7 @@
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(result.message || 'Có lỗi xảy ra');
+                    throw new Error(result.message || 'Error');
                 }
 
                 msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
@@ -442,10 +453,16 @@
                     commentList.insertAdjacentHTML('afterbegin', commentHTML);
                 }
 
+                //  Cập nhật lại Average Rating ngay
+                if (avgRatingBox && result.average_rating) {
+                    avgRatingBox.textContent = `Average rating: (${result.average_rating}/5)`;
+                }
+
+
             } catch (error) {
-                console.error('Lỗi:', error);
+                console.error('Error:', error);
                 const msg = error.message.toLowerCase();
-                if (msg.includes('đăng nhập') || msg.includes('login')) {
+                if (msg.includes('login')) {
                     window.location.href = "{{ route('account.login') }}";
                 } else {
                     msgBox.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
