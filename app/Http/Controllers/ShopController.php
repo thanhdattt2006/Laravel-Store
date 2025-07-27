@@ -151,6 +151,8 @@ class ShopController extends Controller
     $review->account_id = $accountId;
     $review->product_id = $request->input('product_id');
     $review->comment = $request->input('comment');
+    $review->rating = $request->input('rating');
+
     $review->created_at = now();
     $review->updated_at = now();
     $review->save();
@@ -161,6 +163,8 @@ class ShopController extends Controller
             'fullname' => $account->fullname,
             'created_at' => now()->format('d/m/Y H:i'),
             'comment' => $review->comment,
+            'rating' => $review->rating,
+
         ]
     ]);
 }
