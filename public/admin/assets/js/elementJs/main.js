@@ -76,3 +76,21 @@ function limitInput2(input) {
         input.value = input.value.slice(0, 3); // giới hạn 3 chữ số
     }
 }
+
+//fotmart Date
+document.addEventListener('DOMContentLoaded', function () {
+    const dateCells = document.querySelectorAll('.format-date');
+
+    dateCells.forEach(cell => {
+        const rawDate = cell.textContent.trim();
+        const dateObj = new Date(rawDate);
+
+        if (!isNaN(dateObj)) {
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // tháng bắt đầu từ 0
+            const year = dateObj.getFullYear();
+
+            cell.textContent = `${day}/${month}/${year}`;
+        }
+    });
+});

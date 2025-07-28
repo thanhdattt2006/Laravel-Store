@@ -170,7 +170,7 @@
         </div>
             <div class="card-action">
             <button type="submit" class="btn btn-success">Add</button>
-            <button class="btn btn-danger">Cancel</button>
+             <a href="{{url('admin/allProducts')}}"><button type="button" class="btn btn-danger">Cancel</button></a>
             </div>
         </div>
     </div>

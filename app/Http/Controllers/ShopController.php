@@ -80,14 +80,7 @@ class ShopController extends Controller
         ];
         return view('shop/shoppingCart')->with($data);
     }
-    public function confirmation()
-    {
-
-        $data = [
-            'names' => Cate::pluck('name')
-        ];
-        return view('shop/confirmation')->with($data);
-    }
+    
     public function searchByKeyword(Request $request)
     {
         $keyword = $request->get('keyword');
@@ -115,7 +108,8 @@ class ShopController extends Controller
         $colors = Colors::whereIn('id', $colorIds)->get();
 
         $selectedColorId = request()->query('color_id');
-        $averageRating = Review::where('product_id', $id)->avg('rating');
+        $averageRating = Review::where('product_id', $id)->whereNotNull('rating')
+                                                         ->avg('rating');
         if (!$selectedColorId) {
             $firstVariant = Product_variant::where('product_id', $id)->first();
             $selectedColorId = $firstVariant?->colors_id ?? null;

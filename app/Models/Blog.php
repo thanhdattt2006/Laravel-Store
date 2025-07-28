@@ -15,6 +15,7 @@ class Blog extends Model
         'content',
         'created_at',
         'updated_at',
+        'account_id'
     ];
 
     public $timestamps = false; 
