@@ -18,7 +18,8 @@ class Order extends Model
         'fullname' ,
         'address' ,
         'phone' ,
-        'note'
+        'note' ,
+        'status'
     ];
 
     public function orderDetails()

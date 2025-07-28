@@ -55,8 +55,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
+<<<<<<< HEAD
+    Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
+    
+    Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
+=======
     // Route::get('/editProduct', [AdminController::class, 'editProduct']);
 
+>>>>>>> 38cab7c12a3840309b8f4bd343ed13ba6ff5a7ce
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
@@ -67,9 +73,31 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
-    Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
+    Route::get('/order', [AdminController::class, 'order']);
+    Route::get('/bill', [AdminController::class, 'bill']);
+
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);
+
+    //Blog
+    Route::get('/blog', [AdminController::class, 'blog']);
+    Route::get('/editBlog', [AdminController::class, 'editBlog']);
+    Route::get('/addBlog', [AdminController::class, 'addBlog']);
+    Route::get('/editBlog/{id}', [AdminController::class, 'editBlog']);
+    Route::get('/deleteBlog/{id}', [AdminController::class, 'deleteBlog']);
+
+    Route::post('/saveBlog', [AdminController::class, 'saveBlog']);
+    Route::post('/updateBlog', [AdminController::class, 'updateBlog']);
+
+    //about-Us
+    Route::get('/aboutUs', [AdminController::class, 'aboutUs']);
+    Route::get('/editAboutUs', [AdminController::class, 'editAboutUs']);
+    Route::get('/addAboutUs', [AdminController::class, 'addAboutUs']);
+    Route::get('/editAboutUs/{id}', [AdminController::class, 'editAboutUs']);
+    Route::get('/deleteAboutUs/{id}', [AdminController::class, 'deleteAboutUs']);
+
+    Route::post('/saveAboutUs', [AdminController::class, 'saveAboutUs']);
+    Route::post('/updateAboutUs', [AdminController::class, 'updateAboutUs']);
 });
 
 Route::group(['prefix' => 'cate'], function () {
@@ -82,8 +110,6 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
-    Route::get('/confirmation', [ShopController::class, 'confirmation'])->name('shop.confirmation');
-
 
 
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
@@ -91,7 +117,7 @@ Route::group(['prefix' => 'shop'], function () {
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
 
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
-    
+
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
@@ -105,7 +131,7 @@ Route::group(['prefix' => 'shop'], function () {
 
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-    
+
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shop/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -116,14 +142,21 @@ Route::group(['prefix' => 'shop'], function () {
     //order
     Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
     Route::get('/productCheckout', [OrderController::class, 'showCheckOut']);
+    Route::get('/confirmation', [OrderController::class, 'showConfirmation']);
+
+    Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
+
+
+    Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+
+
+    Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
 
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-   Route::post('/review/store', [ShopController::class, 'storeReview'])
-    ->name('product.review');
+    Route::post('/review/store', [ShopController::class, 'storeReview'])
+        ->name('product.review');
     Route::get('/productDetails', [ShopController::class, 'cmt']);
-
-
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);

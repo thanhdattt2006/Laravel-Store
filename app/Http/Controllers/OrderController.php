@@ -79,73 +79,87 @@ class OrderController extends Controller
         ]);
     }
 
-public function store(Request $request)
-{
-    // Kiểm tra đăng nhập
-    if (!auth()->check()) {
-        return redirect()->route('account.login')->with('error', 'Vui lòng đăng nhập trước.');
-    }
-    Log::info('⚡️ OrderController@store: Bắt đầu xử lý đơn hàng');
-    Log::debug('📥 Request data:', $request->all());
-    Log::debug('👤 Auth user:', [auth()->user()]);
-
-    try {
-        DB::beginTransaction();
-
-        // Lấy ID của phương thức thanh toán từ tên
-        $paymentMethod = Payment::where('name', $request->input('payment'))->first();
-        if (!$paymentMethod) {
-            return back()->with('error', 'Phương thức thanh toán không hợp lệ.');
+    public function store(Request $request)
+    {
+        // Kiểm tra đăng nhập
+        if (!auth()->check()) {
+            return redirect()->route('account.login')->with('error', 'Vui lòng đăng nhập trước.');
         }
+        Log::info('⚡️ OrderController@store: Bắt đầu xử lý đơn hàng');
+        Log::debug('📥 Request data:', $request->all());
+        Log::debug('👤 Auth user:', [auth()->user()]);
 
-        // Tạo đơn hàng
-        $order = Order::create([
-            'account_id' => auth()->user()->id,
-            'payments_id' => $paymentMethod->id,
-            'voucher_discount_id' => $request->input('voucher') ?? null,
-            'grand_price' => $request->input('grand_price'),
-            'created_day' => now(),
-            'updated_day' => now(),
-            'fullname' => $request->input('fullname'),
-            'address' => $request->input('address'),
-            'phone' => $request->input('number'), // ⚠ Nếu form dùng "number" thay vì "phone"
-            'note' => $request->input('note'),
-            'status' => true
-        ]);
+        try {
+            DB::beginTransaction();
 
-        // Lưu chi tiết sản phẩm
-        $productIds = $request->input('product_id', []);
-        $quantities = $request->input('product_quantity', []);
-        $totals = $request->input('total', []);
+            // Lấy ID của phương thức thanh toán từ tên
+            $paymentMethod = Payment::where('name', $request->input('payment'))->first();
+            if (!$paymentMethod) {
+                return back()->with('error', 'Phương thức thanh toán không hợp lệ.');
+            }
 
-        foreach ($productIds as $index => $productId) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $productId,
-                'quantity' => $quantities[$index],
-                'price' => $totals[$index] / $quantities[$index],
-                'total_price' => $totals[$index],
+            // Tạo đơn hàng
+            $order = Order::create([
+                'account_id' => auth()->user()->id,
+                'payments_id' => $paymentMethod->id,
+                'voucher_discount_id' => ($request->input('voucher') && $request->input('voucher') != '0') ? $request->input('voucher') : null,
+                'grand_price' => $request->input('grand_price'),
+                'created_day' => now(),
+                'updated_day' => now(),
+                'fullname' => $request->input('fullname'),
+                'address' => $request->input('address'),
+                'phone' => $request->input('phone'),
+                'note' => $request->input('note'),
+                'status' => 1
             ]);
+
+            // Lưu chi tiết sản phẩm
+            $productIds = $request->input('product_id', []);
+            $quantities = $request->input('product_quantity', []);
+            $totals = $request->input('total', []);
+            $sizes = $request->input('product_size' , []);
+            $colorIds = $request->input('product_color_id' , []);
+
+            foreach ($productIds as $index => $productId) {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product_id' => $productId,
+                    'quantity' => $quantities[$index],
+                    'price' => $totals[$index] / $quantities[$index],
+                    'size' => $sizes[$index],
+                    'color_id' => $colorIds[$index],
+                    'total_price' => $totals[$index],
+                ]);
+            }
+
+            //Xoá giỏ hàng (nếu dùng DB giỏ hàng)
+            CartItem::where('cart_id', auth()->user()->id)->delete();
+
+            DB::commit();
+            return redirect()->route('shop.confirmation', ['order_id' => $order->id])
+                ->with('success', 'Đặt hàng thành công!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('❌ Order creation failed: ' . $e->getMessage());
+            return back()->with('error', 'Có lỗi khi đặt hàng: ' . $e->getMessage());
+        }
+    }
+
+
+    public function showConfirmation()
+    {
+        // Lấy toàn bộ đơn hàng của user hiện tại, kèm theo chi tiết
+        $orders = Order::with(['orderDetails.product', 'payment', 'voucher'])
+            ->where('account_id', auth()->user()->id)
+            ->orderByDesc('created_day')
+            ->get();
+
+        if ($orders->isEmpty()) {
+            return redirect('shop.shoppingCart')->with('error', 'Bạn chưa có đơn hàng nào.');
         }
 
-        //Xoá giỏ hàng (nếu dùng DB giỏ hàng)
-        CartItem::where('cart_id', auth()->user()->id)->delete();
-
-        DB::commit();
-        return redirect()->route('shop.confirmation', ['order_id' => $order->id])
-                         ->with('success', 'Đặt hàng thành công!');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        Log::error('❌ Order creation failed: ' . $e->getMessage());
-        return back()->with('error', 'Có lỗi khi đặt hàng: ' . $e->getMessage());
+        return view('shop.confirmation', [
+            'orders' => $orders
+        ]);
     }
-}
-
-
-    public function confirmation()
-{
-    $data = [
-
-    ];
-}
 }

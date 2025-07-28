@@ -10,7 +10,7 @@
                 <h1>Confirmation</h1>
                 <nav class="d-flex align-items-center">
                     <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="category.html">Confirmation</a>
+                    <a href="confirmation">Confirmation</a>
                 </nav>
             </div>
         </div>
@@ -21,124 +21,89 @@
 <!--================Order Details Area =================-->
 <section class="order_details section_gap">
     <div class="container">
-        <h3 class="title_confirmation">Thank you. Your order has been received.</h3>
-        <div class="row order_d_inner">
-            <div class="col-lg-4">
+        <h3 class="title_confirmation">Thank you for choosing our shop</h3>
+
+        @foreach($orders as $order)
+        <div class="row justify-content-center order_d_inner mb-5 text-center">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="details_item">
                     <h4>Order Info</h4>
                     <ul class="list">
-                        <li><a href="#"><span>Order number</span> : 60235</a></li>
-                        <li><a href="#"><span>Date</span> : Los Angeles</a></li>
-                        <li><a href="#"><span>Total</span> : USD 2210</a></li>
-                        <li><a href="#"><span>Payment method</span> : Check payments</a></li>
+                        <li><span>Order number:</span> {{ $order->id }}</li>
+                        <li><span>Date:</span> {{ \Carbon\Carbon::parse($order->created_day)->format('d/m/Y') }}</li>
+                        <li><span>Payment method:</span> {{ $order->payment->name ?? 'N/A' }}</li>
+                        <li><span>Voucher:</span> {{ $order->voucher->code_name ?? 'Dont use' }}</li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="details_item">
-                    <h4>Billing Address</h4>
-                    <ul class="list">
-                        <li><a href="#"><span>Street</span> : 56/8</a></li>
-                        <li><a href="#"><span>City</span> : Los Angeles</a></li>
-                        <li><a href="#"><span>Country</span> : United States</a></li>
-                        <li><a href="#"><span>Postcode </span> : 36952</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-4">
+
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="details_item">
                     <h4>Shipping Address</h4>
                     <ul class="list">
-                        <li><a href="#"><span>Street</span> : 56/8</a></li>
-                        <li><a href="#"><span>City</span> : Los Angeles</a></li>
-                        <li><a href="#"><span>Country</span> : United States</a></li>
-                        <li><a href="#"><span>Postcode </span> : 36952</a></li>
+                        <li><span>Fullname:</span> {{ $order->fullname }}</li>
+                        <li><span>Phone:</span> {{ $order->phone }}</li>
+                        <li><span>Address:</span> {{ $order->address }}</li>
+                        <li><span>Note:</span> {{ $order->note ?? 'Không' }}</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="order_details_table">
+
+        <div class="order_details_table mb-5">
             <h2>Order Details</h2>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Color</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($order->orderDetails as $detail)
                         <tr>
-                            <td>
-                                <p>Pixelstore fresh Blackberry</p>
-                            </td>
-                            <td>
-                                <h5>x 02</h5>
-                            </td>
-                            <td>
-                                <p>$720.00</p>
-                            </td>
+                            <td>{{ $detail->product->name ?? 'Sản phẩm không tồn tại' }}</td>
+                            <td>{{$detail->size}}</td>
+                            <td>{{$detail->color->name}}</td>
+                            <td>x {{ $detail->quantity }}</td>
+                            <td>{{ number_format($detail->total_price) }}₫</td>
+                        </tr>
+                        @endforeach
+
+
+                        <tr>
+                            <td><strong>Discount</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>{{ $order->voucher ? $order->voucher->discount_value . '%' : 'No Voucher' }}</strong></td>
                         </tr>
                         <tr>
-                            <td>
-                                <p>Pixelstore fresh Blackberry</p>
-                            </td>
-                            <td>
-                                <h5>x 02</h5>
-                            </td>
-                            <td>
-                                <p>$720.00</p>
-                            </td>
+                            <td><strong>Grand Total</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>{{ number_format($order->grand_price) }}₫</strong></td>
                         </tr>
                         <tr>
-                            <td>
-                                <p>Pixelstore fresh Blackberry</p>
-                            </td>
-                            <td>
-                                <h5>x 02</h5>
-                            </td>
-                            <td>
-                                <p>$720.00</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>Subtotal</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p>$2160.00</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>Shipping</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p>Flat rate: $50.00</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>Total</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p>$2210.00</p>
-                            </td>
+                            <td><strong>Status</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>{{ $order->status ? 'Paid' : 'Unpaid' }}</strong></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <hr>
+        <div style="margin: 125px 0px;"></div>
+        @endforeach
     </div>
 </section>
 <!--================End Order Details Area =================-->
@@ -146,11 +111,11 @@
 @endsection
 @section('scripts')
 <script>
-	const ASSET_URL = "{{asset('user')}}"
+    const ASSET_URL = "{{asset('user')}}"
 </script>
 <script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>

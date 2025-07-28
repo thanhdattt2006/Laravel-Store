@@ -1,11 +1,16 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Models\AboutUs;
 use App\Models\Account;
+use App\Models\Blog;
 use App\Models\cate;
 use App\Models\Colors;
+use App\Models\Order;
 use App\Models\Photo;
 use App\Models\product;
 use App\Models\Product_variant;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -19,7 +24,7 @@ class AdminController extends Controller
 
 // ---------------------------Slider---------------------------
     public function addSlider() {
-        return view('admin/managementAll/addSlider');
+        return view('admin/slide/addSlider');
     }
 
     public function uploadImg(Request $request){
@@ -72,9 +77,9 @@ class AdminController extends Controller
 
     public function allSlider() {
         $data =[
-            'photos' => Photo::where('product_variant_id', null)->get()
+            'photos' => Photo::where('product_variant_id', null)->orderBy('id', 'desc')->get()
         ];
-        return view('admin/managementAll/allSlider')->with($data);
+        return view('admin/slide/allSlider')->with($data);
     }
 
 // ---------------------------Products---------------------------
@@ -83,7 +88,7 @@ class AdminController extends Controller
            'cates' => cate::get(),
            'colors' => Colors::get()
         ];
-        return view('admin/managementAll/addProducts')->with($data);
+        return view('admin/product/addProducts')->with($data);
     }
 
     public function saveProducts(Request $request){
@@ -91,7 +96,6 @@ class AdminController extends Controller
             $product = Product::create([
                 'name' => $request->name,
                 'price' => $request->price,
-                // 'size' => $request->size,
                 'description' => $request->description,
                 'cate_id' => $request->cate_id,
             ]);
@@ -212,7 +216,7 @@ class AdminController extends Controller
            'colors' => Colors::get(),
            'photos' =>  Product::with('variant.photos')->find($id)
         ];
-        return view('admin/managementAll/editProducts')->with($data);
+        return view('admin/product/editProducts')->with($data);
     }
 
 
@@ -313,12 +317,12 @@ class AdminController extends Controller
             [
                 'products' => Product::orderBy('id', 'desc')->get(),
             ];
-        return view('admin/managementAll/allProducts')->with($data);
+        return view('admin/product/allProducts')->with($data);
     }
 
 //---------------------------Categories---------------------------
     public function addCategories(){
-        return view('admin/managementAll/addCategories');
+        return view('admin/category/addCategories');
     }
 
     public function saveCategories(Request $request){
@@ -337,7 +341,7 @@ class AdminController extends Controller
         $data = [
             'cate' => cate::find($i)
         ];
-        return view('admin/managementAll/editCategories')->with($data);
+        return view('admin/category/editCategories')->with($data);
     }
 
     public function updateCategory(Request $request){
@@ -350,24 +354,178 @@ class AdminController extends Controller
 
     public function allCategories(){
         $data = [
-            'cates' => cate::get()
+            'cates' => cate::orderBy('id', 'desc')->get()
         ];
-        return view('admin/managementAll/allCategories')->with($data);
+        return view('admin/category/allCategories')->with($data);
     }
 
 //---------------------------Orders---------------------------
-    public function managementOrder(){
-        return view('admin/managementAll/managementOrder');
+    public function order(){
+        $data = [
+            'orders' => Order::get(),
+            'accounts' => Account::get()
+        ];
+        
+        return view('admin/order/order')->with($data);
     }
 
-//---------------------------Customers---------------------------
+    public function bill(){
+        
+        
+        return view('admin/order/bill');
+    }
+
+//---------------------------Accounts---------------------------
     public function accounts(){
          $data = [
-            'accounts' => account::get()
+            'accounts' => account::orderBy('id', 'desc')->get()
         ];
         return view('admin/managementAll/accounts')->with($data);
     }
 
+//---------------------------Blog---------------------------
+    public function blog(){
+         $data = [
+            'blogs' => Blog::orderBy('id', 'desc')->get()
+        ];
+        return view('admin/blog/blog')->with($data);
+    }
+
+    public function addBlog(){
+         $data = [
+            'accounts' => account::get()
+        ];
+        return view('admin/blog/addBlog')->with($data);
+    }
+
+    public function saveBlog(Request $request){
+        try{
+            $blog = [
+                'title' =>  $request->title,
+                'photo' =>  $request->photo,
+                'description' =>  $request->description,
+                'content' =>  $request->content,
+                'created_at' => Carbon::now()->format('Y-m-d'),
+                'account_id' =>  $request->account_id
+                
+            ];
+            Blog::create($blog);
+            session()->flash('success', 'Add Blog Success');
+            return redirect('admin/blog');
+        }  catch (Exception $e) {
+            session()->flash('error', 'Add Blog Fails');
+            return redirect('admin/addBlog');
+        }
+    }
+
+    public function deleteBlog($id){
+        try{
+        Blog::where('id', $id)->delete();
+            session()->flash('success', 'Delete Blog Success');
+         }  catch (Exception $e) {
+            session()->flash('error', 'Delete Blog Fails');
+        }
+        
+        return redirect('admin/blog');
+    }
+
+    public function editBlog($id){
+        $data = [
+            'blogs' => Blog::find($id)
+        ];
+        return view('admin/blog/editBlog')->With($data);
+    }
+
+    public function updateBlog(Request $request){
+        try{
+            $data = [
+                'title' =>  $request->title,
+                'photo' =>  $request->photo,
+                'description' =>  $request->description,
+                'content' =>  $request->content,
+                'updated_at' => Carbon::now()->format('Y-m-d'),
+            ];
+            Blog::where('id', $request->id)->update($data);
+            session()->flash('success', 'Update Blog Success');
+            return redirect('admin/blog');
+        }  catch (Exception $e) {
+            session()->flash('error', 'Update Blog Fails');
+            return redirect('admin/editBlog/' . $request->id);
+        }
+    }
+
+    
+
+//---------------------------About-us---------------------------
+    public function aboutUs(){
+         $data = [
+            'aboutus' => AboutUs::orderBy('id', 'desc')->get()
+        ];
+        return view('admin/aboutUs/aboutUs')->with($data);
+    }
+
+    public function addAboutUs(){
+       $data = [
+            'accounts' => account::get()
+        ];
+        return view('admin/aboutUs/addAboutUs')->with($data);
+    }
+
+    public function saveAboutUs(Request $request){
+       try{
+            $data = [
+                'title' =>  $request->title,
+                'photo' =>  $request->photo,
+                'description' =>  $request->description,
+                'content' =>  $request->content,
+                'created_at' => Carbon::now()->format('Y-m-d'),
+                'account_id' =>  $request->account_id
+                
+            ];
+            AboutUs::create($data);
+            session()->flash('success', 'Add About Us Success');
+            return redirect('admin/aboutUs');
+        }  catch (Exception $e) {
+            session()->flash('error', 'Add About Us Fails');
+            return redirect('admin/addAboutUs');
+        }
+    }
+
+    public function deleteAboutUs($id){
+        try{
+        AboutUs::where('id', $id)->delete();
+            session()->flash('success', 'delete AboutUs Success');
+         }  catch (Exception $e) {
+            session()->flash('error', 'delete AboutUs Fails');
+        }
+        
+        return redirect('admin/aboutUs');
+    }
+
+    public function editAboutUs($id){
+         $data = [
+            'aboutus' => AboutUs::find($id)
+        ];
+        return view('admin/aboutUs/editAboutUs')->with($data);
+    }
+
+    public function updateAboutUs(Request $request){
+        try{
+            $data = [
+                'title' =>  $request->title,
+                'photo' =>  $request->photo,
+                'description' =>  $request->description,
+                'content' =>  $request->content,
+                'updated_at' => Carbon::now()->format('Y-m-d'),
+            ];
+            AboutUs::where('id', $request->id)->update($data);
+            session()->flash('success', 'Update About Us Success');
+            return redirect('admin/aboutUs');
+        }  catch (Exception $e) {
+            session()->flash('error', 'Update About Us Fails');
+            return redirect('admin/editAboutUs/' . $request->id);
+        }
+    }
 
 }
 ?>
