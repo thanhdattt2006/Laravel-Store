@@ -80,14 +80,7 @@ class ShopController extends Controller
         ];
         return view('shop/shoppingCart')->with($data);
     }
-    public function confirmation()
-    {
-
-        $data = [
-            'names' => Cate::pluck('name')
-        ];
-        return view('shop/confirmation')->with($data);
-    }
+    
     public function searchByKeyword(Request $request)
     {
         $keyword = $request->get('keyword');

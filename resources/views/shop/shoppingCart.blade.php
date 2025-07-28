@@ -243,7 +243,7 @@
     crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<!-- <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script> -->
 <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
 <script src="{{asset('user/js/nouislider.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>

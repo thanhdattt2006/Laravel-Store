@@ -260,7 +260,7 @@
 					cancelButtonText: 'Maybe later'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						window.location.href = '/account/login'; // hoặc route tương ứng
+						window.location.href = '/account'; 
 					}
 				});
 				return;
