@@ -2,76 +2,67 @@
 @section('content')
 <!-- <link rel="stylesheet" href="billStyle.css"> -->
 <link rel="stylesheet" href="{{asset('admin')}}/assets/css/elementCss/billStyle.css">
-<div class="invoice-box">
-    <h2>HÓA ĐƠN THANH TOÁN</h2>
+<div class="container">
+    <div class="page-inner">
+        <div class="invoice-box">
+    <h2><strong>PAYMENT INVOICE</strong></h2>
 
     <div class="info">
-      <p><strong>Mã hóa đơn:</strong> INV-00022</p>
-      <p><strong>Khách hàng:</strong> Trần Thị B</p>
-      <p><strong>Email:</strong> tranb@gmail.com</p>
-      <p><strong>SĐT:</strong> 0909 123 456</p>
-      <p><strong>Địa chỉ:</strong> 123 Nguyễn Trãi, P. Bến Thành, Q.1, TP.HCM</p>
-      <p><strong>Ngày đặt:</strong> 27/07/2025</p>
-      <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
-      <p><strong>Trạng thái:</strong> Đang giao hàng - Đã thanh toán</p>
+      <p><strong>Invoice ID: </strong> {{$bills->id}}</p>
+      <p><strong>Customer: </strong> {{$bills->fullname}}</p>
+      <p><strong>Phone: </strong> {{$bills->phone}}</p>
+      <p><strong>Address: </strong> {{$bills->address}}</p>
+      <p><strong>Order Date: </strong> {{$bills->created_day}}</p>
+      <p><strong>Payment Method: </strong> {{$bills->payment->name}}</p>
+      <p><strong>Status: </strong> {{$bills->status == 1 ? 'Paid' : 'Not yet Paid'}}</p>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th>STT</th>
-          <th>Sản phẩm</th>
-          <th>Màu</th>
-          <th>Kích cỡ</th>
-          <th>SL</th>
-          <th>Đơn giá</th>
-          <th>Thuế (10%)</th>
-          <th>Thành tiền</th>
+          <th>No</th>
+          <th>Product Name</th>
+          <th>Color</th>
+          <th>Size</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
         </tr>
       </thead>
       <tbody>
+        @php $i = 1 @endphp
+        @foreach($bills->orderDetails as $billDetails)
         <tr>
-          <td>1</td>
-          <td>Áo Thun Trắng</td>
-          <td>Trắng</td>
-          <td>M</td>
-          <td>2</td>
-          <td>200.000₫</td>
-          <td>40.000₫</td>
-          <td>440.000₫</td>
+          <td>{{$i}}</td>
+          <td>{{$billDetails->product->name}}</td>
+          <td>{{$billDetails->color->name}}</td>
+          <td>{{$billDetails->size}}</td>
+          <td>{{$billDetails->quantity}}</td>
+          <td class="currency-format">{{$billDetails->price}}</td>
+          <td class="currency-format">{{$billDetails->total_price}}</td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>Quần Short</td>
-          <td>Xanh</td>
-          <td>L</td>
-          <td>1</td>
-          <td>250.000₫</td>
-          <td>25.000₫</td>
-          <td>275.000₫</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Giày Sneaker</td>
-          <td>Đỏ</td>
-          <td>42</td>
-          <td>1</td>
-          <td>1.000.000₫</td>
-          <td>100.000₫</td>
-          <td>1.100.000₫</td>
-        </tr>
+        @php $i++ @endphp
+        @endforeach
       </tbody>
     </table>
 
     <div class="totals">
-      <p>Tổng tiền hàng: <span>1.450.000₫</span></p>
-      <p>Thuế: <span>165.000₫</span></p>
-      <p>Phí vận chuyển: <span>30.000₫</span></p>
-      <p><strong>Tổng thanh toán: <span>1.645.000₫</span></strong></p>
+      <p>Subtotal:  <span class="currency-format">1450000</span></p>
+      <p>VAT:  <span class="currency-format">0</span></p>
+      <p>Shipping:  <span>Free Ship</span></p>
+      <p><strong>Grand Total: <span class="currency-format">1645000</span></strong></p>
     </div>
 
     <div class="note">
-      Cảm ơn quý khách đã mua hàng tại cửa hàng của chúng tôi!
+     Thank you for shopping with us!
     </div>
   </div>
+
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+  <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+  <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

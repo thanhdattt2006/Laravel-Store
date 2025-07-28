@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\cate;
 use App\Models\Colors;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Photo;
 use App\Models\product;
 use App\Models\Product_variant;
@@ -377,18 +378,25 @@ class AdminController extends Controller
     public function order()
     {
         $data = [
-            'orders' => Order::get(),
-            'accounts' => Account::get()
+            'orders' => Order::get()
         ];
 
         return view('admin/order/order')->with($data);
     }
 
-    public function bill()
+    public function bill($id)
     {
+        $data = [
+            'bills' => Order::find($id)
+        ];
+        return view('admin/order/bill')->with($data);
+    }
 
-
-        return view('admin/order/bill');
+    public function orderDetails($id){
+        $data = [
+          'orderDetails' => Order::find($id)
+        ];
+       return view('admin/order/orderDetails')->with($data);
     }
 
     //---------------------------Accounts---------------------------

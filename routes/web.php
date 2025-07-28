@@ -69,7 +69,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
     Route::get('/order', [AdminController::class, 'order']);
-    Route::get('/bill', [AdminController::class, 'bill']);
+    Route::get('/bill/{id}', [AdminController::class, 'bill']);
+    Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
 
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);
