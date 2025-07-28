@@ -295,7 +295,7 @@
                             <label for="rating">Your Rating:</label>
                             @for ($i = 1; $i <= 5; $i++)
                                 <div>
-                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required>
+                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" >
                                 <label for="star{{ $i }}">
                                     @for ($j = 1; $j <= $i; $j++)
                                         &#9733;
@@ -402,11 +402,11 @@
                 rating: form.querySelector('[name="rating"]:checked')?.value || null
             };
 
-            if (!data.rating) {
-                msgBox.innerHTML = `<div class="alert alert-danger">Vui lòng chọn số sao.</div>`;
-                isSubmitting = false;
-                return;
-            }
+            // if (!data.rating) {
+            //     msgBox.innerHTML = `<div class="alert alert-danger">Vui lòng chọn số sao.</div>`;
+            //     isSubmitting = false;
+            //     return;
+            // }
 
             try {
                 const response = await fetch("{{ route('product.review') }}", {
