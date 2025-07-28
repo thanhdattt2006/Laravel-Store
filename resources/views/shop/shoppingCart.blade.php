@@ -156,7 +156,7 @@
                                 <div class="cupon_text d-flex align-items-center">
                                     <input type="text" id="coupon-code" placeholder="Coupon Code">
                                     <a class="primary-btn" href="#" id="apply-voucher-btn">Apply</a>
-                                    <a class="gray_btn" href="#" id="close-voucher-btn">Close Coupon</a>
+                                    <a class="gray_btn" href="#" id="close-voucher-btn" style="width: 300px">Close Coupon</a>
                                 </div>
                             </td>
                         </tr>
@@ -215,7 +215,7 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="{{url('home/index')}}">Continue Shopping</a>
+                                    <a class="gray_btn" href="{{url('home/index')}}" style="width: 300px">Continue Shopping</a>
                                     <a class="primary-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
                                 </div>
                             </td>

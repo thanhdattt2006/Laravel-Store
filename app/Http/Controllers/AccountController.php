@@ -118,5 +118,6 @@ class AccountController extends Controller
         $user->save();
 
         return redirect()->route('account.userInfo')->with('success', 'Cập nhật thành công!');
+
     }
 }
