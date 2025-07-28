@@ -253,15 +253,22 @@
         <ul class="nav nav-tabs active" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                    aria-selected="false">Comments</a>
+                    aria-selected="false">Review</a>
             </li>
 
         </ul>
         <div class="tab-content " id="myTabContent">
+
+
             <div class="tab-pane fade  show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <h4 id="average-rating" style="position: sticky; top: 0; background: white; z-index: 99; font-size: 24px; font-weight: bold; color: #f39c12;">
+                    Average rating: ({{ number_format($averageRating, 1) }}/5)
+                </h4>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="comment_list">
+
+
                             @foreach($review as $re)
                             <div class="review_item">
                                 <div class="media">
@@ -271,39 +278,53 @@
                                         <h4>{{ $re->account->fullname ?? 'Tài khoản ẩn' }}</h4>
                                         <h5>{{ $re->created_at->format('d/m/Y H:i') }}</h5>
                                         <a class="reply_btn" href="#">Reply</a>
+                                        @for ($i = 1; $i <= $re->rating; $i++)
+                                            &#9733;
+                                            @endfor
                                     </div>
+
                                 </div>
                                 <p>{{ $re->comment }}</p>
                             </div>
                             @endforeach
                         </div>
+                        <br>
                         @auth
+
                         <form id="review-form" action="#" method="POST">
-
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="text" name="comment" placeholder="Enter a comment..." required>
-                            <button type="submit">Submit</button>
-                        </form>
-
-                        <div id="review-msg" style="color: green; margin-top: 10px;"></div>
-                        <ul id="review-list">
-                            {{-- Review sẽ thêm vào đây --}}
-                        </ul>
-                        @endauth
-
-
-                        @guest
-                        <div class="alert alert-warning">
-                            Vui lòng <a href="{{ route('account.login') }}">đăng nhập</a> để bình luận
-                        </div>
-                        @endguest
-
-
-
+                            <label for="rating">Your Rating:</label>
+                            @for ($i = 1; $i <= 5; $i++)
+                                <div>
+                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required>
+                                <label for="star{{ $i }}">
+                                    @for ($j = 1; $j <= $i; $j++)
+                                        &#9733;
+                                        @endfor
+                                        </label>
                     </div>
+                    @endfor
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="text" name="comment" placeholder="Enter a comment..." required>
+                    <button type="submit">Submit</button>
+                    </form>
 
+
+                    <div id="review-msg" style="color: green; margin-top: 10px;"></div>
+                    <ul id="review-list">
+                        {{-- Review sẽ thêm vào đây --}}
+                    </ul>
+                    @endauth
+
+                    @guest
+                    <div class="alert alert-warning">
+                        Vui lòng <a href="{{ route('account.login') }}">đăng nhập</a> để bình luận
+                    </div>
+                    @endguest
                 </div>
             </div>
+        </div>
+
+    </div>
 </section>
 <!--================End Product Description Area =================-->
 
@@ -325,7 +346,13 @@
                     @foreach ($products -> take(9) as $product)
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{$product->photo}}" width="70" height="70"></a>
+                            @foreach ($product->variant as $photo)
+                            @if ($photo->photos->isNotEmpty())
+                            <a href="{{ url('/shop/productDetails/' . $product->id) }}"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
+                            @break;
+                            @endif
+                            @endforeach
+
                             <div class="desc">
                                 <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="title">{{$product->name}}</a>
                                 <div class="price">
@@ -352,13 +379,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('review-form');
+        const msgBox = document.getElementById('review-msg');
+        const avgRatingBox = document.getElementById('average-rating');
+
         if (!form) return;
 
-        // Tránh gắn lại sự kiện nếu trang render lại
         if (form.dataset.bound === 'true') return;
         form.dataset.bound = 'true';
 
-        const msgBox = document.getElementById('review-msg');
         let isSubmitting = false;
 
         form.addEventListener('submit', async function(e) {
@@ -371,7 +399,14 @@
             const data = {
                 product_id: form.querySelector('[name="product_id"]').value,
                 comment: form.querySelector('[name="comment"]').value,
+                rating: form.querySelector('[name="rating"]:checked')?.value || null
             };
+
+            if (!data.rating) {
+                msgBox.innerHTML = `<div class="alert alert-danger">Vui lòng chọn số sao.</div>`;
+                isSubmitting = false;
+                return;
+            }
 
             try {
                 const response = await fetch("{{ route('product.review') }}", {
@@ -387,13 +422,18 @@
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(result.message || 'Có lỗi xảy ra');
+                    throw new Error(result.message || 'Error');
                 }
 
                 msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
                 form.reset();
 
-                // ✅ Thêm bình luận mới vào đầu danh sách
+                // Tạo HTML sao
+                let stars = '';
+                for (let i = 1; i <= result.review.rating; i++) {
+                    stars += '&#9733;';
+                }
+
                 const commentHTML = `
                     <div class="review_item">
                         <div class="media">
@@ -401,9 +441,10 @@
                                 <h4>${result.review.fullname}</h4>
                                 <h5>${result.review.created_at}</h5>
                                 <a class="reply_btn" href="#">Reply</a>
+                                <div style="color: gold;">${stars}</div>
                             </div>
                         </div>
-                        <p>${result.review.comment}</p>
+                        <p><strong>${result.review.comment}</strong></p>
                     </div>
                 `;
 
@@ -412,10 +453,16 @@
                     commentList.insertAdjacentHTML('afterbegin', commentHTML);
                 }
 
+                //  Cập nhật lại Average Rating ngay
+                if (avgRatingBox && result.average_rating) {
+                    avgRatingBox.textContent = `Average rating: (${result.average_rating}/5)`;
+                }
+
+
             } catch (error) {
-                console.error('Lỗi:', error);
+                console.error('Error:', error);
                 const msg = error.message.toLowerCase();
-                if (msg.includes('đăng nhập') || msg.includes('login')) {
+                if (msg.includes('login')) {
                     window.location.href = "{{ route('account.login') }}";
                 } else {
                     msgBox.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
@@ -426,6 +473,7 @@
         });
     });
 </script>
+
 
 
 

@@ -169,7 +169,6 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Infomation</a>
                                 <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
-                                <a class="dropdown-item" href="{{ url('/tracking') }}">Tracking</a>
                                 <a class="dropdown-item" href="{{ route('account.logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Log-out

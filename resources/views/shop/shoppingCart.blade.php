@@ -43,18 +43,11 @@
                                 <div class="media">
                                     <div class="d-flex">
                                         @foreach ($item->product->variant as $photo)
-<<<<<<< HEAD
-                                            @if ($photo->photos->isNotEmpty()) 
-                                                <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
-                                                @break;
-                                            @endif
-=======
                                         @if ($photo->photos->isNotEmpty())
                                         <img height="150px" src="{{ asset('user/nike-img/' . $photo->photos->first()->name  ) }}" alt="{{ $item->product->name }}">
                                         <!-- <a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a> -->
                                         @break;
                                         @endif
->>>>>>> 1708be8fb484729232d0b1f97ff3ae7606c0adce
                                         @endforeach
                                     </div>
                                     <div class="media-body">
@@ -249,7 +242,7 @@
     crossorigin="anonymous"></script>
 <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<!-- <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script> -->
 <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
 <script src="{{asset('user/js/nouislider.min.js')}}"></script>
 <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>

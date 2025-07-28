@@ -97,10 +97,11 @@
                         <div class="row contact_form">
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your name">
+                                
                             </div>
 
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="number" name="number" placeholder="Phone number">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number">
 
 
                             </div>
@@ -159,6 +160,8 @@
                                     <a>
                                         <input type="hidden" name="product_id[]" value="{{$item->product->id}}">
                                         <input type="hidden" name="product_name[]" value="{{ $item->product->name }}">
+                                        <input type="hidden" name="product_size[]" value="{{ $item->size }}">
+                                        <input type="hidden" name="product_color_id[]" value="{{ $item->color_id }}">
                                         {{ Str::limit($item->product->name, 12) }}
                                         <span class="middle" style="margin-left: 25px;">
                                             <input type="hidden" name="product_quantity[]" value="{{ $item->quantity }}">
