@@ -1,13 +1,18 @@
 @extends('layout.admin')
 
 @section('content')
-<form action="{{url(('admin/saveProducts'))}}" method="post">
+<form action="{{url(('admin/saveProducts'))}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="card">
         <div class="card-header">
             <div class="card-title">Add Product</div>
         </div>
         <div class="card-body">
+          @if (session('error'))
+            <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+          @endif
             <div  class="description" >
                 <div class="col-md-6 col-lg-4">
                     <!-- Name-product -->
@@ -39,6 +44,7 @@
                                 class="form-control"
                                 aria-label="Amount (to the nearest dollar)" placeholder="Price product"
                                 name="price"
+                                oninput="limitInput(this)"
                             />
                             </div>
                         </div>
@@ -77,7 +83,7 @@
                           </div>
                         </div>
                     <!-- Color -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="form-label">Color</label>
                         <div class="row gutters-xs">
                           @foreach($colors as $color)
@@ -94,7 +100,7 @@
                             </div>
                           @endforeach
                         </div>
-                    </div>
+                    </div> -->
                     @for ($i = 0; $i < 2; $i++)
                     <!-- Stock -->
                     <div class="form-group">
@@ -108,6 +114,7 @@
                                 class="form-control"
                                 aria-label="Amount (to the nearest dollar)" placeholder="Price product"
                                 name="stock{{$i}}"
+                                oninput="limitInput2(this)"
                             />
                             </div>
                         </div>
@@ -131,6 +138,26 @@
                           @endforeach
                         </div>
                     </div> -->
+
+                    <!-- Color -->
+                    <div class="form-group">
+                        <label class="form-label">Color</label>
+                        <div class="row gutters-xs">
+                          @foreach($colors as $color)
+                            <div class="col-auto">
+                                <label class="colorinput">
+                                <input
+                                    name="color_id[]"
+                                    type="checkbox"
+                                    value="{{$color->id}}"
+                                    class="colorinput-input"
+                                />
+                                <span class="colorinput-color" style="background-color: {{$color->name}};"></span>
+                                </label>
+                            </div>
+                          @endforeach
+                        </div>
+                    </div>
                     <!-- Product-img -->
                     <div class="form-group conTainer">
                         <input type="file" name="photo_name{{$i}}[]" class="input" onchange="preview('{{$i}}')" id="file-input{{$i}}" accept="image/png, image/jpeg, image.jpg," multiple maxlength="8">
@@ -204,5 +231,6 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
     <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

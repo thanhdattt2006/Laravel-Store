@@ -49,7 +49,6 @@
                                         @break;
                                         @endif
                                         @endforeach
-                                        <!-- <img height="150px" src="{{ asset('user/nike-img/' . $item->product->photo  ) }}" alt="{{ $item->product->name }}"> -->
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $item->product->name }}</p>

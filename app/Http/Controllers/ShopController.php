@@ -108,11 +108,13 @@ class ShopController extends Controller
         $colors = Colors::whereIn('id', $colorIds)->get();
 
         $selectedColorId = request()->query('color_id');
-
+        $averageRating = Review::where('product_id', $id)->avg('rating');
         if (!$selectedColorId) {
             $firstVariant = Product_variant::where('product_id', $id)->first();
             $selectedColorId = $firstVariant?->colors_id ?? null;
         }
+
+
         $data =
             [
                 'product' => $product,
@@ -122,40 +124,46 @@ class ShopController extends Controller
                 'selectedColorId' => $selectedColorId,
                 'product_variant' =>  $product_variant,
                 'products' => Product::get(),
-                'review' => $reviews
+                'review' => $reviews,
+                'averageRating' => $averageRating,
             ];
         return view('shop/productDetails')->with($data);
     }
 
 
-   public function storeReview(Request $request)
-{
-    $accountId = session('account_id');
-    if (!$accountId) {
-        return response()->json(['message' => 'Bạn chưa đăng nhập.'], 401);
+    public function storeReview(Request $request)
+    {
+        $accountId = session('account_id');
+        if (!$accountId) {
+            return response()->json(['message' => 'Bạn chưa đăng nhập.'], 401);
+        }
+
+        $account = Account::find($accountId);
+        if (!$account) {
+            return response()->json(['message' => 'Tài khoản không tồn tại.'], 404);
+        }
+
+        $review = new Review();
+        $review->account_id = $accountId;
+        $review->product_id = $request->input('product_id');
+        $review->comment = $request->input('comment');
+        $review->rating = $request->input('rating');
+
+        $review->created_at = now();
+        $review->updated_at = now();
+        $review->save();
+        $averageRating = Review::where('product_id', $request->product_id)->avg('rating');
+
+        return response()->json([
+            'message' => 'Bình luận đã được gửi thành công!',
+            'review' => [
+                'fullname' => $account->fullname,
+                'created_at' => now()->format('d/m/Y H:i'),
+                'comment' => $review->comment,
+                'rating' => $review->rating,
+
+            ],
+            'average_rating' => number_format($averageRating, 1),
+        ]);
     }
-
-    $account = Account::find($accountId);
-    if (!$account) {
-        return response()->json(['message' => 'Tài khoản không tồn tại.'], 404);
-    }
-
-    $review = new Review();
-    $review->account_id = $accountId;
-    $review->product_id = $request->input('product_id');
-    $review->comment = $request->input('comment');
-    $review->created_at = now();
-    $review->updated_at = now();
-    $review->save();
-
-    return response()->json([
-        'message' => 'Bình luận đã được gửi thành công!',
-        'review' => [
-            'fullname' => $account->fullname,
-            'created_at' => now()->format('d/m/Y H:i'),
-            'comment' => $review->comment,
-        ]
-    ]);
-}
-
 }

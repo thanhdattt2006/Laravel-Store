@@ -9,6 +9,7 @@
                     <h2>My Information</h2>
                     <form action="{{ route('account.update') }}" id="userForm" method="POST">
                         @csrf
+                        @method('PUT')
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
@@ -34,9 +35,16 @@
                                     </tr>
                                     <tr>
                                         <td>
+                                            <p>Current password</p>
+                                        </td>
+                                        <td>
+                                            <input type="password" name="current_password" id="current_password" class="form-control">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <p>New password</p>
                                         </td>
-                                        
                                         <td>
                                             <input type="password" name="new_password" id="new_password" class="form-control">
                                         </td>
@@ -45,7 +53,7 @@
                                         <td>
                                             <p>Confirm password</p>
                                         </td>
-                                        
+
                                         <td>
                                             <input type="password" name="new_password_confirmation" id="confirm_password" class="form-control">
                                         </td>
@@ -89,11 +97,16 @@
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
 
+<<<<<<< HEAD
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+=======
+>>>>>>> e7a94005affc655a91f3d8334a2354b270ff50ac
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById('userForm');
         const newPasswordInput = document.getElementById('new_password');
         const confirmPasswordInput = document.getElementById('confirm_password');
+        const currentPasswordInput = document.getElementById('current_password');
 
         const toggle = document.getElementById('togglePassword');
         if (toggle) {
@@ -101,19 +114,57 @@
                 const type = this.checked ? 'text' : 'password';
                 newPasswordInput.type = type;
                 confirmPasswordInput.type = type;
+                currentPasswordInput.type = type;
             });
         }
 
         form.addEventListener('submit', function(e) {
             const newPassword = newPasswordInput.value;
             const confirmPassword = confirmPasswordInput.value;
+            const currentPassword = currentPasswordInput.value;
 
             console.log("New password:", newPassword);
             console.log("Confirm password:", confirmPassword);
+            console.log("Current password:", currentPassword);
 
             if (newPassword !== '' && newPassword !== confirmPassword) {
                 e.preventDefault();
-                alert('Mật khẩu xác nhận không khớp!');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Mật khẩu xác nhận không khớp!',
+                    confirmButtonText: 'OK'
+                });
+            } else if (newPassword === currentPassword) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Mật khẩu mới bị trùng với mật khẩu cũ!',
+                    confirmButtonText: 'OK'
+                });
+            } 
+            else if (currentPassword === '') {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Vui lòng nhập mật khẩu hiện tại!',
+                    confirmButtonText: 'OK'
+                });
+            } 
+            else {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Thay đổi mật khẩu thành công!',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.querySelector('#userForm').submit();
+                    }
+                });
             }
         });
     });

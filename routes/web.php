@@ -160,7 +160,9 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/userInfo', [AccountController::class, 'userInfo'])->name('account.userInfo')->middleware('auth');
 
     Route::get('/edit', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
-    Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
+    // Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
+    Route::put('/update', [AccountController::class, 'update'])->name('account.update');
+
 });
 
 // Trang chỉ admin được vào
