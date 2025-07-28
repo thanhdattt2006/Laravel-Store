@@ -55,14 +55,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
-<<<<<<< HEAD
-    Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
-    
-    Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
-=======
     // Route::get('/editProduct', [AdminController::class, 'editProduct']);
 
->>>>>>> 38cab7c12a3840309b8f4bd343ed13ba6ff5a7ce
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
