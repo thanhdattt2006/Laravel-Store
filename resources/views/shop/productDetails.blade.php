@@ -624,7 +624,7 @@
                 });
                 return;
             }
-            sendAddToCartRequest(productId, colorId, size, quantity); // ✅ Thêm quantity ở đây
+            sendAddToCartRequest(productId, colorId, size, quantity); //  Thêm quantity ở đây
         }
 
         function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {

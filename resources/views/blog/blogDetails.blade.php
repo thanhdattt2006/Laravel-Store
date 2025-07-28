@@ -33,7 +33,7 @@
 
             <!-- FORM GỬI BÌNH LUẬN -->
             <div class="mt-5">
-                <h4 class="mb-3">Bình luận</h4>
+                <h4 class="mb-3">Comment</h4>
 
                 @if (Auth::check())
                     @if(session('success'))
