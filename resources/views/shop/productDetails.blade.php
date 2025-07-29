@@ -295,7 +295,7 @@
                             <label for="rating">Your Rating:</label>
                             @for ($i = 1; $i <= 5; $i++)
                                 <div>
-                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required>
+                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" >
                                 <label for="star{{ $i }}">
                                     @for ($j = 1; $j <= $i; $j++)
                                         &#9733;
@@ -402,11 +402,11 @@
                 rating: form.querySelector('[name="rating"]:checked')?.value || null
             };
 
-            if (!data.rating) {
-                msgBox.innerHTML = `<div class="alert alert-danger">Vui lòng chọn số sao.</div>`;
-                isSubmitting = false;
-                return;
-            }
+            // if (!data.rating) {
+            //     msgBox.innerHTML = `<div class="alert alert-danger">Vui lòng chọn số sao.</div>`;
+            //     isSubmitting = false;
+            //     return;
+            // }
 
             try {
                 const response = await fetch("{{ route('product.review') }}", {
@@ -638,8 +638,12 @@
                 });
                 return;
             }
+<<<<<<< HEAD
 
             sendAddToCartRequest(productId, colorId, size, quantity);
+=======
+            sendAddToCartRequest(productId, colorId, size, quantity); //  Thêm quantity ở đây
+>>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
         }
 
         function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {

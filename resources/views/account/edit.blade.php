@@ -38,7 +38,7 @@
                                             <p>Current password</p>
                                         </td>
                                         <td>
-                                            <input type="password" name="current_password" id="current_password" class="form-control">
+                                            <input type="password" name="current_password" id="current_password" class="form-control" required>
                                         </td>
                                     </tr>
                                     <tr>
@@ -96,11 +96,7 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-
-<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-=======
->>>>>>> e7a94005affc655a91f3d8334a2354b270ff50ac
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById('userForm');

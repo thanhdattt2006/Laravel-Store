@@ -60,6 +60,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
+<<<<<<< HEAD
+=======
+    Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
+
+    Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
+>>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
 
     // Category
@@ -69,12 +75,51 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
+<<<<<<< HEAD
 
     // Order
     Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
 
     // Accounts
+=======
+    //order
+    Route::get('/order', [AdminController::class, 'order']);
+    Route::get('/bill/{id}', [AdminController::class, 'bill']);
+    Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
+
+    //Accounts
+>>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
     Route::get('/accounts', [AdminController::class, 'accounts']);
+    Route::get('/deleteAccounts/{id}', [AdminController::class, 'deleteAccounts']);
+    Route::get('/reset/{id}', [AdminController::class, 'reset']);
+
+
+
+    //Blog
+    Route::get('/blog', [AdminController::class, 'blog']);
+    Route::get('/editBlog', [AdminController::class, 'editBlog']);
+    Route::get('/addBlog', [AdminController::class, 'addBlog']);
+    Route::get('/editBlog/{id}', [AdminController::class, 'editBlog']);
+    Route::get('/deleteBlog/{id}', [AdminController::class, 'deleteBlog']);
+
+    Route::post('/saveBlog', [AdminController::class, 'saveBlog']);
+    Route::post('/updateBlog', [AdminController::class, 'updateBlog']);
+
+    //about-Us
+    Route::get('/aboutUs', [AdminController::class, 'aboutUs']);
+    Route::get('/editAboutUs', [AdminController::class, 'editAboutUs']);
+    Route::get('/addAboutUs', [AdminController::class, 'addAboutUs']);
+    Route::get('/editAboutUs/{id}', [AdminController::class, 'editAboutUs']);
+    Route::get('/deleteAboutUs/{id}', [AdminController::class, 'deleteAboutUs']);
+
+    Route::post('/saveAboutUs', [AdminController::class, 'saveAboutUs']);
+    Route::post('/updateAboutUs', [AdminController::class, 'updateAboutUs']);
+    //review
+    Route::get('/review/ProductReview', [AdminController::class, 'ProductReview']);
+    Route::get('/review/BlogReview', [AdminController::class, 'BlogReview']);
+
+    Route::get('/deleteComment/{id}', [AdminController::class, 'deleteComment']);
+    Route::get('/deleteBlogcmt/{id}', [AdminController::class, 'deleteBlogcmt']);
 });
 
 
@@ -164,7 +209,6 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/edit', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
     // Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
     Route::put('/update', [AccountController::class, 'update'])->name('account.update');
-
 });
 
 

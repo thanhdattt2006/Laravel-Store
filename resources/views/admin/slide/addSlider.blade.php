@@ -51,7 +51,7 @@
                       </div>
                       <div class="card-action">
                         <button class="btn btn-success">Add</button>
-                        <button class="btn btn-danger">Cancel</button>
+                         <a href="{{url('admin/allSlider')}}"><button type="button" class="btn btn-danger">Cancel</button></a>
                       </div>
                     </div>
                   </div>

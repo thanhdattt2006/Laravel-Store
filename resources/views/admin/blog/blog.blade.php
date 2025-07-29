@@ -1,7 +1,6 @@
 @extends('layout.admin')
-
 @section('content')
- <div class="container">
+<div class="container">
           <div class="page-inner">
             <div class="row">
 
@@ -9,11 +8,11 @@
                 <div class="card">
                   <div class="card-header">
                     <div class="d-flex align-items-center top">
-                      <h4 class="card-title">Product List</h4>
-                      <a href="{{url('admin/addProducts')}}">
+                      <h4 class="card-title">Blog List</h4>
+                      <a href="{{url('admin/addBlog')}}">
                         <button class="btn btn-primary btn-round ms-auto">
                           <i class="fa fa-plus"></i>
-                          Add Product
+                          Add Blog
                         </button>
                       </a>
                     </div>
@@ -37,48 +36,41 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Category</th>
+                            <th>Title</th>
                             <th>Image</th>
-                            <th>Price</th>
-                            <th>Color</th>
+                            <th>Content</th>
+                            <th>description</th>
+                            <th>Created_at</th>
+                            <th>Update_at</th>
                             <th>Status</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Category</th>
+                            <th>Title</th>
                             <th>Iamge</th>
-                            <th>Price</th>
-                            <th>Color</th>
+                            <th>Content</th>
+                            <th>description</th>
+                            <th>Created_at</th>
+                            <th>Update_at</th>
                             <th>Status</th>
-                            <th>Action</th>
                           </tr>
                         </tfoot>
                         <tbody>
-                        @foreach($products as $product)
+                        @foreach($blogs as $blog)
                           <tr>
-                            <td>{{$product->id}}</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->cate->name}}</td>
-                              @foreach ($product->variant as $photo)
-                                @if ($photo->photos->isNotEmpty()) 
-                                  <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></td>
-                                  @break;
-                                @endif
-                              @endforeach
-                            <td class="currency-format">{{$product->price}}</td>
-                            <td>
-                              @foreach($product->variant as $product_variant)
-                                  <span>{{ $product_variant->colors->name}}, </span>
-                              @endforeach
-                            <td>Active</td>
+                            <td>{{$blog->id}}</td>
+                            <td class="overflow-short">{{$blog->title}}</td>
+                            <td class="tbody-td"><img src="{{asset('user')}}/blog/{{ $blog->photo}}" alt="{{ $blog->photo}}"></td>
+                            <td class="overflow">{{ $blog->content}}</td>
+                            <td class="overflow-short">{{ $blog->description}}</td>
+                            <td class="format-date">{{ $blog->created_at}}</td>
+                            <td class="format-date">{{ $blog->updated_at}}</td>
+                            <!-- <td>Active</td> -->
                             <td>
                               <div class="form-button-action">
-                                <a href="{{url('admin/editProduct/' . $product->id)}}">
+                               <a href="{{url('admin/editBlog/' . $blog->id)}}">
                                   <button
                                     type="button"
                                     data-bs-toggle="tooltip"
@@ -89,7 +81,7 @@
                                     <i class="fa fa-edit"></i>
                                   </button>
                                 </a>
-                               <a href="{{url('admin/deleteProduct/' . $product->id)}}" onclick="return confirm('Are you sure to delete?')">
+                               <a href="{{url('admin/deleteBlog/' . $blog->id)}}" onclick="return confirm('Bạn có chắc muốn xoá?')">
                                   <button
                                     type="button"
                                     data-bs-toggle="tooltip"

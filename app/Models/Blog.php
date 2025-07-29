@@ -15,8 +15,12 @@ class Blog extends Model
         'content',
         'created_at',
         'updated_at',
+        'account_id'
     ];
 
-    public $timestamps = false; 
-
+    public $timestamps = false;
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

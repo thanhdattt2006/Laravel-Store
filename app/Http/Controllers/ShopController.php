@@ -112,7 +112,8 @@ class ShopController extends Controller
         $colors = Colors::whereIn('id', $colorIds)->get();
 
         $selectedColorId = request()->query('color_id');
-        $averageRating = Review::where('product_id', $id)->avg('rating');
+        $averageRating = Review::where('product_id', $id)->whereNotNull('rating')
+                                                         ->avg('rating');
         if (!$selectedColorId) {
             $firstVariant = Product_variant::where('product_id', $id)->first();
             $selectedColorId = $firstVariant?->colors_id ?? null;
