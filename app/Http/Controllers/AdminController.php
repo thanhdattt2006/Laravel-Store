@@ -399,6 +399,47 @@ class AdminController extends Controller
        return view('admin/order/orderDetails')->with($data);
     }
 
+    public function editOrderDetails(Request $request){
+    // Bước 1: Kiểm tra xem form có gửi lên mảng dữ liệu 'id' hay không.
+    // Đây là bước quan trọng để đảm bảo code không bị lỗi khi request trống.
+    try{
+        if ($request->has('id') && is_array($request->id)) {
+
+            // Bước 2: Lặp qua từng ID trong mảng 'id' mà view gửi lên.
+            // $key sẽ là chỉ số của dòng (0, 1, 2, ...).
+            // $orderDetailId sẽ là giá trị ID của chi tiết đơn hàng ở dòng đó.
+            foreach ($request->id as $key => $orderDetailId) {
+
+                // Bước 3: Lấy tất cả dữ liệu tương ứng của cùng một dòng bằng chỉ số $key.
+                $quantity = $request->quantity[$key];
+                $size = $request->size[$key];
+                $color_id = $request->color_id[$key];
+                $totalPriceFromView = $request->total_price[$key];
+
+                // Bước 4: Làm sạch dữ liệu total_price.
+                // Rất quan trọng: Loại bỏ các ký tự định dạng (như dấu '.') để lưu vào DB.
+                // Ví dụ: '7.773.597' -> '7773597'
+                $cleanedTotalPrice = str_replace('.', '', $totalPriceFromView);
+
+                // Bước 5: Tìm và cập nhật bản ghi trong cơ sở dữ liệu.
+                OrderDetail::where('id', $orderDetailId)->update([
+                    'quantity'      => $quantity,
+                    'size'          => $size,
+                    'color_id'      => $color_id,
+                    'total_price'   => $cleanedTotalPrice, // Sử dụng giá đã làm sạch
+                ]);
+            }
+        }
+
+        // Bước 6: Sau khi vòng lặp kết thúc, chuyển hướng người dùng trở lại.
+            session()->flash('success', 'Edit Success');
+            return redirect('admin/order');
+        } catch (Exception $e) {
+            session()->flash('error', 'Edit Fails');
+            return redirect('admin/addBlog');
+        }
+    }
+
     //---------------------------Accounts---------------------------
     public function accounts()
     {

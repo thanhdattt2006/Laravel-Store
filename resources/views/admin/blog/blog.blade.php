@@ -42,7 +42,7 @@
                             <th>description</th>
                             <th>Created_at</th>
                             <th>Update_at</th>
-                            <th>Status</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -54,7 +54,7 @@
                             <th>description</th>
                             <th>Created_at</th>
                             <th>Update_at</th>
-                            <th>Status</th>
+                            <th>Action</th>
                           </tr>
                         </tfoot>
                         <tbody>

@@ -71,6 +71,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/order', [AdminController::class, 'order']);
     Route::get('/bill/{id}', [AdminController::class, 'bill']);
     Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
+    Route::post('/editOrderDetails', [AdminController::class, 'editOrderDetails']);
 
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);

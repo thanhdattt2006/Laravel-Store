@@ -37,7 +37,8 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
+                            <th>User Id</th>
+                            <th>Recipient</th>
                             <th>Created Day</th>
                             <th>Payment</th>
                             <th>Total Price</th>
@@ -50,7 +51,8 @@
                         <tfoot>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
+                            <th>User Id</th>
+                            <th>Recipient</th>
                             <th>Created Day</th>
                             <th>Payment</th>
                             <th>Total Price</th>
@@ -64,18 +66,18 @@
                         @foreach($orders as $order)
                           <tr>
                             <td>{{$order->id}}</td>
+                            <td>{{$order->account->id}}</td>
                             <td>{{$order->account->fullname}}</td>
                             <td class="format-date">{{$order->created_day}}</td>
                             <td>{{$order->payment->name}}</td>
-                            @php $total = 0; @endphp
+                            @php $total = 0 @endphp
                             @foreach($order->orderDetails as $orderDetails)
                                 @php
-                                    $subtotal = $orderDetails->price * $orderDetails->quantity;
+                                    $subtotal = ($orderDetails->price * $orderDetails->quantity) * (100 - $order->voucher->discount_value)/100;
                                     $total += $subtotal;
                                 @endphp
                             @endforeach
                             <td class="currency-format">{{($total)}}</td>
-                            <td>{{$order->status == 1 ? 'Paid' : 'Not yet Paid'}}</td>
                             <td>
                                 <select>
                                     <option value="1" {{$order->status == 1 ? 'selected' : ''}}>Paid</option>
