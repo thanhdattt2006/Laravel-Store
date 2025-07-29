@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // currency-format not last currency
+    // select all elements had class "currency-format"
+    const moneyElementsNotCurrency = document.querySelectorAll('.currency-format-not-currency');
+
+    moneyElementsNotCurrency.forEach(function(element) {
+        const rawValue = parseInt(element.textContent);
+        if (!isNaN(rawValue)) {
+            const formatted = rawValue.toLocaleString('vi-VN');
+            element.textContent = formatted;
+        }
+    });
+
     // Registeration
     const menu = document.querySelector(".navbar-links")
     const menuCategories = document.querySelector(".sidebar")

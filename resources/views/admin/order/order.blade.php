@@ -10,12 +10,6 @@
                   <div class="card-header">
                     <div class="d-flex align-items-center top">
                       <h4 class="card-title">Orders List</h4>
-                      <a href="#">
-                        <button class="btn btn-primary btn-round ms-auto">
-                          <i class="fa fa-plus"></i>
-                          Add Order
-                        </button>
-                      </a>
                     </div>
                   </div>
                   <div class="card-body">
@@ -37,7 +31,8 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
+                            <th>User Id</th>
+                            <th>Recipient</th>
                             <th>Created Day</th>
                             <th>Payment</th>
                             <th>Total Price</th>
@@ -50,7 +45,8 @@
                         <tfoot>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
+                            <th>User Id</th>
+                            <th>Recipient</th>
                             <th>Created Day</th>
                             <th>Payment</th>
                             <th>Total Price</th>
@@ -64,24 +60,24 @@
                         @foreach($orders as $order)
                           <tr>
                             <td>{{$order->id}}</td>
+                            <td>{{$order->account->id}}</td>
                             <td>{{$order->account->fullname}}</td>
                             <td class="format-date">{{$order->created_day}}</td>
                             <td>{{$order->payment->name}}</td>
-                            @php $total = 0; @endphp
+                            @php $total = 0 @endphp
                             @foreach($order->orderDetails as $orderDetails)
                                 @php
-                                    $subtotal = $orderDetails->price * $orderDetails->quantity;
+                                    $subtotal = ($orderDetails->price * $orderDetails->quantity);
                                     $total += $subtotal;
                                 @endphp
                             @endforeach
-                            <td class="currency-format">{{($total)}}</td>
-                            <td>{{$order->status == 1 ? 'Paid' : 'Not yet Paid'}}</td>
-                            <td>
-                                <select>
-                                    <option value="1" {{$order->status == 1 ? 'selected' : ''}}>Paid</option>
-                                    <option value="0" {{$order->status == 0 ? 'selected' : ''}}>Not yet Paid</option>
-                                </select>
+                            <td style="width: 100px;">
+                                <sapn  class="currency-format">{{($order->grand_price)}}</sapn>
+                                <span> -{{$order->voucher->discount_value}}%</span>
+                                <br>
+                                <span class="currency-format" style="text-decoration: line-through; color: gray;" class="currency-format">{{$total}}</span>
                             </td>
+                            <td>{{$order->status == 1 ? 'Paid' : 'Not yet Paid'}}</td>
                             <td>
                                 <a href="{{url('admin/orderDetails/' . $order->id)}}"><span class="badge badge-black">Detail</span></a>
                             </td>
@@ -91,15 +87,6 @@
                             <!-- <td>Active</td> -->
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
                                 <button
                                   type="button"
                                   data-bs-toggle="tooltip"

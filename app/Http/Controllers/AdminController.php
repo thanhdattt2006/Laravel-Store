@@ -12,6 +12,7 @@ use App\Models\OrderDetail;
 use App\Models\Photo;
 use App\Models\product;
 use App\Models\Product_variant;
+use App\Models\Review;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -399,6 +400,51 @@ class AdminController extends Controller
        return view('admin/order/orderDetails')->with($data);
     }
 
+    public function editOrderDetails(Request $request){
+    // Bước 1: Kiểm tra xem form có gửi lên mảng dữ liệu 'id' hay không.
+    // Đây là bước quan trọng để đảm bảo code không bị lỗi khi request trống.
+    try{
+        $grand_price = 0;
+        if ($request->has('id') && is_array($request->id)) {
+
+            // Bước 2: Lặp qua từng ID trong mảng 'id' mà view gửi lên.
+            // $key sẽ là chỉ số của dòng (0, 1, 2, ...).
+            // $orderDetailId sẽ là giá trị ID của chi tiết đơn hàng ở dòng đó.
+            foreach ($request->id as $key => $orderDetailId) {
+
+                // Bước 3: Lấy tất cả dữ liệu tương ứng của cùng một dòng bằng chỉ số $key.
+                $quantity = $request->quantity[$key];
+                $size = $request->size[$key];
+                $color_id = $request->color_id[$key];
+                $totalPriceFromView = $request->total_price[$key];
+
+                // Bước 4: Làm sạch dữ liệu total_price.
+                // Rất quan trọng: Loại bỏ các ký tự định dạng (như dấu '.') để lưu vào DB.
+                // Ví dụ: '7.773.597' -> '7773597'
+                $cleanedTotalPrice = str_replace('.', '', $totalPriceFromView);
+
+                // Bước 5: Tìm và cập nhật bản ghi trong cơ sở dữ liệu.
+                OrderDetail::where('id', $orderDetailId)->update([
+                    'quantity'      => $quantity,
+                    'size'          => $size,
+                    'color_id'      => $color_id,
+                    'total_price'   => $cleanedTotalPrice, // Sử dụng giá đã làm sạch
+                ]);
+                $grand_price += $cleanedTotalPrice * (100 - $request->voucher_id)/100;
+            }
+        }
+        Order::where('id', $request->order_id)->update([
+            'grand_price' => $grand_price
+        ]);
+        // Bước 6: Sau khi vòng lặp kết thúc, chuyển hướng người dùng trở lại.
+            session()->flash('success', 'Edit Success');
+            return redirect('admin/order');
+        } catch (Exception $e) {
+            session()->flash('error', 'Edit Fails');
+            return redirect('admin/addBlog');
+        }
+    }
+
     //---------------------------Accounts---------------------------
     public function accounts()
     {
@@ -575,5 +621,43 @@ class AdminController extends Controller
             session()->flash('error', 'Update About Us Fails');
             return redirect('admin/editAboutUs/' . $request->id);
         }
+    }
+    // --------------Review---------------------------
+    public function ProductReview()
+    {
+
+        $data =
+            [
+                'products' => Product::get(),
+                'reviews' => Review::where('blog_id', null)->with('product')->get()->groupBy('product_id'),
+                'avg' => Review::whereNull('blog_id')->whereNotNull('rating')
+                    ->avg('rating'),
+
+
+            ];
+        return view('admin/review/ProductReview')->with($data);
+    }
+    public function deleteComment($id)
+    {
+        Review::where('id', $id)->delete();
+        return redirect('admin/review/ProductReview');
+    }
+    public function BlogReview()
+    {
+
+        $data =
+            [
+                'blogs' => Blog::orderBy('id', 'desc')->get(),
+                'reviews' => Review::where('product_id', null)->get()
+               
+
+
+            ];
+        return view('admin/review/BlogReview')->with($data);
+    }
+      public function deleteBlogcmt($id)
+    {
+        Review::where('id', $id)->delete();
+        return redirect('admin/review/BlogReview');
     }
 }

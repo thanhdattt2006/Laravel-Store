@@ -31,26 +31,32 @@
       </thead>
       <tbody>
         @php $i = 1 @endphp
+        @php $subTotal = 0 @endphp
         @foreach($bills->orderDetails as $billDetails)
-        <tr>
-          <td>{{$i}}</td>
-          <td>{{$billDetails->product->name}}</td>
-          <td>{{$billDetails->color->name}}</td>
-          <td>{{$billDetails->size}}</td>
-          <td>{{$billDetails->quantity}}</td>
-          <td class="currency-format">{{$billDetails->price}}</td>
-          <td class="currency-format">{{$billDetails->total_price}}</td>
-        </tr>
-        @php $i++ @endphp
+            <tr>
+            <td>{{$i}}</td>
+            <td>{{$billDetails->product->name}}</td>
+            <td>{{$billDetails->color->name}}</td>
+            <td>{{$billDetails->size}}</td>
+            <td>{{$billDetails->quantity}}</td>
+            <td class="currency-format">{{$billDetails->price}}</td>
+            <td class="currency-format">{{$billDetails->total_price}}</td>
+            </tr>
+            @php $i++ @endphp
+            @php $subTotal += $billDetails->total_price @endphp
         @endforeach
       </tbody>
     </table>
 
     <div class="totals">
-      <p>Subtotal:  <span class="currency-format">1450000</span></p>
-      <p>VAT:  <span class="currency-format">0</span></p>
-      <p>Shipping:  <span>Free Ship</span></p>
-      <p><strong>Grand Total: <span class="currency-format">1645000</span></strong></p>
+        <p>Subtotal:  <span class="currency-format">{{$subTotal}}</span></p>
+        <p>voucher Discount:  <span>{{$bills->voucher->code_name}} %</span></p>
+        <p>VAT:  <span class="currency-format">0</span></p>
+        <p>Shipping:  <span>Free Ship</span></p>
+        @php
+            $discount = $subTotal * (100 - $bills->voucher->discount_value) / 100;
+        @endphp
+        <p><strong>Grand Total: <span class="currency-format">{{$discount}}</span></strong></p>
     </div>
 
     <div class="note">

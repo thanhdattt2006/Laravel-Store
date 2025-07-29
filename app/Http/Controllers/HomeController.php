@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cate;
 use App\Models\Colors;
+use App\Models\Photo;
 use App\Models\Product;
 use App\Models\Product_variant;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class HomeController extends Controller
             'products' => $products,
             'photo' => Product::pluck('name'),
             'colors' => $colors,
+            'photos' => Photo::where('product_variant_id', null)->orderBy('id', 'desc')->get()
         ];
 
         return view('home/index')->with($data);

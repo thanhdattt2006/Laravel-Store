@@ -37,16 +37,16 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Name</th>
                             <th>Image</th>
+                            <th>Name</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
                             <th>Id</th>
+                            <th>Image</th>
                             <th>Name</th>
-                            <th>Iamge</th>
                             <th>Action</th>
                           </tr>
                         </tfoot>
@@ -54,19 +54,10 @@
                         @foreach($photos as $photo)
                           <tr>
                             <td>{{$photo->id}}</td>
-                            <td>{{$photo->name}}</td>
                             <td class="tbody-td"><img src="{{asset('user')}}/banner/{{$photo->name}}" alt="{{$photo->name}}"></td>
+                            <td>{{$photo->name}}</td>
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                <i class="fa fa-edit"></i>
-                                </button>
                                 <a href="{{url('admin/deleteSlider/' . $photo->id)}}" onclick="return confirm('Are you sure to delete?')">
                                   <button
                                     type="button"

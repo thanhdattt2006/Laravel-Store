@@ -21,8 +21,27 @@
 <!--================Order Details Area =================-->
 <section class="order_details section_gap">
     <div class="container">
-        <h3 class="title_confirmation">Thank you for choosing our shop</h3>
+        @if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '✅ Success',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'OK'
+    });
+</script>
+@endif
 
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: '❌ Error',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'OK'
+    });
+</script>
+@endif
         @foreach($orders as $order)
         <div class="row justify-content-center order_d_inner mb-5 text-center">
             <div class="col-lg-4 col-md-6 mb-4">
@@ -126,5 +145,5 @@
 <!--gmaps Js-->
 <script src="{{asset('user/js/gmaps.min.js')}}"></script>
 <script src="{{asset('user/js/main.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

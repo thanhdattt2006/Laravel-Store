@@ -10,8 +10,12 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, $roleId)
     {
-        if (!Auth::check() || Auth::user()->role_id != $roleId) {
-            abort(403, 'Unauthorized access');
+        if (!Auth::check()) {
+            return redirect('/account');
+        }
+
+        if (Auth::user()->role_id != $roleId) {
+            return abort(403, 'Access denied: You do not have the required role.');
         }
 
         return $next($request);

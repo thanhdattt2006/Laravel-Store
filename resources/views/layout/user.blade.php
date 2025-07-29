@@ -2,7 +2,7 @@
 <html lang="zxx" class="no-js">
 
 <head>
-    
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -92,19 +92,6 @@
     </button>
     <!-- Start Header Area -->
     <header class="header_area sticky-header">
-        @if (session('login_success'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Welcome back!',
-                    text: 'Hi, {{ Auth::user()->fullname }} 👋',
-                    confirmButtonText: 'Let\'s go'
-                });
-            });
-        </script>
-        @endif
-
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
@@ -151,23 +138,23 @@
                             </li>
                         </ul>
 
-
-                        <div> @guest
+                        <li class="nav-item dropdown">
+                            @guest
                             <a class="nav-link" href="{{ route('account.login') }}" id="userIcon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" style="fill: rgba(255, 186, 0, 1);">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 
-                                        5c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
-                                        1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-2 
-                                        4-3.1 6-3.1s5.97 1.1 6 3.1c-1.29 1.94-3.5 3.22-6 3.22z" />
+                                    <path d="..." />
                                 </svg>
                             </a>
                             @else
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->fullname }}
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top: 8px; padding-bottom: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" style="fill: rgba(255, 186, 0, 1);">
+                                    <path d="..." />
+                                </svg>
+                                <span style="margin-top:-25px">{{ Auth::user()->fullname }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Infomation</a>
+                                <a class="dropdown-item" href="{{ url('account/userInfo') }}">My Information</a>
                                 <a class="dropdown-item" href="{{ url('shop/confirmation') }}">Confirmation</a>
                                 <a class="dropdown-item" href="{{ route('account.logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -178,8 +165,7 @@
                                 </form>
                             </div>
                             @endguest
-                        </div>
-
+                        </li>
 
                     </div>
                 </div>
@@ -187,7 +173,7 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container">
-                <form class="d-flex justify-content-between" method="get" action="{{ url('/shop/search-by-keyword') }}">
+                <form class="d-flex justify-content-between" method="get" action="{{ url('shop/shopCategory') }}">
                     <input type="text" class="form-control" id="search_input" placeholder="Search Here" name="keyword" value="{{ isset($keyword) ? $keyword : '' }}">
                     <button type="submit" class="btn"></button>
                     <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
@@ -374,4 +360,5 @@
 
     @yield('scripts')
 </body>
+
 </html>

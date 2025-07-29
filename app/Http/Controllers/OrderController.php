@@ -137,11 +137,11 @@ class OrderController extends Controller
 
             DB::commit();
             return redirect()->route('shop.confirmation', ['order_id' => $order->id])
-                ->with('success', 'Đặt hàng thành công!');
+                ->with('success', 'Order successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('❌ Order creation failed: ' . $e->getMessage());
-            return back()->with('error', 'Có lỗi khi đặt hàng: ' . $e->getMessage());
+            return back()->with('error', 'Error while ordering: ' . $e->getMessage());
         }
     }
 
