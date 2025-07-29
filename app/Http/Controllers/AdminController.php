@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Photo;
 use App\Models\product;
 use App\Models\Product_variant;
+use App\Models\Review;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -567,5 +568,43 @@ class AdminController extends Controller
             session()->flash('error', 'Update About Us Fails');
             return redirect('admin/editAboutUs/' . $request->id);
         }
+    }
+    // --------------Review---------------------------
+    public function ProductReview()
+    {
+
+        $data =
+            [
+                'products' => Product::get(),
+                'reviews' => Review::where('blog_id', null)->with('product')->get()->groupBy('product_id'),
+                'avg' => Review::whereNull('blog_id')->whereNotNull('rating')
+                    ->avg('rating'),
+
+
+            ];
+        return view('admin/review/ProductReview')->with($data);
+    }
+    public function deleteComment($id)
+    {
+        Review::where('id', $id)->delete();
+        return redirect('admin/review/ProductReview');
+    }
+    public function BlogReview()
+    {
+
+        $data =
+            [
+                'blogs' => Blog::orderBy('id', 'desc')->get(),
+                'reviews' => Review::where('product_id', null)->get()
+               
+
+
+            ];
+        return view('admin/review/BlogReview')->with($data);
+    }
+      public function deleteBlogcmt($id)
+    {
+        Review::where('id', $id)->delete();
+        return redirect('admin/review/BlogReview');
     }
 }

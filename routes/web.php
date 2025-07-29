@@ -56,7 +56,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
     Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
-    
+
     Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
     //Category
@@ -69,7 +69,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
     Route::get('/order', [AdminController::class, 'order']);
-    Route::get('/bill', [AdminController::class, 'bill']);
+    Route::get('/bill/{id}', [AdminController::class, 'bill']);
+    Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
 
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);
@@ -97,6 +98,12 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::post('/saveAboutUs', [AdminController::class, 'saveAboutUs']);
     Route::post('/updateAboutUs', [AdminController::class, 'updateAboutUs']);
+    //review
+    Route::get('/review/ProductReview', [AdminController::class, 'ProductReview']);
+    Route::get('/review/BlogReview', [AdminController::class, 'BlogReview']);
+
+    Route::get('/deleteComment/{id}', [AdminController::class, 'deleteComment']);
+    Route::get('/deleteBlogcmt/{id}', [AdminController::class, 'deleteBlogcmt']);
 });
 
 Route::group(['prefix' => 'cate'], function () {
@@ -189,7 +196,6 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/edit', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
     // Route::post('/update', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
     Route::put('/update', [AccountController::class, 'update'])->name('account.update');
-
 });
 
 // Trang chỉ admin được vào
