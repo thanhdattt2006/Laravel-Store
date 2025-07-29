@@ -205,10 +205,30 @@
                       <p>About-Us</p>
                     </a>
                   </li>
+                  <!-- ----cmt product && blog -->
+                  <li>
+                    <a data-bs-toggle="collapse" href="#subnav1">
+                      <span class="sub-item">Commet & claims </span>
+                      <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="subnav1">
+                      <ul class="nav nav-collapse subnav">
+                        <li>
+                          <a href="{{url('admin/review/ProductReview')}}">
+                            <span class="sub-item">Product Review</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{url('admin/review/BlogReview')}}">
+                            <span class="sub-item">Blog Review</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </li>
-
           </ul>
         </div>
       </div>
