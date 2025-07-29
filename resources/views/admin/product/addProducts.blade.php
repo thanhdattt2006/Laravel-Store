@@ -29,6 +29,7 @@
                             id="inlineinput"
                             placeholder="Name Product"
                             name="name"
+                            required
                         />
                         </div>
                     </div>
@@ -45,26 +46,11 @@
                                 aria-label="Amount (to the nearest dollar)" placeholder="Price product"
                                 name="price"
                                 oninput="limitInput(this)"
+                                required
                             />
                             </div>
                         </div>
                     </div>
-                    <!-- Stock -->
-                    <!-- <div class="form-group">
-                        <div class="input-group mb-3">
-                            <div><label
-                            for="inlineinput"
-                            class="col-md-3 col-form-label"
-                            >Stock</label>
-                            <input
-                                type="number"
-                                class="form-control"
-                                aria-label="Amount (to the nearest dollar)" placeholder="Price product"
-                                name="stock"
-                            />
-                            </div>
-                        </div>
-                    </div> -->
                     <!-- Category -->
                      <div class="form-group">
                           <label class="form-label">Category</label>
@@ -82,25 +68,6 @@
                             @endforeach
                           </div>
                         </div>
-                    <!-- Color -->
-                    <!-- <div class="form-group">
-                        <label class="form-label">Color</label>
-                        <div class="row gutters-xs">
-                          @foreach($colors as $color)
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color_id[]"
-                                    type="checkbox"
-                                    value="{{$color->id}}"
-                                    class="colorinput-input"
-                                />
-                                <span class="colorinput-color" style="background-color: {{$color->name}};"></span>
-                                </label>
-                            </div>
-                          @endforeach
-                        </div>
-                    </div> -->
                     @for ($i = 0; $i < 2; $i++)
                     <!-- Stock -->
                     <div class="form-group">
@@ -115,30 +82,11 @@
                                 aria-label="Amount (to the nearest dollar)" placeholder="Price product"
                                 name="stock{{$i}}"
                                 oninput="limitInput2(this)"
+                                required
                             />
                             </div>
                         </div>
                     </div>
-                    <!-- Color -->
-                    <!-- <div class="form-group">
-                        <label class="form-label">Color</label>
-                        <div class="row gutters-xs">
-                          @foreach($colors as $color)
-                            <div class="col-auto">
-                                <label class="colorinput">
-                                <input
-                                    name="color_id[]"
-                                    type="radio"
-                                    value="{{$color->id}}"
-                                    class="colorinput-input"
-                                />
-                                <span class="colorinput-color" style="background-color: {{$color->name}};"></span>
-                                </label>
-                            </div>
-                          @endforeach
-                        </div>
-                    </div> -->
-
                     <!-- Color -->
                     <div class="form-group">
                         <label class="form-label">Color</label>
@@ -160,7 +108,7 @@
                     </div>
                     <!-- Product-img -->
                     <div class="form-group conTainer">
-                        <input type="file" name="photo_name{{$i}}[]" class="input" onchange="preview('{{$i}}')" id="file-input{{$i}}" accept="image/png, image/jpeg, image.jpg," multiple maxlength="8">
+                        <input type="file" name="photo_name{{$i}}[]" class="input" onchange="preview('{{$i}}')" id="file-input{{$i}}" accept="image/png, image/jpeg, image.jpg," multiple maxlength="8" required>
                         <label class="label" for="file-input{{$i}}" >
                             <i class="fa-solid fa-cloud-arrow-up" style="color: #1a2035;"></i> &nbsp;
                             choose A Photo
@@ -169,45 +117,7 @@
                         <div class="images" id="images{{$i}}"></div>
                     </div>
                     @endfor
-                    <!-- Action  -->
-                    <!-- <div class="form-group">
-                        <label>Action</label><br />
-                        <div class="d-flex">
-                        <div class="form-check">
-                            <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="flexRadioDefault1"
-                            value="1"
-                            checked
-                            />
-                            <label
-                            class="form-check-label"
-                            for="flexRadioDefault1"
-                            >
-                            Active
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="flexRadioDefault2"
-                            value="0"
-                            />
-                            <label
-                            class="form-check-label"
-                            for="flexRadioDefault2"
-                            >
-                            InActive
-                            </label>
-                        </div>
-                        </div>
-                    </div> -->
                 </div>
-
                 <!-- Description -->
                 <div>
                     <div class="input-group">

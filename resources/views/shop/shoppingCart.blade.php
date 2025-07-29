@@ -265,98 +265,9 @@
                             <a class="gray_btn" href="{{url('home/index')}}">Continue Shopping</a>
                             <a class="primary-btn" id="proceed-checkout-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
                         </div>
-<<<<<<< HEAD
                     </td>
                 </tr>
                 </tbody>
-=======
-                        @endif
-                        <!-- CSRF token -->
-                        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-                        <tr class="bottom_button">
-                            <td>
-                                <a class="gray_btn" href="#">Update Cart</a>
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" id="coupon-code" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#" id="apply-voucher-btn">Apply</a>
-                                    <a class="gray_btn" href="#" id="close-voucher-btn" style="width: 300px">Close Coupon</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>Subtotal</h5>
-                            </td>
-                            <td>
-                                <h5 id="subtotal" class="currency-format">{{ number_format($subtotal, 0, ',', '.') }}</h5>
-                            </td>
-                        </tr>
-                        <tr class="shipping_area">
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="shipping_box">
-                                    <ul class="list">
-
-                                        <li class="active"><a>Free ship</a></li>
-                                    </ul>
-
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="out_button_area">
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="{{url('home/index')}}" style="width: 300px">Continue Shopping</a>
-                                    <a class="primary-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
->>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
                 </table>
             </div>
         </div>

@@ -93,7 +93,7 @@
                                 <div><label
                                 for="inlineinput"
                                 class="col-md-3 col-form-label"
-                                >Stock</label>
+                                >Stock Variant {{$i + 1}}</label>
                                 <input
                                     type="number"
                                     class="form-control"
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                         <!-- Color -->
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label class="form-label">Color</label>
                             <div class="row gutters-xs">
                             @foreach($colors as $color)
@@ -139,22 +139,11 @@
                             @endforeach
                             </div>
                         </div>
-                            <!-- Product-img -->
-                            <div class="form-group conTainer">
-                                <input type="file" name="photo_name{{$i}}[]"  class="input" onchange="preview('{{$i}}')" id="file-input{{$i}}" accept="image/png, image/jpeg, image.jpg," multiple maxlength="8">
-                                <label class="label" for="file-input{{$i}}" >
-                                    <i class="fa-solid fa-cloud-arrow-up" style="color: #1a2035;"></i> &nbsp;
-                                    choose A Photo
-                                </label>
-                                <p class="num-of-files" id="num-of-files{{$i}}">No Photo chosen</p>
-                                <div class="images" id="images{{$i}}"></div>
-                            </div>
                             @break
                             @endfor
                         @php $i++ @endphp
                         @endforeach
                         </div>
-
                 <!-- Description -->
                 <div>
                     <div class="input-group">
