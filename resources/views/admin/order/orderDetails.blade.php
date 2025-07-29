@@ -61,7 +61,12 @@
                         <tbody>
                         @foreach($orderDetails->orderDetails as $orderDetail)
                           <tr data-price="2591199">
-                            <td class="tbody-td"><img src="img1.png" alt=""></td>
+                            @foreach ($orderDetail->product->variant as $photo)
+                                @if ($photo->photos->isNotEmpty()) 
+                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></td>
+                                    @break;
+                                @endif
+                            @endforeach
                             <td>{{$orderDetail->product->name}}</td>
                             <td>
                                 <select>
