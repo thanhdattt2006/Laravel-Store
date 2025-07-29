@@ -19,41 +19,53 @@ use Illuminate\Support\Facades\Log;
 class ShopController extends Controller
 {
     public function shopCategory(Request $request)
-    {
+{
+    $query = Product::query();
+
+    // Nếu có keyword, áp dụng tìm kiếm
+    if ($request->filled('keyword')) {
+        $keyword = $request->input('keyword');
+        $query->where('name', 'like', '%' . $keyword . '%');
+    } else {
         // Filter by Color
-        $filteredProductIds = Product_variant::when($request->color_id, function ($query) use ($request) {
-            $query->whereIn('colors_id', (array) $request->color_id);
-        })->pluck('product_id')->unique();
+        if ($request->filled('color_id')) {
+            $filteredProductIds = Product_variant::whereIn('colors_id', (array) $request->color_id)
+                ->pluck('product_id')->unique();
 
-        // Filter by Category
-        $query = Product::query();
-
-        if ($request->filled('color_id') && $filteredProductIds->isNotEmpty()) {
-            $query->whereIn('id', $filteredProductIds);
+            if ($filteredProductIds->isNotEmpty()) {
+                $query->whereIn('id', $filteredProductIds);
+            } else {
+                $query->whereRaw('0 = 1'); // Không có sản phẩm phù hợp
+            }
         }
 
+        // Filter by Category
         if ($request->filled('cate_id')) {
             $query->where('cate_id', $request->cate_id);
         }
 
-        //  Filter by Price range
+        // Filter by Price
         if ($request->filled('price_range')) {
             $range = explode('-', $request->price_range);
-            if (count($range) == 2) {
+            if (count($range) === 2) {
                 $query->whereBetween('price', [$range[0], $range[1]]);
             }
         }
-
-        // Show
-        $data = [
-            'productsfilter' => $query->orderBy('id', 'desc')->paginate(6)->appends($request->all()),
-            'products' => Product::orderBy('id', 'desc')->paginate(6),
-            'colors' => Colors::all(),
-            'cates' => Cate::get(),
-        ];
-
-        return view('shop.shopCategory')->with($data);
     }
+
+    $productsfilter = $query->orderBy('id', 'desc')->paginate(6)->appends($request->all());
+
+    return view('shop.shopCategory', [
+        'productsfilter' => $productsfilter,
+        'products' => Product::orderBy('id', 'desc')->take(6)->get(),
+        'colors' => Colors::all(),
+        'cates' => Cate::get(),
+        'keyword' => $request->keyword
+    ]);
+}
+
+
+
     public function productDetails()
     {
 
@@ -63,14 +75,6 @@ class ShopController extends Controller
         return view('shop/productDetails')->with($data);
     }
 
-    public function productCheckout()
-    {
-
-        $data = [
-            'names' => Cate::pluck('name')
-        ];
-        return view('shop/productCheckout')->with($data);
-    }
 
     public function shoppingCart()
     {
@@ -80,7 +84,7 @@ class ShopController extends Controller
         ];
         return view('shop/shoppingCart')->with($data);
     }
-    
+
     public function searchByKeyword(Request $request)
     {
         $keyword = $request->get('keyword');

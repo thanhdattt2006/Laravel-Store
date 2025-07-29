@@ -566,6 +566,10 @@
         return @json(Auth::check());
     }
 
+    function isAdmin() {
+        return isLogined() && @json(optional(Auth::user())->role_id) === 1;
+    }
+
     function showError(title, message) {
         Swal.fire({
             icon: 'error',
@@ -611,6 +615,16 @@
         });
 
         function addToCart(productId, colorId, size, quantity) {
+            if (isAdmin()) {
+                console.log('❌ Admin is not allowed to add to cart.');
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Admin account',
+                    text: 'Admin is not allowed to perform customer actions like adding products to cart.'
+                });
+                return;
+            }
+
             if (!isLogined()) {
                 Swal.fire({
                     icon: 'warning',
@@ -624,7 +638,8 @@
                 });
                 return;
             }
-            sendAddToCartRequest(productId, colorId, size, quantity); // ✅ Thêm quantity ở đây
+
+            sendAddToCartRequest(productId, colorId, size, quantity);
         }
 
         function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {

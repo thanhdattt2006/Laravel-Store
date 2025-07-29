@@ -470,9 +470,19 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		window.App = {
+			loggedIn: @json(Auth::check()),
+			roleId: @json(optional(Auth::user())->role_id)
+		};
+	</script>
+	<script>
 		// Kiểm tra đăng nhập
 		function isLogined() {
-			return @json(Auth::check());
+			return window.App?.loggedIn === true;
+		}
+
+		function isAdmin() {
+			return isLogined() && window.App?.roleId === 1;
 		}
 
 		function showError(title, message) {
@@ -487,6 +497,17 @@
 		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
+			// Chặn admin
+			if (isAdmin()) {
+				console.log('🔒 Admin cannot add products to cart.');
+				Swal.fire({
+					icon: 'info',
+					title: 'Admin account',
+					text: 'Admin cannot perform customer actions like adding products to cart.'
+				});
+				return;
+			}
+
 			// Check login
 			if (!isLogined()) {
 				Swal.fire({
@@ -498,7 +519,7 @@
 					cancelButtonText: 'Maybe later'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						window.location.href = '/account'; // hoặc route tương ứng
+						window.location.href = '/account';
 					}
 				});
 				return;
@@ -543,6 +564,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 
 
@@ -595,6 +617,32 @@
 			document.querySelectorAll('.add-to-compare').forEach(btn => {
 				btn.addEventListener('click', function(e) {
 					e.preventDefault();
+
+					if (!isLogined()) {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Login required',
+							text: 'Please log in to use the compare feature.',
+							confirmButtonText: 'Login',
+							showCancelButton: true
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/account';
+							}
+						});
+						return;
+					}
+
+					if (isAdmin()) {
+						console.log('🚫 Admin is not allowed to compare products.');
+						Swal.fire({
+							icon: 'info',
+							title: 'Admin account',
+							text: 'Admin is not allowed to use the compare feature.'
+						});
+						return;
+					}
+
 					const productId = this.dataset.id;
 
 					fetch('/shop/compare/' + productId)
@@ -608,12 +656,7 @@
 							});
 						})
 						.catch(err => {
-							Swal.fire({
-								icon: 'error',
-								title: 'Connection error!',
-								text: data.message,
-								confirmButtonText: 'OK'
-							});
+							showError('Connection error!', 'Could not connect to server.');
 						});
 				});
 			});
@@ -625,9 +668,35 @@
 		$(document).ready(function() {
 			$('.add-to-wishlist').click(function(e) {
 				e.preventDefault();
-				if (!checkLoginAndAlert()) return;
+
+				if (!isLogined()) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Login required',
+						text: 'Please log in to use the wishlist feature.',
+						showCancelButton: true,
+						confirmButtonText: 'Login',
+						cancelButtonText: 'Later'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = '/account';
+						}
+					});
+					return;
+				}
+
+				if (isAdmin()) {
+					console.log('❌ Admin cannot add to wishlist.');
+					Swal.fire({
+						icon: 'info',
+						title: 'Admin account',
+						text: 'Admin is not allowed to use the wishlist feature.'
+					});
+					return;
+				}
 
 				var productId = $(this).data('id');
+
 				$.ajax({
 					url: "{{ route('wishlist.ajaxAdd') }}",
 					type: 'POST',

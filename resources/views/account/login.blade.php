@@ -1,6 +1,90 @@
 @extends('layout.user')
 @section ('content')
 <!-- Start Banner Area -->
+<style>
+    .register-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .register-box {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 650px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .register-box h3 {
+        margin-bottom: 24px;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        color: #333;
+    }
+
+    .register-box input.form-control {
+        height: 46px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        padding-left: 14px;
+        margin-bottom: 16px;
+        transition: border-color 0.3s;
+    }
+
+    .register-box input.form-control:focus {
+        border-color: #7abaff;
+        outline: none;
+    }
+
+    .creat_account label {
+        margin-left: 8px;
+        font-weight: 500;
+    }
+
+    .fa-close.close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 20px;
+        color: #888;
+        cursor: pointer;
+    }
+
+    .fa-close.close-btn:hover {
+        color: #000;
+    }
+
+    #match_message {
+        font-size: 14px;
+        margin-top: -10px;
+        display: block;
+    }
+</style>
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -18,68 +102,74 @@
 
 
 <!-- Register Area -->
-<div class="navbar-links">
-    <i class="fa fa-close close"></i>
-    <section class="login_box_area section_gap">
-        <div class="container containerOfRegister set_containerOfRegister">
-            <div class="login_form_inner login_form_fix form_background">
-                <h3>Registeration</h3>
+<div class="register-overlay" id="registerOverlay" style="display: none;">
+    <div class="register-box">
+        <i class="fa fa-close close-btn" onclick="hideRegisterForm()"></i>
+        <h3>Registeration</h3>
 
-                <form class="row login_form" action="/account/register" method="post" id="contactForm">
-                    @csrf
-                    <!-- Username -->
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Your Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Name'" required>
-                        <input type="hidden" class="form-control" id="role_id" name="role_id" value="2" placeholder="Your Role ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Role ID'" required>
-                    </div>
-                    <!-- Email -->
-                    <div class="col-md-12 form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email'" required>
-                    </div>
-                    <!-- Fullname -->
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your Fullname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Fullname'" required>
-                    </div>
-                    <!-- Birthday -->
-                    <div class="col-md-12 form-group">
-                        <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Your Birthday" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Birthday'" required>
-                    </div>
-                    <!-- Phone -->
-                    <div class="col-md-12 form-group">
-                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Your Phone" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Phone'" required>
-                    </div>
-                    <!-- Address -->
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Your Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Address'" required>
-                    </div>
-                    <!-- password -->
-                    <div class="col-md-12 form-group">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Your Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Password'" required>
-                    </div>
-                    <!-- Confirm-password -->
-                    <div class="col-md-12 form-group">
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Comfirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Comfirm Password'" required>
-                        <span id="match_message" style="color: red; display: none;">Passwords do not match</span>
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <div class="creat_account">
-                            <input type="checkbox" id="f-option2" name="selector" required>
-                            <label for="f-option2">I accept terms & conditions</label>
-                        </div>
-                    </div>
-                    <div>
-                        @if(session('fail'))
-                        <span style="color: red;">{{session('fail')}}</span>
-                        @endif
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <button type="submit" value="submit" class="primary-btn">Register Now</button>
-                    </div>
-                </form>
+        <form class="row login_form" action="/account/register" method="post" id="contactForm">
+            @csrf
+
+            <!-- Username -->
+            <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Your Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Name'" required>
+                <input type="hidden" class="form-control" id="role_id" name="role_id" value="2" required>
             </div>
-        </div>
-    </section>
+
+            <!-- Fullname -->
+            <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Your Fullname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Fullname'" required>
+            </div>
+
+            <!-- Birthday -->
+            <div class="col-md-6 form-group">
+                <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Your Birthday" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Birthday'" required>
+            </div>
+
+            <!-- Phone -->
+            <div class="col-md-6 form-group">
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Your Phone" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Phone'" required>
+            </div>
+
+            <!-- Address -->
+            <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="address" name="address" placeholder="Your Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Address'" required>
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-12 form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Your Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Password'" required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-md-12 form-group">
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'" required>
+                <span id="match_message" style="color: red; display: none;">Passwords do not match</span>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="col-md-12 form-group">
+                <div class="creat_account">
+                    <input type="checkbox" id="f-option2" name="selector" required>
+                    <label for="f-option2">I accept terms & conditions</label>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div>
+                @if(session('fail'))
+                <span style="color: red;">{{ session('fail') }}</span>
+                @endif
+            </div>
+
+            <!-- Submit -->
+            <div class="col-md-12 form-group">
+                <button type="submit" value="submit" class="primary-btn">Register Now</button>
+            </div>
+        </form>
+    </div>
 </div>
+
 
 <!--================Login Box Area =================-->
 
@@ -92,7 +182,7 @@
                     <div class="hover">
                         <h4>New to our website?</h4>
                         <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-                        <button type="submit" class="primary-btn register_button sidebar">Create an Account</button>
+                        <button type="submit" class="primary-btn register_button sidebar" onclick="showRegisterForm()">Create an Account</button>
                     </div>
                 </div>
             </div>
@@ -119,23 +209,6 @@
                             </span>
                         </div>
 
-                        <!-- JS xử lý bật/tắt -->
-                        <script>
-                            function togglePassword() {
-                                const passwordInput = document.getElementById('passwordshow');
-                                const eyeIcon = document.getElementById('eye-icon');
-
-                                if (passwordInput.type === 'password') {
-                                    passwordInput.type = 'text';
-                                    eyeIcon.classList.remove('fa-eye-slash');
-                                    eyeIcon.classList.add('fa-eye');
-                                } else {
-                                    passwordInput.type = 'password';
-                                    eyeIcon.classList.remove('fa-eye');
-                                    eyeIcon.classList.add('fa-eye-slash');
-                                }
-                            }
-                        </script>
 
                         <div class="col-md-12 form-group">
                             <div class="creat_account">
@@ -235,5 +308,31 @@
             }
         });
     });
+</script>
+<!-- JS xử lý bật/tắt -->
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('passwordshow');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        }
+    }
+</script>
+<script>
+    function hideRegisterForm() {
+        document.getElementById('registerOverlay').style.display = 'none';
+    }
+
+    function showRegisterForm() {
+        document.getElementById('registerOverlay').style.display = 'flex';
+    }
 </script>
 @endsection
