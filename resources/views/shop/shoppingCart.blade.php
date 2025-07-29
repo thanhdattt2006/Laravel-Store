@@ -265,6 +265,7 @@
                             <a class="gray_btn" href="{{url('home/index')}}">Continue Shopping</a>
                             <a class="primary-btn" id="proceed-checkout-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
                         </div>
+<<<<<<< HEAD
 
                         <!-- CSRF token -->
                         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -351,6 +352,11 @@
                             </td>
                         </tr>
                     </tbody>
+=======
+                    </td>
+                </tr>
+                </tbody>
+>>>>>>> b4a62f8d95680b7416fe2fa7103f94d1cf483329
                 </table>
             </div>
         </div>
