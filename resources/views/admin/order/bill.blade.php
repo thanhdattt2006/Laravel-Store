@@ -50,11 +50,11 @@
 
     <div class="totals">
         <p>Subtotal:  <span class="currency-format">{{$subTotal}}</span></p>
-        <p>voucher Discount:  <span>{{$bills->voucher->code_name}} %</span></p>
+        <p>voucher Discount:  <span>{{isset($bills->voucher->code_name) ? $bills->voucher->code_name : 0}} %</span></p>
         <p>VAT:  <span class="currency-format">0</span></p>
         <p>Shipping:  <span>Free Ship</span></p>
         @php
-            $discount = $subTotal * (100 - $bills->voucher->discount_value) / 100;
+            $discount = $subTotal * (100 - (isset($bills->voucher_discount_id) ? $bills->voucher->discount_value : 0)) / 100;
         @endphp
         <p><strong>Grand Total: <span class="currency-format">{{$discount}}</span></strong></p>
     </div>

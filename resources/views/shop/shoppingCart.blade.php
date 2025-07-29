@@ -189,24 +189,6 @@
                 @endif
                 <!-- CSRF token -->
                 <meta name="csrf-token" content="{{ csrf_token() }}">
-
-                <tr class="bottom_button">
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-
-                    </td>
-                </tr>
                 <tr>
                     <td>
 
@@ -242,6 +224,7 @@
                             <ul class="list">
 
                                 <li class="active"><a>Free ship</a></li>
+                                <meta name="csrf-token" content="{{ csrf_token() }}">
                             </ul>
 
                         </div>
@@ -262,101 +245,12 @@
                     </td>
                     <td>
                         <div class="checkout_btn_inner d-flex align-items-center">
-                            <a class="gray_btn" href="{{url('home/index')}}">Continue Shopping</a>
-                            <a class="primary-btn" id="proceed-checkout-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
+                            <a class="gray_btn" href="{{url('home/index')}}" style="width: 300px">Continue Shopping</a>
+                            <a class="primary-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
                         </div>
-<<<<<<< HEAD
-
-                        <!-- CSRF token -->
-                        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-                        <tr class="bottom_button">
-                            <td>
-                                <a class="gray_btn" href="#">Update Cart</a>
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" id="coupon-code" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#" id="apply-voucher-btn">Apply</a>
-                                    <a class="gray_btn" href="#" id="close-voucher-btn" style="width: 300px">Close Coupon</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>Subtotal</h5>
-                            </td>
-                            <td>
-                                <h5 id="subtotal" class="currency-format">{{ number_format($subtotal, 0, ',', '.') }}</h5>
-                            </td>
-                        </tr>
-                        <tr class="shipping_area">
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="shipping_box">
-                                    <ul class="list">
-
-                                        <li class="active"><a>Free ship</a></li>
-                                    </ul>
-
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="out_button_area">
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="{{url('home/index')}}" style="width: 300px">Continue Shopping</a>
-                                    <a class="primary-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-=======
                     </td>
                 </tr>
                 </tbody>
->>>>>>> b4a62f8d95680b7416fe2fa7103f94d1cf483329
                 </table>
             </div>
         </div>
@@ -460,7 +354,7 @@
         }
 
         function getRoleId() {
-            return @json(optional(Auth::user())->role_id);
+            return @json(optional(Auth::user()) -> role_id);
         }
 
         function isAdmin() {
@@ -747,27 +641,31 @@
     </script>
 
     <script>
-        const cartIsEmpty = {{ $cartItems->isEmpty() ? 'true' : 'false' }};
-
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('proceed-checkout-btn')?.addEventListener('click', function(e) {
-            if (cartIsEmpty) {
-                e.preventDefault();
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Your cart is empty!',
-                    text: 'Please add some items before proceeding to checkout.',
-                    showCancelButton: true,
-                    confirmButtonText: 'Go to Shop',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "{{ url('shop/shopCategory') }}";
-                    }
-                });
+        const cartIsEmpty = {
+            {
+                $cartItems -> isEmpty() ? 'true' : 'false'
             }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('proceed-checkout-btn')?.addEventListener('click', function(e) {
+                if (cartIsEmpty) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Your cart is empty!',
+                        text: 'Please add some items before proceeding to checkout.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Go to Shop',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url('shop/shopCategory') }}";
+                        }
+                    });
+                }
+            });
         });
-    });
     </script>
 
 

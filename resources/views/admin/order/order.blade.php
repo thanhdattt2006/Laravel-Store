@@ -73,7 +73,7 @@
                             @endforeach
                             <td style="width: 100px;">
                                 <sapn  class="currency-format">{{($order->grand_price)}}</sapn>
-                                <span> -{{$order->voucher->discount_value}}%</span>
+                                <span> -{{isset($order->voucher->discount_value)? $order->voucher->discount_value : 0 }}%</span>
                                 <br>
                                 <span class="currency-format" style="text-decoration: line-through; color: gray;" class="currency-format">{{$total}}</span>
                             </td>
@@ -87,15 +87,17 @@
                             <!-- <td>Active</td> -->
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
+                                <a href="{{url('admin/deleteOrder/' . $order->id)}}" onclick="return confirm('Are you sure to delete?')">
+                                    <button
+                                      type="button"
+                                      data-bs-toggle="tooltip"
+                                      title=""
+                                      class="btn btn-link btn-danger"
+                                      data-original-title="Remove"
+                                    >
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                </a>
                               </div>
                             </td>
                           </tr>

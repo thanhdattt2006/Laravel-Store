@@ -79,7 +79,7 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                aria-label="Amount (to the nearest dollar)" placeholder="Price product"
+                                aria-label="Amount (to the nearest dollar)" placeholder="Stock"
                                 name="stock{{$i}}"
                                 oninput="limitInput2(this)"
                                 required

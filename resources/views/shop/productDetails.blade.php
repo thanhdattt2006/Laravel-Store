@@ -237,8 +237,19 @@
                             data-color="{{ $selectedColorId ?? '' }}">
                             Add to Cart
                         </a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                        <div class="compare-card">
+                            <div class="single-product" style="margin-bottom: 15px;">
+                                <div class="product-details">
+                                    <div class="prd-bottom">
+
+                                        <a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
+                                            <span class="lnr lnr-heart"></span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -638,12 +649,7 @@
                 });
                 return;
             }
-<<<<<<< HEAD
-
-            sendAddToCartRequest(productId, colorId, size, quantity);
-=======
             sendAddToCartRequest(productId, colorId, size, quantity); //  Thêm quantity ở đây
->>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
         }
 
         function sendAddToCartRequest(productId, colorId = null, size = 36, quantity = 1) {
@@ -689,6 +695,44 @@
                     showError('System Error', 'Cannot add product. Please try later.');
                 });
         }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('.add-to-wishlist').click(function(e) {
+            e.preventDefault();
+            if (!checkLoginAndAlert()) return;
+
+            var productId = $(this).data('id');
+            $.ajax({
+                url: "{{ route('wishlist.ajaxAdd') }}",
+                type: 'POST',
+                data: {
+                    product_id: productId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Product added',
+                            text: response.message,
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Notification!',
+                            text: response.message,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function() {
+                    showError('Error!', 'Cannot add the product to the wishlist.');
+                }
+            });
+        });
     });
 </script>
 

@@ -72,16 +72,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
-    //order
+
+   //order
     Route::get('/order', [AdminController::class, 'order']);
     Route::get('/bill/{id}', [AdminController::class, 'bill']);
+    Route::get('/deleteOrder/{id}', [AdminController::class, 'deleteOrder']);
+
+    //Order Detail
     Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
     Route::post('/editOrderDetails', [AdminController::class, 'editOrderDetails']);
+    Route::get('/deleteOrderDetail/{id}', [AdminController::class, 'deleteOrderDetail']);
 
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);
     Route::get('/deleteAccounts/{id}', [AdminController::class, 'deleteAccounts']);
     Route::get('/reset/{id}', [AdminController::class, 'reset']);
+    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
 
 
 
@@ -110,6 +116,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
 
     Route::get('/deleteComment/{id}', [AdminController::class, 'deleteComment']);
     Route::get('/deleteBlogcmt/{id}', [AdminController::class, 'deleteBlogcmt']);
+
 });
 
 

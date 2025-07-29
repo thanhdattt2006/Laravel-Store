@@ -357,9 +357,32 @@ class AdminController extends Controller
             return redirect('admin/order');
         } catch (Exception $e) {
             session()->flash('error', 'Edit Fails');
-            return redirect('admin/addBlog');
+            return redirect('admin/editOrderDetails');
         }
     }
+
+    public function deleteOrder($id){
+        try{
+            $order = Order::findOrFail($id);
+            $order->orderDetails()->delete();
+            $order->delete();
+            session()->flash('success', 'Delete Order Success');
+        } catch (Exception $e) {
+            session()->flash('error', 'Delete Order Fails');
+        }
+        return redirect('admin/order');
+    }
+
+    public function deleteOrderDetail($id){
+        $orderDetail = OrderDetail::find($id);
+        if ($orderDetail) {
+            $orderDetail->delete(); // hoặc xử lý gì đó tùy bạn
+            return redirect()->back()->with('success', 'Deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Order detail not found.');
+        }
+    }
+
 
     //---------------------------Accounts---------------------------
     public function accounts()

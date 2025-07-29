@@ -118,9 +118,9 @@
 								<a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
 									<h6>{{$product->name}}</h6>
 								</a>
-								<div class="price">
-									<h6>{{$product->price}}</h6>
-									<h6 class="l-through">{{$product->price}}</h6>
+								<div class="price ">
+									<h6 class="currency-format">{{$product->price}}</h6>
+									<h6 class="l-through currency-format">{{$product->price}}</h6>
 								</div>
 								<div class="prd-bottom">
 									<a href="" class="social-info">
@@ -187,6 +187,8 @@
 	<!--gmaps Js-->
 	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
 	<script src="{{asset('user/js/main.js')}}"></script>
+	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+	<script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		window.App = {

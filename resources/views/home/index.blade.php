@@ -181,7 +181,7 @@
 							@endif
 							@endforeach
 							<div class="product-details">
-								<a href="{{url('/shop/productDetails')}}">
+								<a href="{{url('/shop/productDetails/' . $product->id)}}">
 									<h6>{{$product->name}}</h6>
 								</a>
 								<div class="price">

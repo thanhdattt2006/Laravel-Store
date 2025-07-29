@@ -14,12 +14,12 @@ class CompareController extends Controller
         $compareIds = session('compare', []);  // Mặc định là mảng rỗng nếu chưa có
 
         // Query chỉ lấy các trường cần thiết
-        $data =
-            [
-                'products' => Product::whereIn('id', $compareIds)
-                    ->select('id', 'photo', 'name', 'price', 'description')
-                    ->get()
-            ];
+        $data = [
+            'products' => Product::whereIn('id', $compareIds)
+                ->with(['variant.photos']) // Load variant và photos
+                ->select('id', 'name', 'price', 'description') // Không còn 'photo'
+                ->get()
+        ];
         // Truyền dữ liệu ra view
         return view('shop/compareProduct')->with($data);
     }
