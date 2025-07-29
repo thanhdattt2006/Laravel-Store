@@ -66,7 +66,7 @@
                             <td>{{$product->cate->name}}</td>
                               @foreach ($product->variant as $photo)
                                 @if ($photo->photos->isNotEmpty()) 
-                                  <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></td>
+                                  <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt="{{ $photo->photos->first()->name}}"></td>
                                   @break;
                                 @endif
                               @endforeach
