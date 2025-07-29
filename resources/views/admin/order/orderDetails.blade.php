@@ -1,6 +1,6 @@
- @extends('layout.admin')
- @section('content')
- <link rel="stylesheet" href="{{asset('admin')}}/assets/css/elementCss/orderDetails.css">
+@extends('layout.admin')
+@section('content')
+<link rel="stylesheet" href="{{asset('admin')}}/assets/css/elementCss/orderDetails.css">
  <div class="container">
           <div class="page-inner">
             <div class="row">
@@ -30,76 +30,64 @@
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
                     @elseif (session('error'))
-                    <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
-                        <span class="block sm:inline">{{ session('error') }}</span>
-                    </div>
+                        <div id="alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 alert alert-danger">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
                     @endif
                         <thead>
                           <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Created Day</th>
-                            <th>Payment</th>
+                            <th>Photo</th>
+                            <th>Product's name</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Total Price</th>
-                            <th>Status</th>
-                            <th>Detail</th>
-                            <th>Bill</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Created Day</th>
-                            <th>Payment</th>
+                            <th>Photo</th>
+                            <th>Product's name</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Total Price</th>
-                            <th>Status</th>
-                            <th>Detail</th>
-                            <th>Bill</th>
                             <th>Action</th>
                           </tr>
                         </tfoot>
                         <tbody>
-                        @foreach($orders as $order)
-                          <tr>
-                            <td>{{$order->id}}</td>
-                            <td>{{$order->account->fullname}}</td>
-                            <td class="format-date">{{$order->created_day}}</td>
-                            <td>{{$order->payment->name}}</td>
-                            @php $total = 0; @endphp
-                            @foreach($order->orderDetails as $orderDetails)
-                                @php
-                                    $subtotal = $orderDetails->price * $orderDetails->quantity;
-                                    $total += $subtotal;
-                                @endphp
+                        @foreach($orderDetails->orderDetails as $orderDetail)
+                          <tr data-price="2591199">
+                            @foreach ($orderDetail->product->variant as $photo)
+                                @if ($photo->photos->isNotEmpty()) 
+                            <td class="tbody-td"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" alt=""></td>
+                                    @break;
+                                @endif
                             @endforeach
-                            <td class="currency-format">{{($total)}}</td>
-                            <td>{{$order->status == 1 ? 'Paid' : 'Not yet Paid'}}</td>
+                            <td>{{$orderDetail->product->name}}</td>
                             <td>
                                 <select>
-                                    <option value="1" {{$order->status == 1 ? 'selected' : ''}}>Paid</option>
-                                    <option value="0" {{$order->status == 0 ? 'selected' : ''}}>Not yet Paid</option>
+                                    <option value="yellow" selected>Yellow</option>
+                                    <option value="black">Black</option>
                                 </select>
                             </td>
                             <td>
-                                <a href="{{url('admin/orderDetails/' . $order->id)}}"><span class="badge badge-black">Detail</span></a>
+                                <select>
+                                    <option value="36" selected>36</option>
+                                    <option value="37">37</option>
+                                </select>
                             </td>
+                            <td class="currency-format price" class="currency-format">{{$orderDetail->price}}</td>
                             <td>
-                                <a href="{{url('admin/bill/' . $order->id)}}"><i class="icon-options-vertical"></i></a>
+                                <input type="number" class="qty-input" value="{{$orderDetail->quantity}}" min="1" max="20"/>
                             </td>
+                            <td class="total-price currency-format">{{$orderDetail->total_price}}</td>
                             <!-- <td>Active</td> -->
                             <td>
                               <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
                                 <button
                                   type="button"
                                   data-bs-toggle="tooltip"
@@ -114,6 +102,7 @@
                           </tr>
                         @endforeach
                         </tbody>
+                        
                       </table>
                     </div>
                   </div>
@@ -126,5 +115,6 @@
 
 @section('scripts')
   <script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
+  <script src="{{asset('admin/assets/js/elementJs/orderDetails.js')}}"></script>
   <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection
