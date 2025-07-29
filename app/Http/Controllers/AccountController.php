@@ -16,31 +16,38 @@ class AccountController extends Controller
         return view('account/login'); // Giao diện form login
     }
 
-    // Xử lý login
     public function login(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
+{
+    // Lấy dữ liệu login
+    $credentials = $request->only('username', 'password');
 
-        // Thêm remember vào đây
-        if (Auth::attempt($credentials, $request->has('remember'))) {
-            $request->session()->regenerate();
+    // Kiểm tra đăng nhập có "remember me"
+    if (Auth::attempt($credentials, $request->has('remember'))) {
+        // Chống session fixation
+        $request->session()->regenerate();
 
-            $user = Auth::user();
-            session(['account_id' => $user->id]);
-            if ($user->role_id == 1) {
+        // Lưu account_id vào session (nếu cần)
+        $user = Auth::user();
+        session(['account_id' => $user->id]);
+
+        // Phân quyền theo role_id
+        switch ($user->role_id) {
+            case 1:
                 return redirect('/admin/index')->with('okay', 'Logged in successfully as admin!');
-            } elseif ($user->role_id == 2) {
+            case 2:
                 return redirect('/home')->with('login_success', true);
-            } else {
+            default:
                 Auth::logout();
                 return back()->withErrors(['login' => 'Account does not have access rights.']);
-            }
         }
-
-        return back()->withErrors([
-            'login' => 'Username or password is incorrect.',
-        ])->withInput();
     }
+
+    // Sai thông tin đăng nhập
+    return back()->withErrors([
+        'login' => 'Username or password is incorrect.',
+    ])->withInput();
+}
+
 
 
 
@@ -70,6 +77,8 @@ class AccountController extends Controller
         Account::create($user);
         return redirect('/account')->with('ok', 'Account created successfully! Now you can login.');
     }
+
+
     public function userInfo()
     {
         $user = Auth::user();
