@@ -30,7 +30,7 @@ class HomeController extends Controller
             'products' => $products,
             'photo' => Product::pluck('name'),
             'colors' => $colors,
-            'photos' => Photo::where('product_variant_id', null)->orderBy('id', 'desc')->get()
+            'photos' => Photo::where('product_variant_id', null)->orderBy('id', 'desc')->take(3)->get()
         ];
 
         return view('home/index')->with($data);

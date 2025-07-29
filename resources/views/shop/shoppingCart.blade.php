@@ -118,16 +118,6 @@
 
                                 </td>
 
-<<<<<<< HEAD
-                            <td>
-                                <div class="sidebar-categories">
-
-                                    <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
-                                        @for ($i = 36; $i <= 46; $i++)
-                                            <option value="{{ $i }}" {{ $item->size == $i ? 'selected' : '' }}>
-                                            {{ $i }}
-                                            </option>
-=======
                                 <td>
                                     <div>
                                         <div class="custom-select-box size-dropdown" data-cart-item-id="{{ $item->id }}" style="width: 53px">
@@ -138,7 +128,6 @@
                                             <div class="custom-options">
                                                 @for ($i = 36; $i <= 46; $i++)
                                                     <div class="custom-option {{ $item->size == $i ? 'selected' : '' }}" data-value="{{ $i }}">{{ $i }}</div>
->>>>>>> 71babd7aa1654df6aad49d16a5b5296837734d15
                                             @endfor
                                         </div>
                                     </div>
@@ -276,12 +265,7 @@
                             <a class="gray_btn" href="{{url('home/index')}}">Continue Shopping</a>
                             <a class="primary-btn" id="proceed-checkout-btn" href="{{url('shop/productCheckout')}}">Proceed to checkout</a>
                         </div>
-<<<<<<< HEAD
-                    </td>
-                </tr>
-                </tbody>
-=======
-                        @endif
+
                         <!-- CSRF token -->
                         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -367,7 +351,6 @@
                             </td>
                         </tr>
                     </tbody>
->>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
                 </table>
             </div>
         </div>
