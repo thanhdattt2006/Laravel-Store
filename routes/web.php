@@ -29,29 +29,34 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// localhost:8000
 Route::group(['prefix' => ''], function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/index', [HomeController::class, 'index']);
 });
 
+
+// home
 Route::group(['prefix' => 'home'], function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/index', [HomeController::class, 'index']);
     Route::post('/index', [HomeController::class, 'index']);
 });
 
-Route::group(['prefix' => 'admin'], function () {
 
+
+//admin
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function () {
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
-    //Slider
+    
+    // Slider
     Route::get('/addSlider', [AdminController::class, 'addSlider']);
     Route::get('/allSlider', [AdminController::class, 'allSlider']);
     Route::get('/deleteSlider/{id}', [AdminController::class, 'deleteSlider']);
-
     Route::post('/uploadImg', [AdminController::class, 'uploadImg']);
-    //Product
+
+    // Product
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
@@ -59,18 +64,19 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
-    //Category
+
+    // Category
     Route::get('/addCategories', [AdminController::class, 'addCategories']);
     Route::get('/allCategories', [AdminController::class, 'allCategories']);
     Route::get('/deleteCategory/{id}', [AdminController::class, 'deleteCategory']);
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
-
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
     //order
     Route::get('/order', [AdminController::class, 'order']);
     Route::get('/bill/{id}', [AdminController::class, 'bill']);
     Route::get('/orderDetails/{id}', [AdminController::class, 'orderDetails']);
+    Route::post('/editOrderDetails', [AdminController::class, 'editOrderDetails']);
 
     //Accounts
     Route::get('/accounts', [AdminController::class, 'accounts']);
@@ -106,38 +112,34 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/deleteBlogcmt/{id}', [AdminController::class, 'deleteBlogcmt']);
 });
 
+
+//cate
 Route::group(['prefix' => 'cate'], function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::get('/index', [CategoryController::class, 'index']);
 });
 
+
+//shop
 Route::group(['prefix' => 'shop'], function () {
     Route::get('/', [ShopController::class, 'shopCategory']);
     Route::get('/shopCategory', [ShopController::class, 'shopCategory'])->name('shop.category');
     Route::get('/shop/filter', [ShopController::class, 'shopCategory'])->name('shop.filter');
     Route::get('/productCheckout', [ShopController::class, 'productCheckout']);
-
-
     Route::get('/productDetails/{id}', [ShopController::class, 'show']);
-
     Route::get('/search-by-keyword', [ShopController::class, 'searchByKeyword']);
-
     Route::get('/shoppingCart', [ShopController::class, 'showCart']);
-
     Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
     Route::get('/compare/{id}', [CompareController::class, 'add'])->name('compare.add');
     Route::post('/compare/remove', [CompareController::class, 'remove'])->name('compare.remove');
-
     Route::group(['prefix' => 'wishlist', 'middleware' => 'auth'], function () {
         Route::get('/', [WishlistController::class, 'index'])->name('wishlist.index');
         Route::get('/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
         Route::delete('/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     });
     Route::post('/wishlist/ajax-add', [WishlistController::class, 'ajaxAdd'])->name('wishlist.ajaxAdd');
-
     // Thêm vào giỏ hàng
     Route::get('/checkout/apply-voucher', [CartController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-
     Route::get('/shoppingCart', [CartController::class, 'showShoppingCart'])->name('shop.shoppingCart');
     Route::post('/shoppingCart', [CartController::class, 'add'])->middleware('auth');
     Route::delete('/shop/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -148,33 +150,34 @@ Route::group(['prefix' => 'shop'], function () {
     //order
     Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
     Route::get('/productCheckout', [OrderController::class, 'showCheckOut']);
-    Route::get('/confirmation', [OrderController::class, 'showConfirmation']);
-
+    Route::get('/confirmation', [OrderController::class, 'showConfirmation'])->name('shop.confirmation');
     Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
-
-
     Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
-
-
     Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
 
 
     // Route::get('/shoppingCart', [ShopController::class, 'show']);
-    Route::post('/review/store', [ShopController::class, 'storeReview'])
-        ->name('product.review');
+    Route::post('/review/store', [ShopController::class, 'storeReview'])->name('product.review');
     Route::get('/productDetails', [ShopController::class, 'cmt']);
 });
+
+
+// blog
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/index', [BlogController::class, 'index']);
     Route::get('/blogDetails/{id}', [BlogController::class, 'blogDetails']);
     Route::post('/blogDetails/{id}/comment', [BlogController::class, 'postComment'])->name('blog.comment');
 });
 
+
+// contact
 Route::group(['prefix' => 'contact'], function () {
     Route::get('/', [ContactController::class, 'index']);
     Route::get('/index', [ContactController::class, 'index']);
 });
 
+
+// about us
 Route::group(['prefix' => 'aboutus'], function () {
     Route::get('/', [AboutUsController::class, 'index']);
     Route::get('/aboutus', [AboutUsController::class, 'index']);
@@ -198,26 +201,5 @@ Route::group(['prefix' => 'account'], function () {
     Route::put('/update', [AccountController::class, 'update'])->name('account.update');
 });
 
-// Trang chỉ admin được vào
-Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return 'Hi admin!';
-    });
-});
 
-// Trang dành cho user bình thường
-Route::middleware(['auth', 'role:2'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return 'Hi user!';
-    });
-});
 
-Route::group(['prefix' => 'tracking'], function () {
-    Route::get('/', [TrackingController::class, 'index']);
-    Route::get('/index', [TrackingController::class, 'index']);
-});
-
-Route::group(['prefix' => 'elements'], function () {
-    Route::get('/', [ElementsController::class, 'index']);
-    Route::get('/index', [ElementsController::class, 'index']);
-});

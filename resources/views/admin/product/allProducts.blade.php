@@ -42,7 +42,6 @@
                             <th>Image</th>
                             <th>Price</th>
                             <th>Color</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -54,7 +53,6 @@
                             <th>Iamge</th>
                             <th>Price</th>
                             <th>Color</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </tfoot>
@@ -75,7 +73,6 @@
                               @foreach($product->variant as $product_variant)
                                   <span>{{ $product_variant->colors->name}}, </span>
                               @endforeach
-                            <td>Active</td>
                             <td>
                               <div class="form-button-action">
                                 <a href="{{url('admin/editProduct/' . $product->id)}}">

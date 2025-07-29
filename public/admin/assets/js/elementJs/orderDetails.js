@@ -21,5 +21,5 @@
 
   // Hàm định dạng VND
   function formatVND(value) {
-    return value.toLocaleString('vi-VN') + ' VND';
+    return value.toLocaleString('vi-VN');
   }

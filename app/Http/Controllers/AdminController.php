@@ -140,38 +140,6 @@ class AdminController extends Controller
             session()->flash('error', 'AddProduct Fails');
             return redirect('admin/addProducts');
         }
-
-
-        // 2. Tạo biến thể sản phẩm (product_variant)
-        // $productVariant = Product_variant::create([
-        //     'product_id' => $product->id,
-        //     'colors_id' => $request->color_id,
-        //     'stock' => $request->stock
-        // ]);
-
-        // $productVariant = Product_variant::create([
-        //     'product_id' => $product->id,
-        //     'colors_id' => $colorId, // ID màu từ checkbox
-        //     'stock' => $request->stock, // Stock được gửi từ form
-        // ]);
-
-        // if (is_array($request->photo_name)) {
-        // foreach ($request->photo_name as $photo) {
-        //         Photo::create([
-        //             'name' => $photo,
-        //             'product_variant_id' => $productVariant->id
-        //         ]);
-        //     }
-        // }
-
-        // 3. Tạo ảnh và liên kết với biến thể
-        // if ($request->has('photo_name')) {
-        //     Photo::create([
-        //         'name' => $request->photo_name,
-        //         'product_variant_id' => $productVariant->id
-        //     ]);
-        // }
-
     }
 
     public function deleteProduct($id)
@@ -209,10 +177,10 @@ class AdminController extends Controller
 
             // 5. Xoá sản phẩm chính
             $product->delete();
-            session()->flash('success', 'DeleteProduct Success');
+            session()->flash('success', 'Delete Product Success');
             return redirect('admin/allProducts');
         } catch (Exception $e) {
-            session()->flash('error', 'DeleteProduct Fails');
+            session()->flash('error', 'Delete Product Fails');
             return redirect('admin/allProducts');
         }
     }
@@ -228,11 +196,9 @@ class AdminController extends Controller
         return view('admin/product/editProducts')->with($data);
     }
 
-
-
-
     public function upDateProducts(Request $request)
     {
+        try{
         $product = [
             'name' => $request->post('name'),
             'price' => $request->post('price'),
@@ -240,12 +206,6 @@ class AdminController extends Controller
             'cate_id' => $request->post('cate_id')
         ];
         product::where('id', $request->post('id'))->update($product);
-
-        // $variant = [
-        //     'stock' => $request=>post('stock')
-        // ];
-        // $productId = $request->post('id');
-
         for ($i = 0; $i < count($request->color_id); $i++) {
             $colorId = $request->color_id[$i];
             $stockKey = 'stock' . $i;
@@ -270,57 +230,13 @@ class AdminController extends Controller
                 }
             }
         }
-
+        session()->flash('success', 'Edit Product Success');
         return redirect('admin/allProducts');
+    } catch (Exception $e) {
+            session()->flash('error', 'Edit Product Fails');
+            return redirect('admin/allProducts');
+        }
     }
-
-
-    //Them variant sản phẩm
-    //     public function upDateProducts(Request $request){
-    //         $product = [
-    //             'name' => $request->post('name'),
-    //             'price' => $request->post('price'),
-    //             'description' => $request->post('description'),
-    //             'cate_id' => $request->post('cate_id')
-    //         ];
-    //         product::where('id', $request->post('id'))->update($product);
-
-    //         $variant = [
-    //             'stock' => $request=>post('stock')
-    //         ];
-    //         $productId = $request->post('id');
-    //         for ($i = 0; $i < count($request->color_id); $i++) {
-    //     $colorId = $request->color_id[$i];
-    //     $stockKey = 'stock' . $i;
-
-    //     $productVariant = Product_variant::updateOrCreate(
-    //         [
-    //             'product_id' => $productId,
-    //             'colors_id' => $colorId
-    //         ],
-    //         [
-    //             'stock' => $request->$stockKey
-    //         ]
-    //     );
-
-    //     $photoName = 'photo_name' . $i;
-
-    //     if ($request->hasFile($photoName)) {
-    //         foreach ($request->file($photoName) as $file) {
-    //             $fileName = generateFileName($file->getClientOriginalName());
-    //             $file->move(public_path('user/nike-img'), $fileName);
-
-    //             Photo::create([
-    //                 'name' => $fileName,
-    //                 'product_variant_id' => $productVariant->id
-    //             ]);
-    //         }
-    //     }
-    // }
-
-    //         return redirect('admin/allProducts');
-    //     }
-
 
     public function allProducts()
     {
@@ -398,6 +314,51 @@ class AdminController extends Controller
           'orderDetails' => Order::find($id)
         ];
        return view('admin/order/orderDetails')->with($data);
+    }
+
+    public function editOrderDetails(Request $request){
+    // Bước 1: Kiểm tra xem form có gửi lên mảng dữ liệu 'id' hay không.
+    // Đây là bước quan trọng để đảm bảo code không bị lỗi khi request trống.
+    try{
+        $grand_price = 0;
+        if ($request->has('id') && is_array($request->id)) {
+
+            // Bước 2: Lặp qua từng ID trong mảng 'id' mà view gửi lên.
+            // $key sẽ là chỉ số của dòng (0, 1, 2, ...).
+            // $orderDetailId sẽ là giá trị ID của chi tiết đơn hàng ở dòng đó.
+            foreach ($request->id as $key => $orderDetailId) {
+
+                // Bước 3: Lấy tất cả dữ liệu tương ứng của cùng một dòng bằng chỉ số $key.
+                $quantity = $request->quantity[$key];
+                $size = $request->size[$key];
+                $color_id = $request->color_id[$key];
+                $totalPriceFromView = $request->total_price[$key];
+
+                // Bước 4: Làm sạch dữ liệu total_price.
+                // Rất quan trọng: Loại bỏ các ký tự định dạng (như dấu '.') để lưu vào DB.
+                // Ví dụ: '7.773.597' -> '7773597'
+                $cleanedTotalPrice = str_replace('.', '', $totalPriceFromView);
+
+                // Bước 5: Tìm và cập nhật bản ghi trong cơ sở dữ liệu.
+                OrderDetail::where('id', $orderDetailId)->update([
+                    'quantity'      => $quantity,
+                    'size'          => $size,
+                    'color_id'      => $color_id,
+                    'total_price'   => $cleanedTotalPrice, // Sử dụng giá đã làm sạch
+                ]);
+                $grand_price += $cleanedTotalPrice * (100 - $request->voucher_id)/100;
+            }
+        }
+        Order::where('id', $request->order_id)->update([
+            'grand_price' => $grand_price
+        ]);
+        // Bước 6: Sau khi vòng lặp kết thúc, chuyển hướng người dùng trở lại.
+            session()->flash('success', 'Edit Success');
+            return redirect('admin/order');
+        } catch (Exception $e) {
+            session()->flash('error', 'Edit Fails');
+            return redirect('admin/addBlog');
+        }
     }
 
     //---------------------------Accounts---------------------------

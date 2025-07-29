@@ -8,6 +8,7 @@
 				<div class="col-lg-12">
 					<div class="active-banner-slider owl-carousel">
 						<!-- single-slide -->
+						@foreach ($photos as $photo)
 						<div class="row single-slide align-items-center d-flex">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
@@ -22,48 +23,11 @@
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/Banner.png" alt="">
+									<img class="img-fluid" src="{{asset('user')}}/banner/{{ $photo->name}}" alt="">
 								</div>
 							</div>
 						</div>
-						<!-- single-slide -->
-						<div class="row single-slide align-items-center d-flex">
-							<div class="col-lg-5 col-md-6">
-								<div class="banner-content">
-									<h1>Nike New 1 <br>Collection!</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/Banner1.png" alt="">
-								</div>
-							</div>
-						</div>
-						<!-- single-slide -->
-						<div class="row single-slide align-items-center d-flex">
-							<div class="col-lg-5 col-md-6">
-								<div class="banner-content">
-									<h1>Nike New 2 <br>Collection!</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid" src="{{asset('user')}}/banner/21.png" alt="">
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -470,9 +434,19 @@
 	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		window.App = {
+			loggedIn: @json(Auth::check()),
+			roleId: @json(optional(Auth::user())->role_id)
+		};
+	</script>
+	<script>
 		// Kiểm tra đăng nhập
 		function isLogined() {
-			return @json(Auth::check());
+			return window.App?.loggedIn === true;
+		}
+
+		function isAdmin() {
+			return isLogined() && window.App?.roleId === 1;
 		}
 
 		function showError(title, message) {
@@ -487,6 +461,17 @@
 		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
+			// Chặn admin
+			if (isAdmin()) {
+				console.log('🔒 Admin cannot add products to cart.');
+				Swal.fire({
+					icon: 'info',
+					title: 'Admin account',
+					text: 'Admin cannot perform customer actions like adding products to cart.'
+				});
+				return;
+			}
+
 			// Check login
 			if (!isLogined()) {
 				Swal.fire({
@@ -498,7 +483,7 @@
 					cancelButtonText: 'Maybe later'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						window.location.href = '/account'; // hoặc route tương ứng
+						window.location.href = '/account';
 					}
 				});
 				return;
@@ -543,6 +528,7 @@
 					showError('System Error', 'Cannot add product. Please try again later.');
 				});
 		}
+
 
 
 
@@ -595,6 +581,32 @@
 			document.querySelectorAll('.add-to-compare').forEach(btn => {
 				btn.addEventListener('click', function(e) {
 					e.preventDefault();
+
+					if (!isLogined()) {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Login required',
+							text: 'Please log in to use the compare feature.',
+							confirmButtonText: 'Login',
+							showCancelButton: true
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/account';
+							}
+						});
+						return;
+					}
+
+					if (isAdmin()) {
+						console.log('🚫 Admin is not allowed to compare products.');
+						Swal.fire({
+							icon: 'info',
+							title: 'Admin account',
+							text: 'Admin is not allowed to use the compare feature.'
+						});
+						return;
+					}
+
 					const productId = this.dataset.id;
 
 					fetch('/shop/compare/' + productId)
@@ -608,12 +620,7 @@
 							});
 						})
 						.catch(err => {
-							Swal.fire({
-								icon: 'error',
-								title: 'Connection error!',
-								text: data.message,
-								confirmButtonText: 'OK'
-							});
+							showError('Connection error!', 'Could not connect to server.');
 						});
 				});
 			});
@@ -625,9 +632,35 @@
 		$(document).ready(function() {
 			$('.add-to-wishlist').click(function(e) {
 				e.preventDefault();
-				if (!checkLoginAndAlert()) return;
+
+				if (!isLogined()) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Login required',
+						text: 'Please log in to use the wishlist feature.',
+						showCancelButton: true,
+						confirmButtonText: 'Login',
+						cancelButtonText: 'Later'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = '/account';
+						}
+					});
+					return;
+				}
+
+				if (isAdmin()) {
+					console.log('❌ Admin cannot add to wishlist.');
+					Swal.fire({
+						icon: 'info',
+						title: 'Admin account',
+						text: 'Admin is not allowed to use the wishlist feature.'
+					});
+					return;
+				}
 
 				var productId = $(this).data('id');
+
 				$.ajax({
 					url: "{{ route('wishlist.ajaxAdd') }}",
 					type: 'POST',

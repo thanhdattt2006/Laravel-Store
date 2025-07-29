@@ -100,8 +100,8 @@
 			<section class="lattest-product-area pb-40 category-list">
 				<div class="row">
 					<!-- single product -->
-					@if(isset($productsfilter) && count($productsfilter))
-					@foreach($productsfilter as $product)
+					@if(isset($productsfilter) && $productsfilter->count())
+					@foreach ($productsfilter as $product)
 					@php
 					$firstVariant = $product->variant->first();
 					$colorId = $firstVariant?->colors_id ?? null;
@@ -157,6 +157,7 @@
 						<h4>Không có sản phẩm nào</h4>
 					</div>
 					@endif
+
 				</div>
 			</section>
 		</div>
@@ -164,51 +165,7 @@
 	</div>
 
 	<!-- Start related-product Area -->
-	<section class="related-product-area section_gap">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 text-center">
-					<div class="section-title">
-						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-9">
-					<div class="row">
-						@foreach ($products as $product)
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								@foreach ($product->variant as $photo)
-								@if ($photo->photos->isNotEmpty())
-								<a href="#"><img src="{{asset('user')}}/nike-img/{{ $photo->photos->first()->name}}" width="70" height="70"></a>
-								@break;
-								@endif
-								@endforeach
-								<div class="desc">
-									<a href="#" class="title">{{$product->name}}</a>
-									<div class="price">
-										<h6>{{$product->price}}</h6>
-										<h6 class="l-through">{{$product->price}}</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endforeach
-					</div>
-				</div>
-				<div class="col-lg-2">
-					<div class="ctg-right">
-						<a href="#" target="_blank">
-							<img class="img-fluid d-block mx-auto" src="{{asset('user')}}/img/category/c5.jpg" alt="">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+
 	<!-- End related-product Area -->
 
 	@endsection
@@ -232,9 +189,19 @@
 	<script src="{{asset('user/js/main.js')}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
+		window.App = {
+			loggedIn: @json(Auth::check()),
+			roleId: @json(optional(Auth::user()) -> role_id)
+		};
+	</script>
+	<script>
 		// Kiểm tra đăng nhập
 		function isLogined() {
-			return @json(Auth::check());
+			return window.App?.loggedIn === true;
+		}
+
+		function isAdmin() {
+			return isLogined() && window.App?.roleId === 1;
 		}
 
 		function showError(title, message) {
@@ -249,6 +216,17 @@
 		function sendAddToCartRequest(productId, colorId = null) {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
+			// Chặn admin
+			if (isAdmin()) {
+				console.log('🔒 Admin cannot add products to cart.');
+				Swal.fire({
+					icon: 'info',
+					title: 'Admin account',
+					text: 'Admin cannot perform customer actions like adding products to cart.'
+				});
+				return;
+			}
+
 			// Check login
 			if (!isLogined()) {
 				Swal.fire({
@@ -260,7 +238,7 @@
 					cancelButtonText: 'Maybe later'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						window.location.href = '/account'; 
+						window.location.href = '/account';
 					}
 				});
 				return;
@@ -307,6 +285,8 @@
 		}
 
 
+
+
 		function addToCart(productId) {
 			if (!isLogined()) {
 				Swal.fire({
@@ -348,6 +328,7 @@
 		});
 	</script>
 
+
 	<!-- alert them san pham compare -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
@@ -355,6 +336,32 @@
 			document.querySelectorAll('.add-to-compare').forEach(btn => {
 				btn.addEventListener('click', function(e) {
 					e.preventDefault();
+
+					if (!isLogined()) {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Login required',
+							text: 'Please log in to use the compare feature.',
+							confirmButtonText: 'Login',
+							showCancelButton: true
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/account';
+							}
+						});
+						return;
+					}
+
+					if (isAdmin()) {
+						console.log('🚫 Admin is not allowed to compare products.');
+						Swal.fire({
+							icon: 'info',
+							title: 'Admin account',
+							text: 'Admin is not allowed to use the compare feature.'
+						});
+						return;
+					}
+
 					const productId = this.dataset.id;
 
 					fetch('/shop/compare/' + productId)
@@ -368,12 +375,7 @@
 							});
 						})
 						.catch(err => {
-							Swal.fire({
-								icon: 'error',
-								title: 'Connection error!',
-								text: data.message,
-								confirmButtonText: 'OK'
-							});
+							showError('Connection error!', 'Could not connect to server.');
 						});
 				});
 			});
@@ -385,9 +387,35 @@
 		$(document).ready(function() {
 			$('.add-to-wishlist').click(function(e) {
 				e.preventDefault();
-				if (!checkLoginAndAlert()) return;
+
+				if (!isLogined()) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Login required',
+						text: 'Please log in to use the wishlist feature.',
+						showCancelButton: true,
+						confirmButtonText: 'Login',
+						cancelButtonText: 'Later'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = '/account';
+						}
+					});
+					return;
+				}
+
+				if (isAdmin()) {
+					console.log('❌ Admin cannot add to wishlist.');
+					Swal.fire({
+						icon: 'info',
+						title: 'Admin account',
+						text: 'Admin is not allowed to use the wishlist feature.'
+					});
+					return;
+				}
 
 				var productId = $(this).data('id');
+
 				$.ajax({
 					url: "{{ route('wishlist.ajaxAdd') }}",
 					type: 'POST',

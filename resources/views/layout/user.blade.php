@@ -2,7 +2,7 @@
 <html lang="zxx" class="no-js">
 
 <head>
-    
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -374,4 +374,5 @@
 
     @yield('scripts')
 </body>
+
 </html>

@@ -28,7 +28,6 @@
                           <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -36,7 +35,6 @@
                           <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </tfoot>
@@ -45,7 +43,6 @@
                           <tr>
                             <td>{{$cate->id}}</td>
                             <td>{{$cate->name}}</td>
-                            <td>Active</td>
                             <td>
                               <div class="form-button-action">
                                <a href="{{url('admin/editCategory/' . $cate->id)}}">
