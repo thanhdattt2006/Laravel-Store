@@ -404,6 +404,7 @@ class AdminController extends Controller
     // Bước 1: Kiểm tra xem form có gửi lên mảng dữ liệu 'id' hay không.
     // Đây là bước quan trọng để đảm bảo code không bị lỗi khi request trống.
     try{
+        $grand_price = 0;
         if ($request->has('id') && is_array($request->id)) {
 
             // Bước 2: Lặp qua từng ID trong mảng 'id' mà view gửi lên.
@@ -429,9 +430,12 @@ class AdminController extends Controller
                     'color_id'      => $color_id,
                     'total_price'   => $cleanedTotalPrice, // Sử dụng giá đã làm sạch
                 ]);
+                $grand_price += $cleanedTotalPrice * (100 - $request->voucher_id)/100;
             }
         }
-
+        Order::where('id', $request->order_id)->update([
+            'grand_price' => $grand_price
+        ]);
         // Bước 6: Sau khi vòng lặp kết thúc, chuyển hướng người dùng trở lại.
             session()->flash('success', 'Edit Success');
             return redirect('admin/order');

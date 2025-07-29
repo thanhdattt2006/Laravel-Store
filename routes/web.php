@@ -60,12 +60,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/addProducts', [AdminController::class, 'addProducts']);
     Route::get('/allProducts', [AdminController::class, 'allProducts']);
     Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct']);
-<<<<<<< HEAD
-=======
     Route::get('/editProduct/{id}', [AdminController::class, 'editProduct']);
 
     Route::post('/upDateProducts', [AdminController::class, 'upDateProducts']);
->>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
     Route::post('/saveProducts', [AdminController::class, 'saveProducts']);
 
     // Category
@@ -75,13 +72,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/editCategory/{id}', [AdminController::class, 'editCategory']);
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
-<<<<<<< HEAD
-
-    // Order
-    Route::get('/managementOrder', [AdminController::class, 'managementOrder']);
-
-    // Accounts
-=======
     //order
     Route::get('/order', [AdminController::class, 'order']);
     Route::get('/bill/{id}', [AdminController::class, 'bill']);
@@ -89,7 +79,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::post('/editOrderDetails', [AdminController::class, 'editOrderDetails']);
 
     //Accounts
->>>>>>> 6dc2762a31c67a285f8649bfdcfd8c8e6cae7190
     Route::get('/accounts', [AdminController::class, 'accounts']);
     Route::get('/deleteAccounts/{id}', [AdminController::class, 'deleteAccounts']);
     Route::get('/reset/{id}', [AdminController::class, 'reset']);

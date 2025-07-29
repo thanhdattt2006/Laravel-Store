@@ -5,19 +5,14 @@
     <div class="page-inner">
     <form action="{{url(('admin/editOrderDetails'))}}" method="POST" enctype="multipart/form-data">
     @csrf
+        <input type="hidden" name="order_id" value="{{$orderDetails->id}}" />
+        <input type="hidden" name="voucher_id" value="{{$orderDetails->voucher->discount_value}}" />
     <div class="row">
-
         <div class="col-md-12">
         <div class="card">
             <div class="card-header">
             <div class="d-flex align-items-center top">
                 <h4 class="card-title">Orders Details</h4>
-                <a href="#">
-                <button class="btn btn-primary btn-round ms-auto">
-                    <i class="fa fa-plus"></i>
-                    Add Order
-                </button>
-                </a>
             </div>
             </div>
             <div class="card-body">
@@ -118,7 +113,7 @@
             </div>
             </div>
             <div class="card-action">
-                <button type="submit" class="btn btn-success">Add</button>
+                <button type="submit" class="btn btn-success">Edit</button>
                 <a href="{{url('admin/order')}}"><button type="button" class="btn btn-danger">Cancel</button></a>
             </div>
         </div>
