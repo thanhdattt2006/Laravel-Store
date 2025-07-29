@@ -70,7 +70,7 @@
                             </td>
 
                             <td>
-                                <div>
+                                <div class="sidebar-categories">
 
                                     <select class="cart-size-select" data-cart-item-id="{{ $item->id }}">
                                         @for ($i = 36; $i <= 46; $i++)
