@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
-use Illuminate\Http\Request; // <--- DÒNG NÀY PHẢI CÓ
+use Illuminate\Http\Request;
 
 class TrustProxies extends Middleware
 {
@@ -12,12 +12,12 @@ class TrustProxies extends Middleware
      *
      * @var array<int, string>|string|null
      */
-    protected $proxies = '*'; // <--- CHẮC CHẮN CÓ DÒNG NÀY
+    protected $proxies = ['*']; // <--- ĐẶT DẤU NGOẶC VUÔNG CHO AN TOÀN
 
     /**
      * The headers that should be used to detect proxies.
      *
      * @var int
      */
-    protected $headers = Request::HEADER_X_FORWARDED_ALL; // <--- DÒNG NÀY PHẢI ĐÚNG
+    protected $headers = Request::HEADER_X_FORWARDED_ALL;
 }
