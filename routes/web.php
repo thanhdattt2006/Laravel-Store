@@ -49,7 +49,7 @@ Route::group(['prefix' => 'home'], function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function () {
     Route::get('/', [AdminController::class, 'index']);
     Route::get('/index', [AdminController::class, 'index']);
-    
+
     // Slider
     Route::get('/addSlider', [AdminController::class, 'addSlider']);
     Route::get('/allSlider', [AdminController::class, 'allSlider']);
@@ -73,7 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::post('/updateCategory', [AdminController::class, 'updateCategory']);
     Route::post('/saveCategories', [AdminController::class, 'saveCategories']);
 
-   //order
+    //order
     Route::get('/order', [AdminController::class, 'order']);
     Route::get('/bill/{id}', [AdminController::class, 'bill']);
     Route::get('/deleteOrder/{id}', [AdminController::class, 'deleteOrder']);
@@ -87,7 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('/accounts', [AdminController::class, 'accounts']);
     Route::get('/deleteAccounts/{id}', [AdminController::class, 'deleteAccounts']);
     Route::get('/reset/{id}', [AdminController::class, 'reset']);
-    Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
+    Route::post('/logout', [AccountController::class, 'logout'])->name('admin.logout');
 
 
 
