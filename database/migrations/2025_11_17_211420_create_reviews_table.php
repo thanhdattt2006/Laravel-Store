@@ -19,8 +19,6 @@ return new class extends Migration {
             $table->foreignId('blog_id')->nullable()->constrained('blog');
             $table->text('comment');
             $table->integer('rating')->nullable();
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
             $table->foreignId('parent_id')->nullable();
             $table->timestamps();
         });
