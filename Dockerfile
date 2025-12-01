@@ -47,4 +47,4 @@ EXPOSE 8080
 # 12. Start Command
 # Tôi bỏ lệnh migrate đi để tránh lỗi vì ông đã import DB bằng tay rồi.
 # Nếu cần migrate thì chạy sau trong Shell.
-CMD php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
