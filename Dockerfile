@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# Install system dependencies
+# 1. Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -9,40 +9,42 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    default-mysql-client
+    default-mysql-client \
+    ca-certificates
 
-# Clear cache
+# 2. Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions (QUAN TRỌNG - PDO MySQL)
+# 3. Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Verify pdo_mysql is installed
-RUN php -m | grep pdo_mysql
-
-# Get Composer
+# 4. Get Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# 5. Set working directory
 WORKDIR /app
 
-# Copy composer files first (for caching)
+# 6. Copy composer files first (Caching)
 COPY composer.json composer.lock ./
 
-# Install dependencies
+# 7. Install dependencies
 RUN composer install --no-interaction --prefer-dist --no-dev --no-scripts
 
-# Copy the rest of the application
+# 8. Copy application code
 COPY . .
 
-# Run composer scripts
+# 9. Optimize Autoloader
 RUN composer dump-autoload --optimize
 
-# Set permissions
-RUN chmod -R 775 storage bootstrap/cache
+# 10. Fix Permissions (QUAN TRỌNG CHO RENDER)
+# Render chạy user ID 1000, ta cần đảm bảo folder storage ghi được
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN chmod -R 775 /app/storage /app/bootstrap/cache
 
-# Expose port
+# 11. Expose Port
 EXPOSE 8080
 
-# Start command
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+# 12. Start Command
+# Tôi bỏ lệnh migrate đi để tránh lỗi vì ông đã import DB bằng tay rồi.
+# Nếu cần migrate thì chạy sau trong Shell.
+CMD php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT
