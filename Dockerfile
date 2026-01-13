@@ -37,7 +37,7 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # 10. Fix Permissions (QUAN TRỌNG CHO RENDER)
-# Render chạy user ID 1000, ta cần đảm bảo folder storage ghi được
+
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 RUN chmod -R 775 /app/storage /app/bootstrap/cache
 
@@ -45,6 +45,5 @@ RUN chmod -R 775 /app/storage /app/bootstrap/cache
 EXPOSE 8080
 
 # 12. Start Command
-# Tôi bỏ lệnh migrate đi để tránh lỗi vì ông đã import DB bằng tay rồi.
-# Nếu cần migrate thì chạy sau trong Shell.
+
 CMD php artisan serve --host=0.0.0.0 --port=$PORT
