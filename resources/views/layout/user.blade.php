@@ -371,6 +371,9 @@
     </script>
     @endif
 
+    <!-- API Service Wrapper -->
+    <script src="{{asset('user/js/apiService.js')}}"></script>
+
     @yield('scripts')
 </body>
 

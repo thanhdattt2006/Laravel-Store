@@ -246,33 +246,10 @@
 				return;
 			}
 
-			if (!csrfToken) {
-				console.error("CSRF token not found.");
-				showError('Error', 'Cannot find CSRF token. Please reload the page.');
-				return;
-			}
-
-			Swal.fire({
-				icon: 'info',
-				title: 'Adding product...',
-				text: 'Please wait...',
-				allowOutsideClick: false,
-				showConfirmButton: false,
-				didOpen: () => Swal.showLoading()
-			});
-
-			fetch('/shop/shoppingCart', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-CSRF-TOKEN': csrfToken
-					},
-					body: JSON.stringify({
-						product_id: productId,
-						color_id: colorId
-					})
-				})
-				.then(res => res.json())
+			ApiService.post('/shop/shoppingCart', {
+				product_id: productId,
+				color_id: colorId
+			})
 				.then(data => {
 					Swal.fire({
 						icon: data.success ? 'success' : 'error',
@@ -366,8 +343,7 @@
 
 					const productId = this.dataset.id;
 
-					fetch('/shop/compare/' + productId)
-						.then(response => response.json())
+					ApiService.get('/shop/compare/' + productId)
 						.then(data => {
 							Swal.fire({
 								icon: data.success ? 'success' : 'info',
@@ -418,14 +394,8 @@
 
 				var productId = $(this).data('id');
 
-				$.ajax({
-					url: "{{ route('wishlist.ajaxAdd') }}",
-					type: 'POST',
-					data: {
-						product_id: productId,
-						_token: '{{ csrf_token() }}'
-					},
-					success: function(response) {
+				ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
+					.then(response => {
 						if (response.success) {
 							Swal.fire({
 								icon: 'success',
@@ -441,11 +411,10 @@
 								confirmButtonText: 'OK'
 							});
 						}
-					},
-					error: function() {
+					})
+					.catch(err => {
 						showError('Error!', 'Cannot add the product to the wishlist.');
-					}
-				});
+					});
 			});
 		});
 	</script>

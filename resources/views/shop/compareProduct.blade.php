@@ -144,14 +144,8 @@
             if (!checkLoginAndAlert()) return;
 
             var productId = $(this).data('id');
-            $.ajax({
-                url: "{{ route('wishlist.ajaxAdd') }}",
-                type: 'POST',
-                data: {
-                    product_id: productId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
+            ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
+                .then(response => {
                     if (response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -167,11 +161,10 @@
                             confirmButtonText: 'OK'
                         });
                     }
-                },
-                error: function() {
+                })
+                .catch(err => {
                     showError('Error!', 'Cannot add the product to the wishlist.');
-                }
-            });
+                });
         });
     });
 </script>
@@ -215,12 +208,6 @@
 
 
     function sendAddToCartRequest(productId) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            showError('Error', 'Cannot find CSRF token. Please reload the page.');
-            return;
-        }
         Swal.fire({
             icon: 'info',
             title: 'Adding product...',
@@ -231,17 +218,8 @@
                 Swal.showLoading();
             }
         });
-        fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(res => res.json())
+        
+        ApiService.post('/shop/shoppingCart', { product_id: productId })
             .then(data => {
                 Swal.fire({
                     icon: data.success ? 'success' : 'error',

@@ -303,18 +303,7 @@
         }
 
         function updateQuantity(id, quantity) {
-            fetch('/shop/cart/update-quantity', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        id: id,
-                        quantity: quantity
-                    })
-                })
-                .then(res => res.json())
+            ApiService.put('/shop/cart/update-quantity', { id, quantity })
                 .then(data => {
                     function formatCurrency(value) {
                         return new Intl.NumberFormat('vi-VN').format(value);
@@ -323,7 +312,6 @@
                     if (data.success) {
                         document.getElementById('item-total-' + id).innerText = formatCurrency(data.total) + ' VND';
 
-                        // ✅ Sửa dòng này: chỉ update nếu tồn tại
                         if (document.getElementById('subtotal')) {
                             document.getElementById('subtotal').innerText = formatCurrency(data.subtotal) + ' VND';
                         }
@@ -334,7 +322,6 @@
                 .catch(err => {
                     alert('Lỗi kết nối: ' + err.message);
                 });
-
         }
     </script>
     <script>
@@ -410,12 +397,7 @@
         });
 
         // ✅ Cập nhật giỏ hàng từ backend nếu đang login
-        fetch('/shop/shoppingCart', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(res => res.json())
+        ApiService.get('/shop/shoppingCart')
             .then(data => {
                 if (data.loggedIn === false) {
                     Swal.fire({
@@ -430,7 +412,8 @@
                     updateSubtotal(data.subtotal);
                     console.log('Cart Data:', data);
                 }
-            });
+            })
+            .catch(err => console.error('Failed to load cart:', err));
 
         // ✅ Xóa item
         document.querySelectorAll('.cart-delete-form').forEach(function(form) {
@@ -449,14 +432,7 @@
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(form.action, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                    'Accept': 'application/json',
-                                }
-                            })
-                            .then(res => res.json())
+                        ApiService.delete(form.action)
                             .then(data => {
                                 if (data.success) {
                                     const row = document.getElementById(`cart-item-${itemId}`);
@@ -505,19 +481,11 @@
 
                         // AJAX request
                         try {
-                            const res = await fetch('/shop/cart/update-size', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                                },
-                                body: JSON.stringify({
-                                    cart_item_id: cartItemId,
-                                    size: size
-                                })
+                            const data = await ApiService.post('/shop/cart/update-size', {
+                                cart_item_id: cartItemId,
+                                size: size
                             });
 
-                            const data = await res.json();
                             if (!data.success) {
                                 alert("❌ " + data.message);
                             } else {
@@ -569,19 +537,11 @@
 
                         // AJAX update
                         try {
-                            const res = await fetch('/shop/cart/update-color', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                                },
-                                body: JSON.stringify({
-                                    cart_item_id: cartItemId,
-                                    color_id: colorId
-                                })
+                            const data = await ApiService.post('/shop/cart/update-color', {
+                                cart_item_id: cartItemId,
+                                color_id: colorId
                             });
 
-                            const data = await res.json();
                             if (!data.success) {
                                 alert("❌ " + data.message);
                             } else {
@@ -608,8 +568,7 @@
             e.preventDefault();
             const code = document.getElementById('coupon-code').value;
 
-            fetch(`shop/checkout/apply-voucher?keyword=${encodeURIComponent(code)}`)
-                .then(res => res.json())
+            ApiService.get(`shop/checkout/apply-voucher?keyword=${encodeURIComponent(code)}`)
                 .then(data => {
                     if (data.success) {
                         document.getElementById('subtotal').innerText = data.subtotal;
@@ -628,7 +587,8 @@
                     } else {
                         alert(data.message);
                     }
-                });
+                })
+                .catch(err => console.error('Error applying voucher:', err));
         });
 
         // ✅ Cập nhật lại tổng tiền

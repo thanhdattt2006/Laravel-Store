@@ -130,8 +130,7 @@
                 e.preventDefault();
                 const productId = this.dataset.id;
 
-                fetch('/shop/compare/' + productId)
-                    .then(response => response.json())
+                ApiService.get('/shop/compare/' + productId)
                     .then(data => {
                         Swal.fire({
                             icon: data.success ? 'success' : 'info',
@@ -192,12 +191,6 @@
 
 
     function sendAddToCartRequest(productId) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            showError('Error', 'Cannot find CSRF token. Please reload the page.');
-            return;
-        }
         Swal.fire({
             icon: 'info',
             title: 'Adding product...',
@@ -208,17 +201,8 @@
                 Swal.showLoading();
             }
         });
-        fetch('/shop/shoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(res => res.json())
+        
+        ApiService.post('/shop/shoppingCart', { product_id: productId })
             .then(data => {
                 Swal.fire({
                     icon: data.success ? 'success' : 'error',

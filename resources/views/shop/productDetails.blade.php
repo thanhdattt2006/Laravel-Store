@@ -420,21 +420,7 @@
             // }
 
             try {
-                const response = await fetch("{{ route('product.review') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.message || 'Error');
-                }
+                const result = await ApiService.post("{{ route('product.review') }}", data);
 
                 msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
                 form.reset();
@@ -526,30 +512,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-<!-- End related-product Area -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $('#review-form').on('submit', function(e) {
-        e.preventDefault(); // không reload trang
 
-        let form = $(this);
-        let url = "{{ route('product.review') }}";
-        let data = form.serialize(); // lấy toàn bộ input
-
-        $.post(url, data, function(response) {
-            $('#review-success').text('Đã gửi bình luận!');
-            let commentText = form.find('input[name="cmt"]').val();
-
-            // Thêm bình luận mới vào danh sách
-            $('#review-list').prepend(`<li>${commentText}</li>`);
-
-            // Reset ô nhập
-            form[0].reset();
-        }).fail(function(xhr) {
-            $('#review-success').text('Lỗi khi gửi bình luận!');
-        });
-    });
-</script>
 @endsection
 
 @section('scripts')
@@ -669,20 +632,12 @@
                 didOpen: () => Swal.showLoading()
             });
 
-            fetch('/shop/shoppingCart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        color_id: colorId,
-                        size: size,
-                        quantity: quantity
-                    }) // ✅ quantity
-                })
-                .then(r => r.json())
+            ApiService.post('/shop/shoppingCart', {
+                product_id: productId,
+                color_id: colorId,
+                size: size,
+                quantity: quantity
+            })
                 .then(data => {
                     Swal.fire({
                         icon: data.success ? 'success' : 'error',
@@ -704,14 +659,8 @@
             if (!checkLoginAndAlert()) return;
 
             var productId = $(this).data('id');
-            $.ajax({
-                url: "{{ route('wishlist.ajaxAdd') }}",
-                type: 'POST',
-                data: {
-                    product_id: productId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
+            ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
+                .then(response => {
                     if (response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -727,11 +676,10 @@
                             confirmButtonText: 'OK'
                         });
                     }
-                },
-                error: function() {
+                })
+                .catch(err => {
                     showError('Error!', 'Cannot add the product to the wishlist.');
-                }
-            });
+                });
         });
     });
 </script>
