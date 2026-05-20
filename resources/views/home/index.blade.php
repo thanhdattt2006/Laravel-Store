@@ -414,48 +414,29 @@
 	@endsection
 
 	@section('scripts')
-	<script>
-		const ASSET_URL = "{{asset('user')}}"
-	</script>
-	<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-		crossorigin="anonymous"></script>
-	<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
-	<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
-	<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
-	<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
-	<script src="{{asset('user/js/nouislider.min.js')}}"></script>
-	<script src="{{asset('user/js/countdown.js')}}"></script>
-	<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
-	<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
-	<!--gmaps Js-->
-	<script src="{{asset('user/js/gmaps.min.js')}}"></script>
-	<script src="{{asset('user/js/main.js')}}"></script>
-	<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script>
-		window.App = {
-			loggedIn: @json(Auth::check()),
-			roleId: @json(optional(Auth::user())->role_id)
-		};
-	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<script>
 		// Kiểm tra đăng nhập
-		function isLogined() {
-			return window.App?.loggedIn === true;
-		}
+		
 
-		function isAdmin() {
-			return isLogined() && window.App?.roleId === 1;
-		}
+		
 
-		function showError(title, message) {
-			Swal.fire({
-				icon: 'error',
-				title,
-				text: message
-			});
-		}
+		
 
 
 		function sendAddToCartRequest(productId, colorId = null) {
@@ -489,33 +470,10 @@
 				return;
 			}
 
-			if (!csrfToken) {
-				console.error("CSRF token not found.");
-				showError('Error', 'Cannot find CSRF token. Please reload the page.');
-				return;
-			}
-
-			Swal.fire({
-				icon: 'info',
-				title: 'Adding product...',
-				text: 'Please wait...',
-				allowOutsideClick: false,
-				showConfirmButton: false,
-				didOpen: () => Swal.showLoading()
-			});
-
-			fetch('/shop/shoppingCart', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-CSRF-TOKEN': csrfToken
-					},
-					body: JSON.stringify({
-						product_id: productId,
-						color_id: colorId
-					})
-				})
-				.then(res => res.json())
+			ApiService.post('/shop/shoppingCart', {
+				product_id: productId,
+				color_id: colorId
+			})
 				.then(data => {
 					Swal.fire({
 						icon: data.success ? 'success' : 'error',
@@ -575,7 +533,7 @@
 
 
 	<!-- alert them san pham compare -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.add-to-compare').forEach(btn => {
@@ -609,8 +567,7 @@
 
 					const productId = this.dataset.id;
 
-					fetch('/shop/compare/' + productId)
-						.then(response => response.json())
+					ApiService.get('/shop/compare/' + productId)
 						.then(data => {
 							Swal.fire({
 								icon: data.success ? 'success' : 'info',
@@ -661,14 +618,8 @@
 
 				var productId = $(this).data('id');
 
-				$.ajax({
-					url: "{{ route('wishlist.ajaxAdd') }}",
-					type: 'POST',
-					data: {
-						product_id: productId,
-						_token: '{{ csrf_token() }}'
-					},
-					success: function(response) {
+				ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
+					.then(response => {
 						if (response.success) {
 							Swal.fire({
 								icon: 'success',
@@ -684,11 +635,10 @@
 								confirmButtonText: 'OK'
 							});
 						}
-					},
-					error: function() {
+					})
+					.catch(err => {
 						showError('Error!', 'Cannot add the product to the wishlist.');
-					}
-				});
+					});
 			});
 		});
 	</script>
