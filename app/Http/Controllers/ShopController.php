@@ -18,11 +18,18 @@ use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
-    public function shopCategory(Request $request)
-{
-    $query = Product::query();
+    protected $productService;
 
-    // Nếu có keyword, áp dụng tìm kiếm
+    public function __construct(\App\Services\ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
+    public function shopCategory(Request $request)
+    {
+        $query = Product::with(['variant.photos', 'variant.colors']);
+
+        // Nếu có keyword, áp dụng tìm kiếm
     if ($request->filled('keyword')) {
         $keyword = $request->input('keyword');
         $query->where('name', 'like', '%' . $keyword . '%');
@@ -57,7 +64,7 @@ class ShopController extends Controller
 
     return view('shop.shopCategory', [
         'productsfilter' => $productsfilter,
-        'products' => Product::orderBy('id', 'desc')->take(6)->get(),
+        'products' => $this->productService->getProductsWithVariants(6),
         'colors' => Colors::all(),
         'cates' => Cate::get(),
         'keyword' => $request->keyword
@@ -102,36 +109,14 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('cate', 'variant')->findOrFail($id);
-        $reviews = Review::where('product_id', $id)->get();
+        $details = $this->productService->getProductDetails($id, request()->query('color_id'));
+        
+        $data = array_merge($details, [
+            'names' => Cate::pluck('name'),
+            'products' => $this->productService->getProductsWithVariants(9), // Only get what we need, with relations
+            'review' => $details['reviews'] // Map to the view's expected variable name
+        ]);
 
-        $product_variant = Product_variant::where('product_id', $id)->get();
-        $variantIds = Product_variant::where('product_id', $id)->pluck('id');
-        $photos = Photo::whereIn('product_variant_id', $variantIds)->get();
-        $colorIds = Product_variant::where('product_id', $id)->pluck('colors_id')->unique();
-        $colors = Colors::whereIn('id', $colorIds)->get();
-
-        $selectedColorId = request()->query('color_id');
-        $averageRating = Review::where('product_id', $id)->whereNotNull('rating')
-                                                         ->avg('rating');
-        if (!$selectedColorId) {
-            $firstVariant = Product_variant::where('product_id', $id)->first();
-            $selectedColorId = $firstVariant?->colors_id ?? null;
-        }
-
-
-        $data =
-            [
-                'product' => $product,
-                'names' => Cate::pluck('name'),
-                'photos' => $photos,
-                'colors' => $colors,
-                'selectedColorId' => $selectedColorId,
-                'product_variant' =>  $product_variant,
-                'products' => Product::get(),
-                'review' => $reviews,
-                'averageRating' => $averageRating,
-            ];
         return view('shop/productDetails')->with($data);
     }
 

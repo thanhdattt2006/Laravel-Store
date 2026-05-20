@@ -62,30 +62,23 @@
                     </td>
                     <td class="py-2 px-4">{{ $item->created_at->format('F d, Y') }}</td>
                     <td class="py-2 px-4">
-                        <div class="compare-card">
-                            <div class="single-product">
-                                <div class="product-details">
-                                    <div class="prd-bottom">
-                                        <a href="" class="social-info">
-                                            <span data-id="{{$item->id}}" class="ti-bag"></span>
-                                        </a>
-                                        <a href="#" class="social-info add-to-compare" data-id="{{ $item->id }}">
-                                            <span class="lnr lnr-sync"></span>
-                                        </a>
-                                        <a href="{{ url('/shop/productDetails/' . $item->id) }}" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                        </a>
-                                        <form action="{{ route('wishlist.remove', $item->product_id) }}" method="POST" class="delete-form" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                style="color:red; background:none; border:none; padding:0; margin:0; font-size: 20px; font-weight:bold; cursor:pointer;">
-                                                &times;
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="d-flex align-items-center justify-content-center" style="gap: 15px;">
+                            <a href="#" class="add-btn text-dark" data-id="{{ $item->product_id }}" title="Add to Cart">
+                                <span class="ti-bag" style="font-size: 20px;"></span>
+                            </a>
+                            <a href="#" class="add-to-compare text-info" data-id="{{ $item->product_id }}" title="Compare">
+                                <span class="lnr lnr-sync" style="font-size: 20px;"></span>
+                            </a>
+                            <a href="{{ url('/shop/productDetails/' . $item->product_id) }}" class="text-primary" title="View Details">
+                                <span class="lnr lnr-move" style="font-size: 20px;"></span>
+                            </a>
+                            <form action="{{ route('wishlist.remove', $item->product_id) }}" method="POST" class="delete-form m-0" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-danger border-0 bg-transparent p-0" title="Remove" style="font-size: 24px; cursor: pointer;">
+                                    &times;
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>

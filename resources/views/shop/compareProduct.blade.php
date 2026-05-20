@@ -89,22 +89,16 @@
             <td><strong>Action</strong></td>
             @forelse($products as $product)
             <td>
-                <div class="compare-card">
-                    <div class="single-product">
-                        <div class="product-details">
-                            <div class="prd-bottom">
-                                <a href="" class="social-info">
-                                    <span data-id="{{$product->id}}" class="ti-bag"></span>
-                                </a>
-                                <a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
-                                    <span class="lnr lnr-heart"></span>
-                                </a>
-                                <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
-                                    <span class="lnr lnr-move"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="d-flex align-items-center justify-content-center" style="gap: 15px;">
+                    <a href="#" class="add-btn text-dark" data-id="{{ $product->id }}" title="Add to Cart">
+                        <span class="ti-bag" style="font-size: 20px;"></span>
+                    </a>
+                    <a href="#" class="add-to-wishlist text-danger" data-id="{{ $product->id }}" title="Add to Wishlist">
+                        <span class="lnr lnr-heart" style="font-size: 20px;"></span>
+                    </a>
+                    <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="text-primary" title="View Details">
+                        <span class="lnr lnr-move" style="font-size: 20px;"></span>
+                    </a>
                 </div>
             </td>
             @empty
