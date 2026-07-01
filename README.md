@@ -12,28 +12,30 @@ Laravel-Store is a modern, fully-featured, and containerized E-Commerce Web Appl
 ## ✨ Key Features
 
 ### 👤 Customer Experience
-*   **Intuitive Product Browsing:** Filter products by category, price range, and search by keywords dynamically.
-*   **Robust Shopping Cart & Checkout:** Add products, update quantities, choose sizes/colors, apply promo vouchers, and complete orders with immediate billing confirmations.
-*   **Wishlist & Comparison:** Track favorite items and compare technical specifications before buying.
-*   **Reviews & Testimonials:** Share feedback and rate products or write comments on store blog posts.
-*   **User Dashboard:** View and update profile information, track personal orders, and manage authentication details.
+
+- **Intuitive Product Browsing:** Filter products by category, price range, and search by keywords dynamically.
+- **Robust Shopping Cart & Checkout:** Add products, update quantities, choose sizes/colors, apply promo vouchers, and complete orders with immediate billing confirmations.
+- **Wishlist & Comparison:** Track favorite items and compare technical specifications before buying.
+- **Reviews & Testimonials:** Share feedback and rate products or write comments on store blog posts.
+- **User Dashboard:** View and update profile information, track personal orders, and manage authentication details.
 
 ### 🔑 Administrator Portal (Protected Area)
-*   **Dashboard Analytics:** Get an overview of products, categories, orders, and users.
-*   **Inventory & Category Control:** Full CRUD operation for products (with image uploads) and product categories.
-*   **Order & Invoice Management:** Track order statuses, edit order details, delete records, and generate clean HTML invoices/bills.
-*   **Content Management System (CMS):** Create, update, or remove homepage slides, blog posts, and customizable "About Us" sections.
-*   **User & Review Moderation:** Reset user passwords, delete unauthorized accounts, and moderate product reviews or blog comments.
+
+- **Dashboard Analytics:** Get an overview of products, categories, orders, and users.
+- **Inventory & Category Control:** Full CRUD operation for products (with image uploads) and product categories.
+- **Order & Invoice Management:** Track order statuses, edit order details, delete records, and generate clean HTML invoices/bills.
+- **Content Management System (CMS):** Create, update, or remove homepage slides, blog posts, and customizable "About Us" sections.
+- **User & Review Moderation:** Reset user passwords, delete unauthorized accounts, and moderate product reviews or blog comments.
 
 ---
 
 ## 🛠️ Tech Stack
 
-*   **Backend Framework:** [Laravel 9.x](https://laravel.com/)
-*   **Language:** [PHP 8.2](https://www.php.net/)
-*   **Database:** MySQL / MariaDB
-*   **Frontend Engine:** Blade Template Engine, Vanilla CSS, JS (AJAX integration)
-*   **Containerization & Deployment:** Docker, Render/Railway integration configs
+- **Backend Framework:** [Laravel 9.x](https://laravel.com/)
+- **Language:** [PHP 8.2](https://www.php.net/)
+- **Database:** MySQL
+- **Frontend Engine:** Blade Template Engine, Vanilla CSS, JS (AJAX integration)
+- **Containerization & Deployment:** Docker, Render/Railway integration configs
 
 ---
 
@@ -42,21 +44,25 @@ Laravel-Store is a modern, fully-featured, and containerized E-Commerce Web Appl
 Follow the instructions below to run this project locally.
 
 ### 📋 Prerequisites
+
 Make sure you have installed:
-*   PHP >= 8.2
-*   Composer (latest version)
-*   Node.js & npm (for asset compilation)
-*   MySQL
+
+- PHP >= 8.2
+- Composer (latest version)
+- Node.js & npm (for asset compilation)
+- MySQL
 
 ### 💻 Local Installation Steps
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/thanhdattt2006/Laravel-Store.git
     cd Laravel-Store
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     composer install
     npm install && npm run build
@@ -64,12 +70,14 @@ Make sure you have installed:
 
 3.  **Setup environment file:**
     Duplicate the `.env.example` file and name it `.env`:
+
     ```bash
     cp .env.example .env
     ```
 
 4.  **Configure Database:**
     Open your `.env` file and configure your database settings:
+
     ```env
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -80,11 +88,13 @@ Make sure you have installed:
     ```
 
 5.  **Generate application key:**
+
     ```bash
     php artisan key:generate
     ```
 
 6.  **Run migrations & seeders:**
+
     ```bash
     php artisan migrate --seed
     ```
@@ -102,14 +112,17 @@ Make sure you have installed:
 This repository includes a multi-stage Docker environment ready for cloud deployments (e.g., Render, Railway, AWS).
 
 To build the Docker image locally:
+
 ```bash
 docker build -t laravel-store .
 ```
 
 To run the container:
+
 ```bash
 docker run -p 8080:8080 -e PORT=8080 laravel-store
 ```
+
 The application will run on port `8080`.
 
 ---
@@ -135,4 +148,5 @@ Laravel-Store/
 ---
 
 ## 📄 License
+
 This project is open-sourced software licensed under the [MIT License](https://opensource.org/licenses/MIT).
