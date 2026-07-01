@@ -98,7 +98,7 @@ class CartController extends Controller
         $cart = Cart::where('account_id', $user->id)->first();
 
         $cartItems = $cart
-            ? $cart->cartItems()->with(['product', 'product.variant.colors', 'product.variant.photos'])->orderByDesc('id')->get()
+            ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
             : collect();
 
         $subtotal = $cartItems->sum(function ($item) {
@@ -246,7 +246,7 @@ class CartController extends Controller
         $user = auth()->user();
         $cart = Cart::where('account_id', $user->id)->first();
         $cartItems = $cart
-            ? $cart->cartItems()->with(['product', 'product.variant.colors', 'product.variant.photos'])->orderByDesc('id')->get()
+            ? $cart->cartItems()->with(['product', 'product.variant.colors'])->orderByDesc('id')->get()
             : collect();
 
         $subtotal = $cartItems->sum(function ($item) {

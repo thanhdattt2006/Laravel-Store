@@ -85,5 +85,5 @@
 @endsection
 
 @section('scripts')
-  
+  <script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

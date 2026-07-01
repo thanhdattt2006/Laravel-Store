@@ -62,23 +62,30 @@
                     </td>
                     <td class="py-2 px-4">{{ $item->created_at->format('F d, Y') }}</td>
                     <td class="py-2 px-4">
-                        <div class="d-flex align-items-center justify-content-center" style="gap: 15px;">
-                            <a href="#" class="add-btn text-dark" data-id="{{ $item->product_id }}" title="Add to Cart">
-                                <span class="ti-bag" style="font-size: 20px;"></span>
-                            </a>
-                            <a href="#" class="add-to-compare text-info" data-id="{{ $item->product_id }}" title="Compare">
-                                <span class="lnr lnr-sync" style="font-size: 20px;"></span>
-                            </a>
-                            <a href="{{ url('/shop/productDetails/' . $item->product_id) }}" class="text-primary" title="View Details">
-                                <span class="lnr lnr-move" style="font-size: 20px;"></span>
-                            </a>
-                            <form action="{{ route('wishlist.remove', $item->product_id) }}" method="POST" class="delete-form m-0" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-danger border-0 bg-transparent p-0" title="Remove" style="font-size: 24px; cursor: pointer;">
-                                    &times;
-                                </button>
-                            </form>
+                        <div class="compare-card">
+                            <div class="single-product">
+                                <div class="product-details">
+                                    <div class="prd-bottom">
+                                        <a href="" class="social-info">
+                                            <span data-id="{{$item->id}}" class="ti-bag"></span>
+                                        </a>
+                                        <a href="#" class="social-info add-to-compare" data-id="{{ $item->id }}">
+                                            <span class="lnr lnr-sync"></span>
+                                        </a>
+                                        <a href="{{ url('/shop/productDetails/' . $item->id) }}" class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                        </a>
+                                        <form action="{{ route('wishlist.remove', $item->product_id) }}" method="POST" class="delete-form" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                style="color:red; background:none; border:none; padding:0; margin:0; font-size: 20px; font-weight:bold; cursor:pointer;">
+                                                &times;
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -97,21 +104,25 @@
 
 
 @section('scripts')
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
+    const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
 
 <!-- alert them san pham compare -->
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.add-to-compare').forEach(btn => {
@@ -119,7 +130,8 @@
                 e.preventDefault();
                 const productId = this.dataset.id;
 
-                ApiService.get('/shop/compare/' + productId)
+                fetch('/shop/compare/' + productId)
+                    .then(response => response.json())
                     .then(data => {
                         Swal.fire({
                             icon: data.success ? 'success' : 'info',
@@ -166,12 +178,26 @@
 <!-- <a> va alert add to cart  -->
 <script>
     // Kiểm tra đăng nhập
-    
+    function isLogined() {
+        return @json(Auth::check());
+    }
 
-    
+    function showError(title, message) {
+        Swal.fire({
+            icon: 'error',
+            title,
+            text: message
+        });
+    }
 
 
     function sendAddToCartRequest(productId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            showError('Error', 'Cannot find CSRF token. Please reload the page.');
+            return;
+        }
         Swal.fire({
             icon: 'info',
             title: 'Adding product...',
@@ -182,8 +208,17 @@
                 Swal.showLoading();
             }
         });
-        
-        ApiService.post('/shop/shoppingCart', { product_id: productId })
+        fetch('/shop/shoppingCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
             .then(data => {
                 Swal.fire({
                     icon: data.success ? 'success' : 'error',

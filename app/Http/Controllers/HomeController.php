@@ -11,19 +11,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $productService;
-
-    public function __construct(\App\Services\ProductService $productService)
-    {
-        $this->productService = $productService;
-    }
-
     public function index()
     {
         $colors = Colors::get();
 
-        // Use ProductService to get products with all eager loaded relationships
-        $products = $this->productService->getProductsWithVariants();
+        $products = Product::orderBy('id', 'desc')->with('variant.colors')->get();
 
         $products->map(function ($product) {
             $firstVariant = $product->variant->first();
@@ -38,7 +30,7 @@ class HomeController extends Controller
             'products' => $products,
             'photo' => Product::pluck('name'),
             'colors' => $colors,
-            'photos' => Photo::whereNull('product_variant_id')->orderBy('id', 'desc')->take(5)->get()
+            'photos' => Photo::where('product_variant_id', null)->orderBy('id', 'desc')->take(5)->get()
         ];
 
         return view('home/index')->with($data);

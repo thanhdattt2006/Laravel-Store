@@ -264,20 +264,24 @@
     @endsection
 
     @section('scripts')
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <script>
+        const ASSET_URL = "{{asset('user')}}"
+    </script>
+    <script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+    <script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+    <script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+    <script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+    <script src="{{asset('user/js/nouislider.min.js')}}"></script>
+    <script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+    <!--gmaps Js-->
+    <script src="{{asset('user/js/gmaps.min.js')}}"></script>
+    <script src="{{asset('user/js/main.js')}}"></script>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // ✅ Cập nhật số lượng khi thay đổi (input tay)
         function changeQty(id, delta) {
@@ -299,7 +303,18 @@
         }
 
         function updateQuantity(id, quantity) {
-            ApiService.put('/shop/cart/update-quantity', { id, quantity })
+            fetch('/shop/cart/update-quantity', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        quantity: quantity
+                    })
+                })
+                .then(res => res.json())
                 .then(data => {
                     function formatCurrency(value) {
                         return new Intl.NumberFormat('vi-VN').format(value);
@@ -308,6 +323,7 @@
                     if (data.success) {
                         document.getElementById('item-total-' + id).innerText = formatCurrency(data.total) + ' VND';
 
+                        // ✅ Sửa dòng này: chỉ update nếu tồn tại
                         if (document.getElementById('subtotal')) {
                             document.getElementById('subtotal').innerText = formatCurrency(data.subtotal) + ' VND';
                         }
@@ -318,6 +334,7 @@
                 .catch(err => {
                     alert('Lỗi kết nối: ' + err.message);
                 });
+
         }
     </script>
     <script>
@@ -332,7 +349,9 @@
     </script>
     <script>
         // ✅ Hàm check đăng nhập + role
-        
+        function isLogined() {
+            return @json(Auth::check());
+        }
 
         function getRoleId() {
             return @json(optional(Auth::user()) -> role_id);
@@ -391,7 +410,12 @@
         });
 
         // ✅ Cập nhật giỏ hàng từ backend nếu đang login
-        ApiService.get('/shop/shoppingCart')
+        fetch('/shop/shoppingCart', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
             .then(data => {
                 if (data.loggedIn === false) {
                     Swal.fire({
@@ -406,8 +430,7 @@
                     updateSubtotal(data.subtotal);
                     console.log('Cart Data:', data);
                 }
-            })
-            .catch(err => console.error('Failed to load cart:', err));
+            });
 
         // ✅ Xóa item
         document.querySelectorAll('.cart-delete-form').forEach(function(form) {
@@ -426,7 +449,14 @@
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        ApiService.delete(form.action)
+                        fetch(form.action, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                    'Accept': 'application/json',
+                                }
+                            })
+                            .then(res => res.json())
                             .then(data => {
                                 if (data.success) {
                                     const row = document.getElementById(`cart-item-${itemId}`);
@@ -475,11 +505,19 @@
 
                         // AJAX request
                         try {
-                            const data = await ApiService.post('/shop/cart/update-size', {
-                                cart_item_id: cartItemId,
-                                size: size
+                            const res = await fetch('/shop/cart/update-size', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                },
+                                body: JSON.stringify({
+                                    cart_item_id: cartItemId,
+                                    size: size
+                                })
                             });
 
+                            const data = await res.json();
                             if (!data.success) {
                                 alert("❌ " + data.message);
                             } else {
@@ -531,11 +569,19 @@
 
                         // AJAX update
                         try {
-                            const data = await ApiService.post('/shop/cart/update-color', {
-                                cart_item_id: cartItemId,
-                                color_id: colorId
+                            const res = await fetch('/shop/cart/update-color', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                },
+                                body: JSON.stringify({
+                                    cart_item_id: cartItemId,
+                                    color_id: colorId
+                                })
                             });
 
+                            const data = await res.json();
                             if (!data.success) {
                                 alert("❌ " + data.message);
                             } else {
@@ -562,7 +608,8 @@
             e.preventDefault();
             const code = document.getElementById('coupon-code').value;
 
-            ApiService.get(`shop/checkout/apply-voucher?keyword=${encodeURIComponent(code)}`)
+            fetch(`shop/checkout/apply-voucher?keyword=${encodeURIComponent(code)}`)
+                .then(res => res.json())
                 .then(data => {
                     if (data.success) {
                         document.getElementById('subtotal').innerText = data.subtotal;
@@ -581,8 +628,7 @@
                     } else {
                         alert(data.message);
                     }
-                })
-                .catch(err => console.error('Error applying voucher:', err));
+                });
         });
 
         // ✅ Cập nhật lại tổng tiền

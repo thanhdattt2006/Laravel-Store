@@ -193,25 +193,25 @@
                     <div>{{$product->description }}</div>
                     <br>
 
-                    <div class="product-attributes d-flex align-items-center mb-4 mt-4">
-                        <div class="color-selection mr-5">
-                            <label class="font-weight-bold mb-2 d-block">Color:</label>
+                    <div class="container-color">
+                        <ul class="color-list">
+                            <label for="">Color: </label>
                             <input type="hidden" name="color_id" id="colorIdInput">
-                            <div class="d-flex">
-                                @foreach($colors as $color)
-                                <button type="button" class="color-item rounded-circle mr-2" data-id="{{ $color->id }}" style="background:{{ $color->name }}; width: 30px; height: 30px; border: 1px solid #ccc; opacity:0.8; cursor:pointer;"></button>
-                                @endforeach
-                            </div>
-                        </div>
+                            @foreach($colors as $color)
+                            <button type="button" class="color-item" data-id="{{ $color->id }}" style="background:{{ $color->name }}; opacity:0.8;"></button>
+                            @endforeach
 
-                        <div class="size-selection">
-                            <label class="font-weight-bold mb-2 d-block">Size:</label>
-                            <select id="size" class="form-control text-center" style="width: 80px; height: 35px;">
-                                @for ($i = 36; $i <= 46; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
+                            <label>Size : </label>
+                            <li class="size">
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <select id="size" style="text-align: center; text-align-last: center; height: 35px; padding: 5px;">
+                                        @for ($i = 36; $i <= 46; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
 
                     <br>
@@ -229,13 +229,27 @@
                         </button>
                     </div>
 
-                    <div class="card_area d-flex align-items-center mt-4">
-                        <a class="primary-btn" href="#" id="add-to-cart-btn" data-id="{{ $product->id }}" data-color="{{ $selectedColorId ?? '' }}">
+                    <div class="card_area d-flex align-items-center">
+                        <a class="primary-btn"
+                            href="#"
+                            id="add-to-cart-btn"
+                            data-id="{{ $product->id }}"
+                            data-color="{{ $selectedColorId ?? '' }}">
                             Add to Cart
                         </a>
-                        <a href="#" class="add-to-wishlist ml-3 text-secondary" data-id="{{ $product->id }}" title="Add to Wishlist">
-                            <span class="lnr lnr-heart" style="font-size: 24px;"></span>
-                        </a>
+                        <div class="compare-card">
+                            <div class="single-product" style="margin-bottom: 15px;">
+                                <div class="product-details">
+                                    <div class="prd-bottom">
+
+                                        <a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
+                                            <span class="lnr lnr-heart"></span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -406,7 +420,21 @@
             // }
 
             try {
-                const result = await ApiService.post("{{ route('product.review') }}", data);
+                const response = await fetch("{{ route('product.review') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Error');
+                }
 
                 msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
                 form.reset();
@@ -495,36 +523,71 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+<!-- End related-product Area -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#review-form').on('submit', function(e) {
+        e.preventDefault(); // không reload trang
 
+        let form = $(this);
+        let url = "{{ route('product.review') }}";
+        let data = form.serialize(); // lấy toàn bộ input
 
+        $.post(url, data, function(response) {
+            $('#review-success').text('Đã gửi bình luận!');
+            let commentText = form.find('input[name="cmt"]').val();
+
+            // Thêm bình luận mới vào danh sách
+            $('#review-list').prepend(`<li>${commentText}</li>`);
+
+            // Reset ô nhập
+            form[0].reset();
+        }).fail(function(xhr) {
+            $('#review-success').text('Lỗi khi gửi bình luận!');
+        });
+    });
+</script>
 @endsection
 
 @section('scripts')
+<script>
+    const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 <script>
     // Kiểm tra đăng nhập
-    
+    function isLogined() {
+        return @json(Auth::check());
+    }
 
     function isAdmin() {
         return isLogined() && @json(optional(Auth::user())->role_id) === 1;
     }
 
-    
+    function showError(title, message) {
+        Swal.fire({
+            icon: 'error',
+            title,
+            text: message
+        });
+    }
 </script>
 
 
@@ -606,12 +669,20 @@
                 didOpen: () => Swal.showLoading()
             });
 
-            ApiService.post('/shop/shoppingCart', {
-                product_id: productId,
-                color_id: colorId,
-                size: size,
-                quantity: quantity
-            })
+            fetch('/shop/shoppingCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        color_id: colorId,
+                        size: size,
+                        quantity: quantity
+                    }) // ✅ quantity
+                })
+                .then(r => r.json())
                 .then(data => {
                     Swal.fire({
                         icon: data.success ? 'success' : 'error',
@@ -633,8 +704,14 @@
             if (!checkLoginAndAlert()) return;
 
             var productId = $(this).data('id');
-            ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
-                .then(response => {
+            $.ajax({
+                url: "{{ route('wishlist.ajaxAdd') }}",
+                type: 'POST',
+                data: {
+                    product_id: productId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
                     if (response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -650,10 +727,11 @@
                             confirmButtonText: 'OK'
                         });
                     }
-                })
-                .catch(err => {
+                },
+                error: function() {
                     showError('Error!', 'Cannot add the product to the wishlist.');
-                });
+                }
+            });
         });
     });
 </script>

@@ -124,7 +124,7 @@
 @endsection
 
 @section('scripts')
-
+<script src="{{asset('user/js/elementJs/carousel.js')}}"></script>
 <script src="{{asset('admin/assets/js/elementJs/orderDetails.js')}}"></script>
-
+<script src="{{asset('admin/assets/js/elementJs/main.js')}}"></script>
 @endsection

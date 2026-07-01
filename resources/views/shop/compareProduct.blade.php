@@ -89,16 +89,22 @@
             <td><strong>Action</strong></td>
             @forelse($products as $product)
             <td>
-                <div class="d-flex align-items-center justify-content-center" style="gap: 15px;">
-                    <a href="#" class="add-btn text-dark" data-id="{{ $product->id }}" title="Add to Cart">
-                        <span class="ti-bag" style="font-size: 20px;"></span>
-                    </a>
-                    <a href="#" class="add-to-wishlist text-danger" data-id="{{ $product->id }}" title="Add to Wishlist">
-                        <span class="lnr lnr-heart" style="font-size: 20px;"></span>
-                    </a>
-                    <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="text-primary" title="View Details">
-                        <span class="lnr lnr-move" style="font-size: 20px;"></span>
-                    </a>
+                <div class="compare-card">
+                    <div class="single-product">
+                        <div class="product-details">
+                            <div class="prd-bottom">
+                                <a href="" class="social-info">
+                                    <span data-id="{{$product->id}}" class="ti-bag"></span>
+                                </a>
+                                <a href="#" class="social-info add-to-wishlist" data-id="{{ $product->id }}">
+                                    <span class="lnr lnr-heart"></span>
+                                </a>
+                                <a href="{{ url('/shop/productDetails/' . $product->id) }}" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </td>
             @empty
@@ -112,19 +118,23 @@
 @endsection
 
 @section('scripts')
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
+    const ASSET_URL = "{{asset('user')}}"
+</script>
+<script src="{{asset('user/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="{{asset('user/js/vendor/bootstrap.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.sticky.js')}}"></script>
+<script src="{{asset('user/js/nouislider.min.js')}}"></script>
+<script src="{{asset('user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('user/js/owl.carousel.min.js')}}"></script>
+<!--gmaps Js-->
+<script src="{{asset('user/js/gmaps.min.js')}}"></script>
+<script src="{{asset('user/js/main.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- alert them san pham wishlist -->
 <script>
@@ -134,8 +144,14 @@
             if (!checkLoginAndAlert()) return;
 
             var productId = $(this).data('id');
-            ApiService.post("{{ route('wishlist.ajaxAdd') }}", { product_id: productId })
-                .then(response => {
+            $.ajax({
+                url: "{{ route('wishlist.ajaxAdd') }}",
+                type: 'POST',
+                data: {
+                    product_id: productId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
                     if (response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -151,10 +167,11 @@
                             confirmButtonText: 'OK'
                         });
                     }
-                })
-                .catch(err => {
+                },
+                error: function() {
                     showError('Error!', 'Cannot add the product to the wishlist.');
-                });
+                }
+            });
         });
     });
 </script>
@@ -184,12 +201,26 @@
 <!-- <a> va alert add to cart  -->
 <script>
     // Kiểm tra đăng nhập
-    
+    function isLogined() {
+        return @json(Auth::check());
+    }
 
-    
+    function showError(title, message) {
+        Swal.fire({
+            icon: 'error',
+            title,
+            text: message
+        });
+    }
 
 
     function sendAddToCartRequest(productId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            showError('Error', 'Cannot find CSRF token. Please reload the page.');
+            return;
+        }
         Swal.fire({
             icon: 'info',
             title: 'Adding product...',
@@ -200,8 +231,17 @@
                 Swal.showLoading();
             }
         });
-        
-        ApiService.post('/shop/shoppingCart', { product_id: productId })
+        fetch('/shop/shoppingCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
             .then(data => {
                 Swal.fire({
                     icon: data.success ? 'success' : 'error',
